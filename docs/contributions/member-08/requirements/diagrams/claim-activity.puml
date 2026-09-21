@@ -1,0 +1,42 @@
+@startuml
+skinparam defaultFontName Microsoft YaHei
+title 成员8：认领审核活动图（提案）
+|申请人|
+start
+:登录并选择学者门户;
+:提交证明引用与幂等键;
+|系统|
+:校验会话、材料归属、重复与占用;
+if (入口校验通过?) then (是)
+  :创建 PENDING 申请，不授权;
+else (否)
+  :返回输入错误或冲突;
+  stop
+endif
+|管理员|
+:非本人管理员查证据和上下文;
+if (证据充分且决定通过?) then (通过)
+  |系统|
+  :原子校验版本及门户空闲;
+  if (通过与授权均保存成功?) then (是)
+    :APPROVED + owner + 审计;
+  else (否)
+    :冲突/失败；本次不改变状态，读取最新值;
+    stop
+  endif
+else (驳回)
+  |管理员|
+  :填写非空驳回理由;
+  |系统|
+  if (版本校验及驳回保存成功?) then (是)
+    :REJECTED + 理由 + 审计;
+  else (否)
+    :冲突/失败；本次不改变状态，读取最新值;
+    stop
+  endif
+endif
+|申请人|
+:查询审核结果;
+:驳回后可补充材料另建新申请;
+stop
+@enduml
