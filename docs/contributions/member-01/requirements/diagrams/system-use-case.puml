@@ -1,0 +1,60 @@
+@startuml
+skinparam defaultFontName Microsoft YaHei
+skinparam packageStyle rectangle
+left to right direction
+title 学术成果分享平台系统用例图（成员1方案A草案）
+
+actor 访客 as Guest
+actor 登录用户 as User
+actor 已认领学者 as Scholar
+actor 平台管理员 as Admin
+actor 外部数据源 as Source
+actor 定时调度器 as Scheduler
+
+User --|> Guest
+Scholar --|> User
+
+rectangle "学术成果分享平台" {
+  usecase "检索成果与学者" as UC_Search
+  usecase "查看成果详情\n与学者门户" as UC_View
+  usecase "查看统计分析" as UC_Stats
+  usecase "登录与退出" as UC_Auth
+  usecase "提交门户认领" as UC_Claim
+  usecase "查询本人认领状态" as UC_ClaimStatus
+  usecase "审核门户认领" as UC_Review
+  usecase "维护本人门户\n与成果关联" as UC_Maintain
+  usecase "管理采集任务" as UC_Collect
+  usecase "执行清洗、去重\n和消歧" as UC_Process
+  usecase "处理数据治理问题" as UC_Govern
+}
+
+Guest --> UC_Search
+Guest --> UC_View
+Guest --> UC_Stats
+User --> UC_Auth
+User --> UC_Claim
+User --> UC_ClaimStatus
+Scholar --> UC_Maintain
+Admin --> UC_Auth
+Admin --> UC_Review
+Admin --> UC_Collect
+Admin --> UC_Process
+Admin --> UC_Govern
+Source --> UC_Collect
+Scheduler --> UC_Collect
+
+note bottom of UC_Review
+  申请者与审核者不得为同一账号；
+  通过状态、授权和审计保持一致。
+end note
+
+note bottom of UC_Collect
+  只使用经批准的数据源；
+  定时调度器只能触发已批准任务。
+end note
+
+note right of UC_Auth
+  认领、维护和全部管理用例
+  以有效会话及服务端授权为前置条件。
+end note
+@enduml
