@@ -1,0 +1,45 @@
+@startuml
+left to right direction
+skinparam shadowing false
+actor "访客" as Visitor
+actor "科研人员" as Researcher
+actor "管理员" as Admin
+actor "公开数据源" as Source
+Researcher --|> Visitor
+rectangle "学术成果分享平台" {
+  usecase "UC01 登录" as U1
+  usecase "UC02 检索与查看成果详情" as U2
+  usecase "UC03 检索学者与查看门户" as U3
+  usecase "UC04 查看统计分析" as U4
+  usecase "UC05 提交门户认领申请" as U5
+  usecase "UC06 查看认领结果" as U6
+  usecase "UC07 维护个人资料与成果" as U7
+  usecase "UC08 管理采集任务" as U8
+  usecase "UC09 执行采集或导入" as U9
+  usecase "UC10 从公开数据源采集" as U10
+  usecase "UC11 从文件导入" as U11
+  usecase "UC12 处理数据质量问题" as U12
+  usecase "UC13 审核认领申请" as U13
+  usecase "UC14 验证门户对应关系" as U14
+}
+Visitor -- U2
+Visitor -- U3
+Visitor -- U4
+Researcher -- U1
+Researcher -- U5
+Researcher -- U6
+Researcher -- U7
+Admin -- U1
+Admin -- U8
+Admin -- U12
+Admin -- U13
+Admin -- U11
+Source -- U10
+U10 --|> U9
+U11 --|> U9
+U13 ..> U14 : <<include>>
+note bottom of U9
+由UC08启动。任务查看和停止不触发新采集。
+清洗、入库是内部执行步骤，不作为参与者。
+end note
+@enduml
