@@ -12,6 +12,7 @@
 | [用例模型与绘制说明](02-use-case-model.md) | 成员1、6共同负责的用例模型及CodeArts绘制依据 |
 | [用例源稿](models/use-cases.puml) | 可编辑PlantUML语义源稿；不是CodeArts Modeling源文件 |
 | [SRS汇编候选稿](06-srs-assembly.md) | 成员6总体章节、队友章节接入映射和非功能总纲，供成员1复核 |
+| [第二阶段SRS启动框架](07-srs-kickoff.md) | 10月12日启动；目录、编号、章节交接与界面/交互一致性检查点，可供各岗位开始供稿 |
 | [追踪与汇编表](03-traceability-review.md) | 调研、用例、SRS和SPEC的一致性检查，队友收件与复核结果 |
 | [展示讲稿和问答](04-speaking-notes.md) | 个人展示页对应讲稿、全队12分钟结构和重点问答 |
 | [提交与人工待办](05-submission-actions.md) | 10月13日预提交和10月20日终稿的逐项清单、成员6人工任务 |
