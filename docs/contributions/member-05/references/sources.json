@@ -1,0 +1,683 @@
+{
+  "asOf": "2026-10-11",
+  "repository": "https://github.com/Amen-ai36/soff",
+  "commits": {
+    "a": "c7816d93ee39ef74e698124cccacf7cf7bf2fcb1",
+    "b": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+    "main": "30f7d084c46c08c2e27e8374bc2167899d8d6a44"
+  },
+  "scope": "source document inspection, not fresh external verification",
+  "files": [
+    {
+      "branch": "a",
+      "commit": "c7816d93ee39ef74e698124cccacf7cf7bf2fcb1",
+      "path": "docs/contributions/member-01/requirements/01-srs-outline-and-boundary.md",
+      "sha256": "455c0ff0173ad84f6307bb2c3a34d93a911035d8af355879613ec07004b81226",
+      "bytes": 6001,
+      "url": "https://github.com/Amen-ai36/soff/blob/c7816d93ee39ef74e698124cccacf7cf7bf2fcb1/docs/contributions/member-01/requirements/01-srs-outline-and-boundary.md"
+    },
+    {
+      "branch": "a",
+      "commit": "c7816d93ee39ef74e698124cccacf7cf7bf2fcb1",
+      "path": "docs/contributions/member-01/requirements/02-actors-and-overall-requirements.md",
+      "sha256": "82692155e702d316cc454253a723f47bc54a7cbb39ab7e7d7ff51afa74367039",
+      "bytes": 5932,
+      "url": "https://github.com/Amen-ai36/soff/blob/c7816d93ee39ef74e698124cccacf7cf7bf2fcb1/docs/contributions/member-01/requirements/02-actors-and-overall-requirements.md"
+    },
+    {
+      "branch": "a",
+      "commit": "c7816d93ee39ef74e698124cccacf7cf7bf2fcb1",
+      "path": "docs/contributions/member-01/requirements/03-non-functional-and-acceptance.md",
+      "sha256": "9578a1aa9e8c4c48cd2842a957dd1f08844a4e03d16bfd19e93fa37bb5df2605",
+      "bytes": 6628,
+      "url": "https://github.com/Amen-ai36/soff/blob/c7816d93ee39ef74e698124cccacf7cf7bf2fcb1/docs/contributions/member-01/requirements/03-non-functional-and-acceptance.md"
+    },
+    {
+      "branch": "a",
+      "commit": "c7816d93ee39ef74e698124cccacf7cf7bf2fcb1",
+      "path": "docs/contributions/member-01/requirements/04-use-cases.md",
+      "sha256": "bc983c4329a08a776243cb660c82edd762cb1eeb67f703edf8315d81ebc58227",
+      "bytes": 5501,
+      "url": "https://github.com/Amen-ai36/soff/blob/c7816d93ee39ef74e698124cccacf7cf7bf2fcb1/docs/contributions/member-01/requirements/04-use-cases.md"
+    },
+    {
+      "branch": "a",
+      "commit": "c7816d93ee39ef74e698124cccacf7cf7bf2fcb1",
+      "path": "docs/contributions/member-01/requirements/05-review-and-handoff.md",
+      "sha256": "a9776b0a0cd49eacc056a8fccb1edf1eb343829d324067b9a827dc901b16939f",
+      "bytes": 5489,
+      "url": "https://github.com/Amen-ai36/soff/blob/c7816d93ee39ef74e698124cccacf7cf7bf2fcb1/docs/contributions/member-01/requirements/05-review-and-handoff.md"
+    },
+    {
+      "branch": "a",
+      "commit": "c7816d93ee39ef74e698124cccacf7cf7bf2fcb1",
+      "path": "docs/contributions/member-01/requirements/README.md",
+      "sha256": "cbe7953a9387026347c18378418c6f7a3b2033782e4865b4f245988c9b80870a",
+      "bytes": 3010,
+      "url": "https://github.com/Amen-ai36/soff/blob/c7816d93ee39ef74e698124cccacf7cf7bf2fcb1/docs/contributions/member-01/requirements/README.md"
+    },
+    {
+      "branch": "a",
+      "commit": "c7816d93ee39ef74e698124cccacf7cf7bf2fcb1",
+      "path": "docs/contributions/member-01/requirements/diagrams/system-use-case.puml",
+      "sha256": "dee6aec41a0f0d45929c2a4a1ec6ac4070c02f2aac25739119f4b894476ba7ee",
+      "bytes": 1658,
+      "url": "https://github.com/Amen-ai36/soff/blob/c7816d93ee39ef74e698124cccacf7cf7bf2fcb1/docs/contributions/member-01/requirements/diagrams/system-use-case.puml"
+    },
+    {
+      "branch": "a",
+      "commit": "c7816d93ee39ef74e698124cccacf7cf7bf2fcb1",
+      "path": "docs/contributions/member-01/requirements/diagrams/system-use-case.svg",
+      "sha256": "a5455940273ea07decfc1a9abbde49ebcac80a7d2e64a9c417e764a7df6ef226",
+      "bytes": 22702,
+      "url": "https://github.com/Amen-ai36/soff/blob/c7816d93ee39ef74e698124cccacf7cf7bf2fcb1/docs/contributions/member-01/requirements/diagrams/system-use-case.svg"
+    },
+    {
+      "branch": "a",
+      "commit": "c7816d93ee39ef74e698124cccacf7cf7bf2fcb1",
+      "path": "docs/contributions/member-01/research/01-research-plan.md",
+      "sha256": "67fb517ca7a512f6ab5b89aed3b3d3cd43a1c9195274de648a98291be5d61df9",
+      "bytes": 8120,
+      "url": "https://github.com/Amen-ai36/soff/blob/c7816d93ee39ef74e698124cccacf7cf7bf2fcb1/docs/contributions/member-01/research/01-research-plan.md"
+    },
+    {
+      "branch": "a",
+      "commit": "c7816d93ee39ef74e698124cccacf7cf7bf2fcb1",
+      "path": "docs/contributions/member-01/research/02-scope-priorities.md",
+      "sha256": "d8d27e72b3af29e3beb1baaf61be5c8cbe8e797373b24a07e6d18bbd85c9f426",
+      "bytes": 6467,
+      "url": "https://github.com/Amen-ai36/soff/blob/c7816d93ee39ef74e698124cccacf7cf7bf2fcb1/docs/contributions/member-01/research/02-scope-priorities.md"
+    },
+    {
+      "branch": "a",
+      "commit": "c7816d93ee39ef74e698124cccacf7cf7bf2fcb1",
+      "path": "docs/contributions/member-01/research/03-team-plan.md",
+      "sha256": "c767eb30ad7bc3a84deb95acbb60ef6b7b4754fe37c2edd7c10746810a42d9dc",
+      "bytes": 5904,
+      "url": "https://github.com/Amen-ai36/soff/blob/c7816d93ee39ef74e698124cccacf7cf7bf2fcb1/docs/contributions/member-01/research/03-team-plan.md"
+    },
+    {
+      "branch": "a",
+      "commit": "c7816d93ee39ef74e698124cccacf7cf7bf2fcb1",
+      "path": "docs/contributions/member-01/research/04-review-record.md",
+      "sha256": "0164ff86bfe1c16a6426d92397eb731e7f2919af910634f62fc45be599270641",
+      "bytes": 5069,
+      "url": "https://github.com/Amen-ai36/soff/blob/c7816d93ee39ef74e698124cccacf7cf7bf2fcb1/docs/contributions/member-01/research/04-review-record.md"
+    },
+    {
+      "branch": "a",
+      "commit": "c7816d93ee39ef74e698124cccacf7cf7bf2fcb1",
+      "path": "docs/contributions/member-01/research/05-human-actions.md",
+      "sha256": "c2261cf6767ad8fe6acc746899a58e6b2d843c6fdbc0c2d9b634893020233ca9",
+      "bytes": 3694,
+      "url": "https://github.com/Amen-ai36/soff/blob/c7816d93ee39ef74e698124cccacf7cf7bf2fcb1/docs/contributions/member-01/research/05-human-actions.md"
+    },
+    {
+      "branch": "a",
+      "commit": "c7816d93ee39ef74e698124cccacf7cf7bf2fcb1",
+      "path": "docs/contributions/member-01/research/README.md",
+      "sha256": "6b9a2b5730da6c2c8cfa35433dd13669da9011b17addc005d94220b331ecbf22",
+      "bytes": 3339,
+      "url": "https://github.com/Amen-ai36/soff/blob/c7816d93ee39ef74e698124cccacf7cf7bf2fcb1/docs/contributions/member-01/research/README.md"
+    },
+    {
+      "branch": "a",
+      "commit": "c7816d93ee39ef74e698124cccacf7cf7bf2fcb1",
+      "path": "docs/contributions/member-02/research/需求调研-数据源与合规分析（成员2-成员7修订版）.md",
+      "sha256": "32a62e120d9daa5adba2257777f0cd4207610a00f70fc00b03b4364e9bb066ae",
+      "bytes": 21943,
+      "url": "https://github.com/Amen-ai36/soff/blob/c7816d93ee39ef74e698124cccacf7cf7bf2fcb1/docs/contributions/member-02/research/%E9%9C%80%E6%B1%82%E8%B0%83%E7%A0%94-%E6%95%B0%E6%8D%AE%E6%BA%90%E4%B8%8E%E5%90%88%E8%A7%84%E5%88%86%E6%9E%90%EF%BC%88%E6%88%90%E5%91%982-%E6%88%90%E5%91%987%E4%BF%AE%E8%AE%A2%E7%89%88%EF%BC%89.md"
+    },
+    {
+      "branch": "a",
+      "commit": "c7816d93ee39ef74e698124cccacf7cf7bf2fcb1",
+      "path": "docs/contributions/member-03/research/成员3需求调研报告.md",
+      "sha256": "09fa23d02f50c2b6fedf4e3895015b1872e84bed5ce8dfccb221aee5a9c1c353",
+      "bytes": 14892,
+      "url": "https://github.com/Amen-ai36/soff/blob/c7816d93ee39ef74e698124cccacf7cf7bf2fcb1/docs/contributions/member-03/research/%E6%88%90%E5%91%983%E9%9C%80%E6%B1%82%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A.md"
+    },
+    {
+      "branch": "a",
+      "commit": "c7816d93ee39ef74e698124cccacf7cf7bf2fcb1",
+      "path": "docs/contributions/member-03/research/证据记录与复核事项.md",
+      "sha256": "8f20e5ccfd48acc0e75f0af5210020c0eb0c454df223fc4ae91fa5f2a72188d7",
+      "bytes": 8271,
+      "url": "https://github.com/Amen-ai36/soff/blob/c7816d93ee39ef74e698124cccacf7cf7bf2fcb1/docs/contributions/member-03/research/%E8%AF%81%E6%8D%AE%E8%AE%B0%E5%BD%95%E4%B8%8E%E5%A4%8D%E6%A0%B8%E4%BA%8B%E9%A1%B9.md"
+    },
+    {
+      "branch": "a",
+      "commit": "c7816d93ee39ef74e698124cccacf7cf7bf2fcb1",
+      "path": "docs/contributions/member-04/research/初步页面需求材料.md",
+      "sha256": "a0f0bd573727925ba2ec82d8c044e29173032b929de04c6ed3bae45f548617b6",
+      "bytes": 2075,
+      "url": "https://github.com/Amen-ai36/soff/blob/c7816d93ee39ef74e698124cccacf7cf7bf2fcb1/docs/contributions/member-04/research/%E5%88%9D%E6%AD%A5%E9%A1%B5%E9%9D%A2%E9%9C%80%E6%B1%82%E6%9D%90%E6%96%99.md"
+    },
+    {
+      "branch": "a",
+      "commit": "c7816d93ee39ef74e698124cccacf7cf7bf2fcb1",
+      "path": "docs/contributions/member-04/research/普通用户需求.md",
+      "sha256": "65bd7067e16630a2b7721e273ef59be045626207d55cdd6832cb0994c6d36c09",
+      "bytes": 1929,
+      "url": "https://github.com/Amen-ai36/soff/blob/c7816d93ee39ef74e698124cccacf7cf7bf2fcb1/docs/contributions/member-04/research/%E6%99%AE%E9%80%9A%E7%94%A8%E6%88%B7%E9%9C%80%E6%B1%82.md"
+    },
+    {
+      "branch": "a",
+      "commit": "c7816d93ee39ef74e698124cccacf7cf7bf2fcb1",
+      "path": "docs/contributions/member-04/research/用户旅程.md",
+      "sha256": "43bc485c203d7039dc94d2e6570279bac7a3f1fd51345d41f71976f5d02e6b0c",
+      "bytes": 1392,
+      "url": "https://github.com/Amen-ai36/soff/blob/c7816d93ee39ef74e698124cccacf7cf7bf2fcb1/docs/contributions/member-04/research/%E7%94%A8%E6%88%B7%E6%97%85%E7%A8%8B.md"
+    },
+    {
+      "branch": "a",
+      "commit": "c7816d93ee39ef74e698124cccacf7cf7bf2fcb1",
+      "path": "docs/contributions/member-04/research/访谈提纲.md",
+      "sha256": "20f98d579011c80e3a1d5200d374d965e6972f805849efd08374393320bd1ede",
+      "bytes": 2189,
+      "url": "https://github.com/Amen-ai36/soff/blob/c7816d93ee39ef74e698124cccacf7cf7bf2fcb1/docs/contributions/member-04/research/%E8%AE%BF%E8%B0%88%E6%8F%90%E7%BA%B2.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-06/research/01-research-plan.md",
+      "sha256": "bf88a82be1cd90374c5726b37abead94cd0a595b779043dfcfb31271ede20d16",
+      "bytes": 7615,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-06/research/01-research-plan.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-06/research/02-scope-priorities.md",
+      "sha256": "c8132f9e377ddbcacabfbb8edc1670200fd3346c44e5721b03c1ee82b827b9ec",
+      "bytes": 6599,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-06/research/02-scope-priorities.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-06/research/03-team-plan.md",
+      "sha256": "d644833008053ee9441f4b11915d73407c644cff91b95c54194b06e43a7fee4e",
+      "bytes": 5588,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-06/research/03-team-plan.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-06/research/04-review-record.md",
+      "sha256": "c309d20158b7731e8ac38ecf78299d8596e15a248dc1d540c5cfda26df4491a1",
+      "bytes": 4606,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-06/research/04-review-record.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-06/research/05-human-actions.md",
+      "sha256": "99b28768f29d7db6bbd38cf9103850d38f4321c1cd000608f1c30e8460fb630c",
+      "bytes": 4205,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-06/research/05-human-actions.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-06/research/README.md",
+      "sha256": "6f96cec5972a4acd52db42b982bf6bf633d91d352d5fd88b6e72380e93bbb562",
+      "bytes": 3130,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-06/research/README.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-06/showcase-20261014/01-contribution.md",
+      "sha256": "9d8e19d1e1959da75ac05d5a072a1bf3cf3e47cbba74dc1428f5864fb026e591",
+      "bytes": 11433,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-06/showcase-20261014/01-contribution.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-06/showcase-20261014/02-use-case-model.md",
+      "sha256": "f24cdfee6d47f3f59d7557dea8382a3fa68038e27fec0dbdda31356d2dffd3e4",
+      "bytes": 5108,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-06/showcase-20261014/02-use-case-model.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-06/showcase-20261014/03-traceability-review.md",
+      "sha256": "be4c6c75143541ab147b6cbe974ae0df4d6b18086afff0b0ee5bed272ce8d536",
+      "bytes": 5634,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-06/showcase-20261014/03-traceability-review.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-06/showcase-20261014/04-speaking-notes.md",
+      "sha256": "ab661755e61c7abf679485bbeab5bdc585fae5ce7a47d3a6ce73414fa182db41",
+      "bytes": 5357,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-06/showcase-20261014/04-speaking-notes.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-06/showcase-20261014/05-submission-actions.md",
+      "sha256": "4bb6c0ab696ba5fb143536ca658d45c6197a69e0dd16048f71a3641c79500859",
+      "bytes": 5140,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-06/showcase-20261014/05-submission-actions.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-06/showcase-20261014/06-srs-assembly.md",
+      "sha256": "2c91d89c2af028f667405e53c509ab73d1117ee6b12888ad68bb75a631a305b1",
+      "bytes": 7921,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-06/showcase-20261014/06-srs-assembly.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-06/showcase-20261014/README.md",
+      "sha256": "10c4ae53aa6ceae97c1e25d1fe5bf76be93ab75835e5090186190fadb85f3c3b",
+      "bytes": 3913,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-06/showcase-20261014/README.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-06/showcase-20261014/artifacts/成员6课堂展示贡献页.pptx",
+      "sha256": "38624fdbba0305e874533fc1fa4ac33559b63fceb20bed8793b505e9c2530b9c",
+      "bytes": 30568,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-06/showcase-20261014/artifacts/%E6%88%90%E5%91%986%E8%AF%BE%E5%A0%82%E5%B1%95%E7%A4%BA%E8%B4%A1%E7%8C%AE%E9%A1%B5.pptx"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-06/showcase-20261014/artifacts/成员6需求调研与建模贡献.docx",
+      "sha256": "4c316e2811c680375f79e562e0dc7d9615941ce08d272bd4b3088dde149eadb1",
+      "bytes": 45107,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-06/showcase-20261014/artifacts/%E6%88%90%E5%91%986%E9%9C%80%E6%B1%82%E8%B0%83%E7%A0%94%E4%B8%8E%E5%BB%BA%E6%A8%A1%E8%B4%A1%E7%8C%AE.docx"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-06/showcase-20261014/models/use-cases.puml",
+      "sha256": "ecf0c48ae1de96440eef918912f85240708074da9b80d93a8d88092375670d81",
+      "bytes": 1271,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-06/showcase-20261014/models/use-cases.puml"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-07/research/需求调研-数据源与合规分析（成员2-成员7修订版）.md",
+      "sha256": "32a62e120d9daa5adba2257777f0cd4207610a00f70fc00b03b4364e9bb066ae",
+      "bytes": 21943,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-07/research/%E9%9C%80%E6%B1%82%E8%B0%83%E7%A0%94-%E6%95%B0%E6%8D%AE%E6%BA%90%E4%B8%8E%E5%90%88%E8%A7%84%E5%88%86%E6%9E%90%EF%BC%88%E6%88%90%E5%91%982-%E6%88%90%E5%91%987%E4%BF%AE%E8%AE%A2%E7%89%88%EF%BC%89.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-08/README.md",
+      "sha256": "d2c919d97dad6570c2f729fac00741f92acd2da5fc1a29302c5660162e84853d",
+      "bytes": 3296,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-08/README.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-08/SUBMISSION.md",
+      "sha256": "85d334a2bb99000c837a6e62671d4911a3b02173cab487e07280c5c839d20e1c",
+      "bytes": 2724,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-08/SUBMISSION.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-08/manifest-sha256.csv",
+      "sha256": "2ddd4fec73f4190651d3f234a750dc4e0af304580a7941281ee2e001766ee4db",
+      "bytes": 3194,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-08/manifest-sha256.csv"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-08/requirements/01-srs-contribution.md",
+      "sha256": "430a0f0d814a14302aebd0725a36297062d69a9b1a92efbb235c72e7d12d8bbb",
+      "bytes": 4139,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-08/requirements/01-srs-contribution.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-08/requirements/02-use-cases.md",
+      "sha256": "9e63c921e6ff2a190076ac117bdc35dd105fd016490cb9555b24fe45a9036f2b",
+      "bytes": 3913,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-08/requirements/02-use-cases.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-08/requirements/03-interface-constraints.md",
+      "sha256": "0e7266052bf09949801cefb5108e42904d70e177f1927f7baa3f225eff43e187",
+      "bytes": 4991,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-08/requirements/03-interface-constraints.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-08/requirements/04-acceptance-scenarios.md",
+      "sha256": "51707d7cff8f36e24e1a8c4eb93caf8de83480dfca020ac644b76f31771452b9",
+      "bytes": 5183,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-08/requirements/04-acceptance-scenarios.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-08/requirements/diagrams/README.md",
+      "sha256": "7aab6a0ca7813e6e8f06c2777a8a2b364649ebcc27c9b3f8e0e93ddf2fe31a66",
+      "bytes": 1964,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-08/requirements/diagrams/README.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-08/requirements/diagrams/claim-activity.puml",
+      "sha256": "f412b9693a9d3c8652bfcb49eadee0c5c3065e237312ab5c844780ac4b54da5e",
+      "bytes": 1077,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-08/requirements/diagrams/claim-activity.puml"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-08/requirements/diagrams/claim-activity.svg",
+      "sha256": "3c1941ea0bcd8b8cea372cf0e5b2c26d47de945913417f92006745f998a9b511",
+      "bytes": 9859,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-08/requirements/diagrams/claim-activity.svg"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-08/requirements/diagrams/claim-state.puml",
+      "sha256": "add5bd7a8ac54771190c3c3fa86273de29f70653d5a47e148579bcb8bfbb29eb",
+      "bytes": 805,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-08/requirements/diagrams/claim-state.puml"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-08/requirements/diagrams/claim-state.svg",
+      "sha256": "d786e90c2908be0547568f6309dd8883bf780e843b65193b2bca574ac2c3c72f",
+      "bytes": 4188,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-08/requirements/diagrams/claim-state.svg"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-08/requirements/fixtures/demo-data.json",
+      "sha256": "a99529f064da5e895c454ee804f58ba62ad087210b9e6c7824bbc95aa796c988",
+      "bytes": 2415,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-08/requirements/fixtures/demo-data.json"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-08/requirements/specs/README.md",
+      "sha256": "bab72b13b4974a5bf8ec17302dc5fe7aca68034cbe554c4cac168fbee9df28e3",
+      "bytes": 828,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-08/requirements/specs/README.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-08/requirements/specs/SPEC-M8-AUTH.md",
+      "sha256": "401178600f9d8291d77c2a3f94657d084f3f3cea04d8e150fe3bb2aaf7bef6af",
+      "bytes": 1994,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-08/requirements/specs/SPEC-M8-AUTH.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-08/requirements/specs/SPEC-M8-CLAIM.md",
+      "sha256": "9666831b6f563e73d9262d9aec96c61147fe802fe867d120f8871bbfca21e196",
+      "bytes": 3065,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-08/requirements/specs/SPEC-M8-CLAIM.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-08/requirements/specs/SPEC-M8-SEARCH.md",
+      "sha256": "b900297ff66321b6acd749c6b51461d9c805adbae167c604a3e7312fa2d219f1",
+      "bytes": 3294,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-08/requirements/specs/SPEC-M8-SEARCH.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-08/requirements/specs/SPEC-M8-STATS.md",
+      "sha256": "70efdce5d27724c4ca79eb093f3ed02d50b29f341d04bb7b4f35637047c9e2a1",
+      "bytes": 3254,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-08/requirements/specs/SPEC-M8-STATS.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-08/requirements/traceability.csv",
+      "sha256": "99aff8bc76d9dc5a74fe67fc22528380009c8ef9f653a8825ab8890299a471f8",
+      "bytes": 2110,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-08/requirements/traceability.csv"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-08/research/01-platform-comparison.md",
+      "sha256": "3fc4581fbb96aee115a07e915c4608fed6959069fff49869670a3876ce27b13a",
+      "bytes": 4597,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-08/research/01-platform-comparison.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-08/research/02-workflows-and-needs.md",
+      "sha256": "197dadbafbb37545e92e4f168d06f1f1053ba99ea54fbf59ba21c914489a9e6c",
+      "bytes": 4913,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-08/research/02-workflows-and-needs.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-08/research/03-evidence-and-interview.md",
+      "sha256": "06ac1c07832fb4955a70702ffeda6d9b2b8a7dee255909c1409846ec71910608",
+      "bytes": 4142,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-08/research/03-evidence-and-interview.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-08/review-and-handoff.md",
+      "sha256": "3238545a90d3d1c479cc1cfd0effbdcf2eaa67fa41af62a131cf62c31237e305",
+      "bytes": 3905,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-08/review-and-handoff.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-08/slides/slide-outline.md",
+      "sha256": "758e399fcbdc2558924a5922de145505103807bdb4d6808d0fe6358c47e3ee8b",
+      "bytes": 4061,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-08/slides/slide-outline.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-08/validation-report.md",
+      "sha256": "f42869a137f1ea31880b12fdc81646256320df35de4a4ce97455505c07a1df92",
+      "bytes": 1682,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-08/validation-report.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-09/research/01-general-user-requirements.md",
+      "sha256": "fe14fb9a6fed43fd48b446721462042c95a4b44cb58658daaace587c1cc332a6",
+      "bytes": 8810,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-09/research/01-general-user-requirements.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-09/research/02-interview-guide.md",
+      "sha256": "cae89af30da22e05ec9955d7d5d17755c2c724f9fb3a53327e7dc49162bec901",
+      "bytes": 7271,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-09/research/02-interview-guide.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-09/research/03-user-journey.md",
+      "sha256": "1293b6b8fe1ab67548f8903acade147fc615491efc82751155bc01b3dc4fa077",
+      "bytes": 8007,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-09/research/03-user-journey.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-09/research/04-page-requirements.md",
+      "sha256": "908a0b45288b1b3960e2d0aea459f0334108077b73a3180726b7522d304f3cf0",
+      "bytes": 17741,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-09/research/04-page-requirements.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-09/research/05-human-actions.md",
+      "sha256": "bacbb96891a845e6c9105c25599f4c98549aa9eddc2e6ed7445564ca2cae1883",
+      "bytes": 6711,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-09/research/05-human-actions.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-09/research/06-questionnaire-results.md",
+      "sha256": "b2c99dbdfad7e461ec3281e2343019af27fbe476c56cddc236c27abf38cae5b9",
+      "bytes": 9368,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-09/research/06-questionnaire-results.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-09/research/README.md",
+      "sha256": "a44ebca9f6b16e951f4eb2ac9df63b94c5a8d4e0165bd442ebb6b85050df94ea",
+      "bytes": 3764,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-09/research/README.md"
+    },
+    {
+      "branch": "b",
+      "commit": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+      "path": "docs/contributions/member-09/research/evidence/questionnaire-results-20260928.pdf",
+      "sha256": "92390270e527f4fb47877f02c0f1624a9050482d4e6356d24cf7cdd3fd0070ac",
+      "bytes": 2144529,
+      "url": "https://github.com/Amen-ai36/soff/blob/4993e0198ab29ceab89891973d39b680bb5c69b3/docs/contributions/member-09/research/evidence/questionnaire-results-20260928.pdf"
+    },
+    {
+      "branch": "a",
+      "commit": "c7816d93ee39ef74e698124cccacf7cf7bf2fcb1",
+      "path": "双组并行开发与合并方案.md",
+      "sha256": "9c094d9d39e9810477813a973bfc823c5ffaf8ed5ae6ed253634ba4a4eb0b029",
+      "bytes": 15131,
+      "url": "https://github.com/Amen-ai36/soff/blob/c7816d93ee39ef74e698124cccacf7cf7bf2fcb1/%E5%8F%8C%E7%BB%84%E5%B9%B6%E8%A1%8C%E5%BC%80%E5%8F%91%E4%B8%8E%E5%90%88%E5%B9%B6%E6%96%B9%E6%A1%88.md"
+    },
+    {
+      "branch": "a",
+      "commit": "c7816d93ee39ef74e698124cccacf7cf7bf2fcb1",
+      "path": "《软件系统分析与设计》实践任务书（一）学术成果分享平台-v1(1).pdf",
+      "sha256": "5a9f6cf492ef4eb23741b4ee5d979f923b56396f793fc967f0414ded28e4b9c0",
+      "bytes": 431025,
+      "url": "https://github.com/Amen-ai36/soff/blob/c7816d93ee39ef74e698124cccacf7cf7bf2fcb1/%E3%80%8A%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%88%86%E6%9E%90%E4%B8%8E%E8%AE%BE%E8%AE%A1%E3%80%8B%E5%AE%9E%E8%B7%B5%E4%BB%BB%E5%8A%A1%E4%B9%A6%EF%BC%88%E4%B8%80%EF%BC%89%E5%AD%A6%E6%9C%AF%E6%88%90%E6%9E%9C%E5%88%86%E4%BA%AB%E5%B9%B3%E5%8F%B0-v1(1).pdf"
+    },
+    {
+      "branch": "main",
+      "commit": "30f7d084c46c08c2e27e8374bc2167899d8d6a44",
+      "path": "docs/deliverables/01-research/README.md",
+      "sha256": "e922fbc630aaa1d76c6fea750f17af6b1cc9f9884fe44fce88e6f5cdc24ef7ab",
+      "bytes": 2466,
+      "url": "https://github.com/Amen-ai36/soff/blob/30f7d084c46c08c2e27e8374bc2167899d8d6a44/docs/deliverables/01-research/README.md"
+    },
+    {
+      "branch": "main",
+      "commit": "30f7d084c46c08c2e27e8374bc2167899d8d6a44",
+      "path": "docs/deliverables/01-research/01-research-plan.md",
+      "sha256": "72d4b8492eeda983745d91ce8c2a7507c3680907b90cf98077e9c4440ef28b62",
+      "bytes": 4486,
+      "url": "https://github.com/Amen-ai36/soff/blob/30f7d084c46c08c2e27e8374bc2167899d8d6a44/docs/deliverables/01-research/01-research-plan.md"
+    },
+    {
+      "branch": "main",
+      "commit": "30f7d084c46c08c2e27e8374bc2167899d8d6a44",
+      "path": "docs/deliverables/01-research/02-scope-priorities.md",
+      "sha256": "6587b70233c34a5c265f10719d2f85f809f95f3d46779a12ea0baf36bb11d86e",
+      "bytes": 4369,
+      "url": "https://github.com/Amen-ai36/soff/blob/30f7d084c46c08c2e27e8374bc2167899d8d6a44/docs/deliverables/01-research/02-scope-priorities.md"
+    },
+    {
+      "branch": "main",
+      "commit": "30f7d084c46c08c2e27e8374bc2167899d8d6a44",
+      "path": "docs/deliverables/01-research/03-execution-review.md",
+      "sha256": "54e1f325609513112769d17d6cb86b7448ed751b69ae79e5a628b2c621392c29",
+      "bytes": 3702,
+      "url": "https://github.com/Amen-ai36/soff/blob/30f7d084c46c08c2e27e8374bc2167899d8d6a44/docs/deliverables/01-research/03-execution-review.md"
+    },
+    {
+      "branch": "main",
+      "commit": "30f7d084c46c08c2e27e8374bc2167899d8d6a44",
+      "path": "docs/deliverables/01-research/04-integration-record.md",
+      "sha256": "5cb9ddb352af99ca8fea3411ac35dc618f34cc9ff62b72a583b85568f04081f8",
+      "bytes": 3149,
+      "url": "https://github.com/Amen-ai36/soff/blob/30f7d084c46c08c2e27e8374bc2167899d8d6a44/docs/deliverables/01-research/04-integration-record.md"
+    },
+    {
+      "branch": "main",
+      "commit": "30f7d084c46c08c2e27e8374bc2167899d8d6a44",
+      "path": "docs/deliverables/01-research/05-unified-research-report.md",
+      "sha256": "cbb60f5b62c5c16c3f163de5f76b1cc30325b0922767e64ca00670bed301e3ac",
+      "bytes": 16095,
+      "url": "https://github.com/Amen-ai36/soff/blob/30f7d084c46c08c2e27e8374bc2167899d8d6a44/docs/deliverables/01-research/05-unified-research-report.md"
+    },
+    {
+      "branch": "main",
+      "commit": "30f7d084c46c08c2e27e8374bc2167899d8d6a44",
+      "path": "docs/deliverables/01-research/06-evidence-index.md",
+      "sha256": "077262df93f6bdd89d9348e11503a3a72087c683ffae152e4b73e959fc9063ea",
+      "bytes": 3604,
+      "url": "https://github.com/Amen-ai36/soff/blob/30f7d084c46c08c2e27e8374bc2167899d8d6a44/docs/deliverables/01-research/06-evidence-index.md"
+    },
+    {
+      "branch": "main",
+      "commit": "30f7d084c46c08c2e27e8374bc2167899d8d6a44",
+      "path": "docs/deliverables/01-research/07-human-review-and-validation.md",
+      "sha256": "c33e0f39ea5de567ecde456ad5d8ef05c988ae475e6ca95830f11efad478f386",
+      "bytes": 4503,
+      "url": "https://github.com/Amen-ai36/soff/blob/30f7d084c46c08c2e27e8374bc2167899d8d6a44/docs/deliverables/01-research/07-human-review-and-validation.md"
+    },
+    {
+      "branch": "main",
+      "commit": "30f7d084c46c08c2e27e8374bc2167899d8d6a44",
+      "path": "docs/deliverables/01-research/08-ai-use-record.md",
+      "sha256": "ebf6a313e930fc010edc0e3204246bdc561f268df37bf7ed4e5f577c51b12dab",
+      "bytes": 3964,
+      "url": "https://github.com/Amen-ai36/soff/blob/30f7d084c46c08c2e27e8374bc2167899d8d6a44/docs/deliverables/01-research/08-ai-use-record.md"
+    },
+    {
+      "branch": "main",
+      "commit": "30f7d084c46c08c2e27e8374bc2167899d8d6a44",
+      "path": "docs/deliverables/01-research/submission/学术成果分享平台需求调研报告.docx",
+      "sha256": "17ea60f2c6f9f965f6a1da0bd7bfc1687fe59a31634d20b27a1b3a4e3fabceb1",
+      "bytes": 49760,
+      "url": "https://github.com/Amen-ai36/soff/blob/30f7d084c46c08c2e27e8374bc2167899d8d6a44/docs/deliverables/01-research/submission/%E5%AD%A6%E6%9C%AF%E6%88%90%E6%9E%9C%E5%88%86%E4%BA%AB%E5%B9%B3%E5%8F%B0%E9%9C%80%E6%B1%82%E8%B0%83%E7%A0%94%E6%8A%A5%E5%91%8A.docx"
+    },
+    {
+      "source": "user-provided course requirements",
+      "path": "《软件系统分析与设计》课程实践作业课堂展示与提交要求（需求调研与建模成果）.pdf",
+      "sha256": "6469546e5a6f8c5fd55a7f4e80364157d809055e8a08a8972c560d1a17821c56",
+      "distribution": "original PDF is not republished to GitHub",
+      "locator": "local original, pages 1-11"
+    }
+  ]
+}
