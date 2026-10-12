@@ -1,10 +1,37 @@
 # 方案 A 低保真线框稿
 
-版本：0.1
+版本：0.2
 
-状态：需求讨论用草稿，未做真实用户任务测试，不代表最终视觉设计或已实现页面。
+状态：需求讨论用图片线框稿，未做真实用户任务测试，不代表最终视觉设计或已实现页面。
 
 线框只表达信息优先级、导航和主要操作。字段、状态和权限以统一 SRS/SPEC 为准。
+
+## 0. 图片线框图索引
+
+以下 PNG 由同目录的 HTML/CSS 源文件导出，尺寸均为 2880×2000，适合直接插入需求报告或 PPT。图中的姓名、成果、数量和申请编号均为模拟示例。
+
+| 页面 | 对应需求 | 图片 |
+| --- | --- | --- |
+| 首页与检索入口 | UI4-P01、UI4-FR-01～03 | [打开 PNG](images/home.png) |
+| 成果检索结果 | UI4-P02、UI4-FR-04～07 | [打开 PNG](images/results.png) |
+| 学者门户 | UI4-P04、UI4-FR-09～10、14 | [打开 PNG](images/portal.png) |
+| 门户认领申请与状态 | UI4-P07、P08、UI4-FR-13～17 | [打开 PNG](images/claim.png) |
+
+![首页与检索入口](images/home.png)
+
+![成果检索结果](images/results.png)
+
+![学者门户](images/portal.png)
+
+![门户认领申请与状态](images/claim.png)
+
+可编辑源文件为 [`source/wireframes.html`](source/wireframes.html)。在 Windows PowerShell 中运行以下命令可使用本机 Chrome 重新导出，不需要安装设计软件：
+
+```powershell
+./docs/contributions/member-04/prototypes/source/render-wireframes.ps1
+```
+
+下面保留文本线框，作为图片不可预览时的可访问替代内容和页面结构说明。
 
 ## 1. 首页与检索入口（UI4-P01）
 
