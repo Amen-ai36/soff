@@ -1,0 +1,13 @@
+﻿证据ID,证据对象,仓库路径/入口,证据类型,可支持的判断,局限/风险,建议后续动作,状态
+M10-E01,课程实践任务书,根目录《软件系统分析与设计》实践任务书PDF,课程约束,三类用户、四类成果、需求调研/建模交付要求,要求不等于实现结果,用于检查R01-R15是否覆盖,已登记
+M10-E02,双组并行开发与合并方案,根目录/双组并行开发与合并方案.md,分工依据,成员10在第2-6周参与证据整理、需求追踪、评审问题与PPT支撑,不能替代各模块责任人的设计内容,按并列岗位贡献，不将成员5材料当作前置依赖,已登记
+M10-E03,统一调研报告,docs/deliverables/01-research/05-unified-research-report.md,统一工作稿,当前调研结论、数据源、问卷、范围和风险的汇总入口,文件自述为初稿，待成员1/6审阅及课堂评审,修订后保留版本号与修改记录,已读取
+M10-E04,统一证据索引,docs/deliverables/01-research/06-evidence-index.md,证据目录,已登记成员贡献、问卷及平台观察的来源和限制,当前索引对成员5/10的收件状态需增量更新,公共汇编时增加成员10证据入口,已读取
+M10-E05,人工修改与验证清单,docs/deliverables/01-research/07-human-review-and-validation.md,人工动作清单,需要真人确认的问卷、平台、访谈、范围及Word版面事项,清单存在不代表事项完成,责任人完成后附日期、结果和证据,已读取
+M10-E06,匿名问卷汇总,docs/contributions/member-09/research/evidence/questionnaire-results-20260928.pdf,二手汇总原件,按题统计的普通用户探索性反馈,无原始答卷、开放题原话和重复填写核查,保留题目分母，不外推总体,已登记
+M10-E07,问卷结构化转录,docs/contributions/member-09/research/06-questionnaire-results.md,结构化转录,便于检查题目、人数和比例,需与PDF逐题复核，不能替代原件,4/9确认后同步统一报告,已登记
+M10-E08,数据源与合规分析,docs/contributions/member-02/research/需求调研-数据源与合规分析（成员2-成员7修订版）.md,成员分析,候选来源、合规约束和接入风险,不是所有来源都经过本轮在线验证,后续记录真实样例和许可,已登记
+M10-E09,平台比较与操作观察,docs/contributions/member-03/research/；docs/contributions/member-08/research/,操作记录/官方资料分析,指定日期的响应、平台功能说明和异常案例,静态引用；本轮未复测当前平台,复测时追加日期，不覆盖历史结果,已登记
+M10-E10,成员1/6总体需求草案,docs/contributions/member-01/requirements/；docs/contributions/member-06/requirements/（若合入）,需求草案,总体用例、角色和验收方向,粒度/编号可能不同，需公共确认,保留来源前缀，等待1/6统一,部分路径待合并确认
+M10-E11,成员8认领流程模型,docs/contributions/member-08/requirements/或models/相关文件（以实际分支为准）,建模提案,认领审核状态与活动流程的候选方案,PlantUML提案不等于CodeArts正式模型,责任人在CodeArts完成源文件和导出,待平台确认
+M10-E12,成员5交接包,成员5分支/贡献目录（独立参考）,并列岗位材料,用于发现相同交付的互补证据与口径差异,成员10不以其材料作为先决步骤或直接复制,分别记录各自贡献，再由汇编人整合,已对照

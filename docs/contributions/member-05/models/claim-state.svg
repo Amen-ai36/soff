@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="870" viewBox="0 0 1200 870" role="img"><title>单个认领申请状态图：待审核、已通过、已驳回</title><defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="#334155"/></marker></defs><rect width="100%" height="100%" fill="white"/><g font-family="Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="20" fill="#172b4d">
+<text x="600" y="46" text-anchor="middle" font-size="27">单个认领申请状态图 · 成员 8 提案</text>
+<circle cx="600" cy="98" r="10" fill="#172b4d"/>
+<rect x="440.0" y="205.0" width="320" height="90" rx="12" fill="#eef5ff" stroke="#345e8c" stroke-width="2"/>
+<text x="600" y="243" text-anchor="middle" font-size="20">待审核</text>
+<text x="600" y="271" text-anchor="middle" font-size="20">PENDING</text>
+<polyline points="600,108 600,205" fill="none" stroke="#334155" stroke-width="2"/>
+<polygon points="600,205 604.0,195.0 596.0,195.0" fill="#334155"/>
+<rect x="465.0" y="145" width="270" height="25" fill="white"/>
+<text x="600" y="164" text-anchor="middle" font-size="17">有效提交 / 创建申请，不授权</text>
+<polyline points="760,250 1025,250 1025,115 690,115 690,205" fill="none" stroke="#334155" stroke-width="2"/>
+<polygon points="690,205 694.0,195.0 686.0,195.0" fill="#334155"/>
+<text x="932" y="153" text-anchor="middle" font-size="18">冲突或持久化失败</text>
+<text x="932" y="179" text-anchor="middle" font-size="18">不改变状态及权限</text>
+<rect x="145.0" y="480.0" width="310" height="90" rx="12" fill="#eef5ff" stroke="#345e8c" stroke-width="2"/>
+<text x="300" y="518" text-anchor="middle" font-size="20">已通过</text>
+<text x="300" y="546" text-anchor="middle" font-size="20">APPROVED</text>
+<rect x="745.0" y="480.0" width="310" height="90" rx="12" fill="#eef5ff" stroke="#345e8c" stroke-width="2"/>
+<text x="900" y="518" text-anchor="middle" font-size="20">已驳回</text>
+<text x="900" y="546" text-anchor="middle" font-size="20">REJECTED</text>
+<polyline points="500,295 500,338 300,338 300,480" fill="none" stroke="#334155" stroke-width="2"/>
+<polygon points="300,480 304.0,470.0 296.0,470.0" fill="#334155"/>
+<polyline points="700,295 700,338 900,338 900,480" fill="none" stroke="#334155" stroke-width="2"/>
+<polygon points="900,480 904.0,470.0 896.0,470.0" fill="#334155"/>
+<rect x="90" y="368" width="390" height="89" fill="white"/>
+<text x="285" y="392" text-anchor="middle" font-size="18">管理员通过</text>
+<text x="285" y="418" text-anchor="middle" font-size="18">[非本人、版本一致、门户空闲]</text>
+<text x="285" y="444" text-anchor="middle" font-size="18">/ 决定与授权原子提交</text>
+<rect x="720" y="368" width="390" height="89" fill="white"/>
+<text x="915" y="392" text-anchor="middle" font-size="18">管理员驳回</text>
+<text x="915" y="418" text-anchor="middle" font-size="18">[非本人、版本一致、理由非空]</text>
+<text x="915" y="444" text-anchor="middle" font-size="18">/ 保存原因与审计</text>
+<circle cx="300" cy="635" r="14" fill="white" stroke="#172b4d" stroke-width="2"/><circle cx="300" cy="635" r="9" fill="#172b4d"/>
+<circle cx="900" cy="635" r="14" fill="white" stroke="#172b4d" stroke-width="2"/><circle cx="900" cy="635" r="9" fill="#172b4d"/>
+<polyline points="300,570 300,621" fill="none" stroke="#334155" stroke-width="2"/>
+<polygon points="300,621 304.0,611.0 296.0,611.0" fill="#334155"/>
+<polyline points="900,570 900,621" fill="none" stroke="#334155" stroke-width="2"/>
+<polygon points="900,621 904.0,611.0 896.0,611.0" fill="#334155"/>
+<rect x="170" y="700" width="860" height="112" rx="8" fill="#fff7df" stroke="#d6b570"/>
+<text x="600" y="735" text-anchor="middle" font-size="20">单个申请的 APPROVED / REJECTED 均为终态。</text>
+<text x="600" y="763" text-anchor="middle" font-size="20">驳回后补充材料再提交：创建新申请 ID，旧记录不回退。</text>
+<text x="600" y="791" text-anchor="middle" font-size="20">有效提交之前的校验失败不创建申请；不属于持久化状态。</text>
+</g></svg>
