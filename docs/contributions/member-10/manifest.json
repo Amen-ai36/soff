@@ -1,0 +1,20 @@
+{
+  "package": "member10-week2-to-week6-documents",
+  "created": "2026-10-13",
+  "scope": "Member 10 parallel contribution; research evidence quality, requirements traceability, review issues, presentation outlines and handoff checks",
+  "files": [
+    "README.md",
+    "research/调研证据质量核查.md",
+    "research/证据登记表.csv",
+    "requirements/需求追踪与验收核查表.csv",
+    "requirements/需求建模交付核查.md",
+    "review/交叉核查问题单.md",
+    "review/修改与决策记录.csv",
+    "slides/需求调研汇报内容提纲.md",
+    "slides/需求建模汇报内容提纲.md",
+    "handoff/提交前核查清单.md",
+    "handoff/AI辅助工作声明.md",
+    "references/资料入口与使用边界.md"
+  ],
+  "note": "PPT outlines are not PPTX files; unresolved issues are intentionally marked pending."
+}
