@@ -1,0 +1,546 @@
+{
+  "executed_at": "2026-10-11T15:36:07.466485+00:00",
+  "scope": "synthetic reference rules and document/model checks only",
+  "checks": 126,
+  "passed": 126,
+  "fixture_sha256": "ab40f72b39f7c2a8d5ceadf38a6e060a628503cd01b58d8654d60e8069de8b3d",
+  "covered_fixture_ac": [
+    "AC07-01",
+    "AC07-02",
+    "AC07-03",
+    "AC07-04",
+    "AC07-05",
+    "AC07-06",
+    "AC07-08",
+    "AC07-09",
+    "AC07-10",
+    "AC07-11",
+    "AC07-12",
+    "AC07-13",
+    "AC07-14",
+    "AC07-16",
+    "AC07-17",
+    "AC07-18",
+    "AC07-19",
+    "AC07-20",
+    "AC07-21",
+    "AC07-22",
+    "AC07-23",
+    "AC07-24"
+  ],
+  "results": [
+    {
+      "check": "AC07-01 text 0",
+      "passed": true
+    },
+    {
+      "check": "AC07-01 text 1",
+      "passed": true
+    },
+    {
+      "check": "AC07-02 doi 0",
+      "passed": true
+    },
+    {
+      "check": "AC07-02 doi 1",
+      "passed": true
+    },
+    {
+      "check": "AC07-02 doi 2",
+      "passed": true
+    },
+    {
+      "check": "AC07-02 doi 3",
+      "passed": true
+    },
+    {
+      "check": "AC07-04 year 0",
+      "passed": true
+    },
+    {
+      "check": "AC07-04 year 1",
+      "passed": true
+    },
+    {
+      "check": "AC07-04 year 2",
+      "passed": true
+    },
+    {
+      "check": "AC07-04 year 3",
+      "passed": true
+    },
+    {
+      "check": "AC07-06 citation 0",
+      "passed": true
+    },
+    {
+      "check": "AC07-06 citation 1",
+      "passed": true
+    },
+    {
+      "check": "AC07-06 citation 2",
+      "passed": true
+    },
+    {
+      "check": "AC07-06 citation 3",
+      "passed": true
+    },
+    {
+      "check": "AC07-03 date 0",
+      "passed": true
+    },
+    {
+      "check": "AC07-03 date 1",
+      "passed": true
+    },
+    {
+      "check": "AC07-03 date 2",
+      "passed": true
+    },
+    {
+      "check": "AC07-05 required 0",
+      "passed": true
+    },
+    {
+      "check": "AC07-05 required 1",
+      "passed": true
+    },
+    {
+      "check": "AC07-05 required 2",
+      "passed": true
+    },
+    {
+      "check": "AC07-05 required 3",
+      "passed": true
+    },
+    {
+      "check": "AC07-08 pair 0",
+      "passed": true
+    },
+    {
+      "check": "AC07-09 pair 1",
+      "passed": true
+    },
+    {
+      "check": "AC07-10 pair 2",
+      "passed": true
+    },
+    {
+      "check": "AC07-11 pair 3",
+      "passed": true
+    },
+    {
+      "check": "AC07-11 pair 4",
+      "passed": true
+    },
+    {
+      "check": "AC07-11 pair 5",
+      "passed": true
+    },
+    {
+      "check": "AC07-12 cluster 0",
+      "passed": true
+    },
+    {
+      "check": "AC07-12 cluster 1",
+      "passed": true
+    },
+    {
+      "check": "AC07-13 author 0",
+      "passed": true
+    },
+    {
+      "check": "AC07-13 author 1",
+      "passed": true
+    },
+    {
+      "check": "AC07-13 author 2",
+      "passed": true
+    },
+    {
+      "check": "AC07-14 institution 0",
+      "passed": true
+    },
+    {
+      "check": "AC07-14 institution 1",
+      "passed": true
+    },
+    {
+      "check": "AC07-16 visibility 0",
+      "passed": true
+    },
+    {
+      "check": "AC07-16 visibility 1",
+      "passed": true
+    },
+    {
+      "check": "AC07-16 visibility 2",
+      "passed": true
+    },
+    {
+      "check": "unique state/event transitions",
+      "passed": true
+    },
+    {
+      "check": "AC07-17 trace 0",
+      "passed": true
+    },
+    {
+      "check": "AC07-18 trace 1",
+      "passed": true
+    },
+    {
+      "check": "AC07-19 trace 2",
+      "passed": true
+    },
+    {
+      "check": "AC07-20 trace 3",
+      "passed": true
+    },
+    {
+      "check": "AC07-20 trace 4",
+      "passed": true
+    },
+    {
+      "check": "AC07-21 trace 5",
+      "passed": true
+    },
+    {
+      "check": "AC07-21 trace 6",
+      "passed": true
+    },
+    {
+      "check": "AC07-19 trace 7",
+      "passed": true
+    },
+    {
+      "check": "AC07-22 publish guard 0",
+      "passed": true
+    },
+    {
+      "check": "AC07-22 publish guard 1",
+      "passed": true
+    },
+    {
+      "check": "AC07-24 publish guard 2",
+      "passed": true
+    },
+    {
+      "check": "AC07-24 publish guard 3",
+      "passed": true
+    },
+    {
+      "check": "AC07-24 publish guard 4",
+      "passed": true
+    },
+    {
+      "check": "AC07-23 idempotency 0",
+      "passed": true
+    },
+    {
+      "check": "AC07-23 idempotency 1",
+      "passed": true
+    },
+    {
+      "check": "AC07-23 idempotency 2",
+      "passed": true
+    },
+    {
+      "check": "SVG transition coverage",
+      "passed": true
+    },
+    {
+      "check": "SVG state coverage",
+      "passed": true
+    },
+    {
+      "check": "PlantUML T01",
+      "passed": true
+    },
+    {
+      "check": "PlantUML T02",
+      "passed": true
+    },
+    {
+      "check": "PlantUML T03",
+      "passed": true
+    },
+    {
+      "check": "PlantUML T04",
+      "passed": true
+    },
+    {
+      "check": "PlantUML T05",
+      "passed": true
+    },
+    {
+      "check": "PlantUML T06",
+      "passed": true
+    },
+    {
+      "check": "PlantUML T07",
+      "passed": true
+    },
+    {
+      "check": "PlantUML T08",
+      "passed": true
+    },
+    {
+      "check": "PlantUML T09",
+      "passed": true
+    },
+    {
+      "check": "PlantUML T10",
+      "passed": true
+    },
+    {
+      "check": "PlantUML T11",
+      "passed": true
+    },
+    {
+      "check": "PlantUML T12",
+      "passed": true
+    },
+    {
+      "check": "trailing whitespace ai-use-record.md",
+      "passed": true
+    },
+    {
+      "check": "local link ai-use-record.md -> validation-report.md",
+      "passed": true
+    },
+    {
+      "check": "trailing whitespace README.md",
+      "passed": true
+    },
+    {
+      "check": "local link README.md -> research/20261011-source-validation.md",
+      "passed": true
+    },
+    {
+      "check": "local link README.md -> requirements/01-srs-contribution.md",
+      "passed": true
+    },
+    {
+      "check": "local link README.md -> requirements/02-field-mapping.md",
+      "passed": true
+    },
+    {
+      "check": "local link README.md -> requirements/specs/SPEC-M7-INGEST.md",
+      "passed": true
+    },
+    {
+      "check": "local link README.md -> requirements/specs/SPEC-M7-CLEAN.md",
+      "passed": true
+    },
+    {
+      "check": "local link README.md -> requirements/specs/SPEC-M7-RESOLVE.md",
+      "passed": true
+    },
+    {
+      "check": "local link README.md -> requirements/03-acceptance-and-traceability.md",
+      "passed": true
+    },
+    {
+      "check": "local link README.md -> requirements/diagrams/README.md",
+      "passed": true
+    },
+    {
+      "check": "local link README.md -> review-and-handoff.md",
+      "passed": true
+    },
+    {
+      "check": "local link README.md -> speaking-notes.md",
+      "passed": true
+    },
+    {
+      "check": "local link README.md -> ai-use-record.md",
+      "passed": true
+    },
+    {
+      "check": "local link README.md -> validation-report.md",
+      "passed": true
+    },
+    {
+      "check": "trailing whitespace review-and-handoff.md",
+      "passed": true
+    },
+    {
+      "check": "trailing whitespace speaking-notes.md",
+      "passed": true
+    },
+    {
+      "check": "trailing whitespace validation-report.md",
+      "passed": true
+    },
+    {
+      "check": "local link validation-report.md -> research/20261011-source-validation.md",
+      "passed": true
+    },
+    {
+      "check": "trailing whitespace requirements\\01-srs-contribution.md",
+      "passed": true
+    },
+    {
+      "check": "local link 01-srs-contribution.md -> ../review-and-handoff.md",
+      "passed": true
+    },
+    {
+      "check": "local link 01-srs-contribution.md -> ../research/需求调研-数据源与合规分析（成员2-成员7修订版）.md",
+      "passed": true
+    },
+    {
+      "check": "local link 01-srs-contribution.md -> ../research/20261011-source-validation.md",
+      "passed": true
+    },
+    {
+      "check": "local link 01-srs-contribution.md -> ../../member-06/showcase-20261014/06-srs-assembly.md",
+      "passed": true
+    },
+    {
+      "check": "local link 01-srs-contribution.md -> ../../member-08/requirements/03-interface-constraints.md",
+      "passed": true
+    },
+    {
+      "check": "local link 01-srs-contribution.md -> ../../member-08/requirements/specs/SPEC-M8-SEARCH.md",
+      "passed": true
+    },
+    {
+      "check": "trailing whitespace requirements\\02-field-mapping.md",
+      "passed": true
+    },
+    {
+      "check": "trailing whitespace requirements\\03-acceptance-and-traceability.md",
+      "passed": true
+    },
+    {
+      "check": "local link 03-acceptance-and-traceability.md -> ../validation-report.md",
+      "passed": true
+    },
+    {
+      "check": "local link 03-acceptance-and-traceability.md -> fixtures/rule-cases.json",
+      "passed": true
+    },
+    {
+      "check": "local link 03-acceptance-and-traceability.md -> ../scripts/validate_contribution.py",
+      "passed": true
+    },
+    {
+      "check": "trailing whitespace research\\20261011-source-validation.md",
+      "passed": true
+    },
+    {
+      "check": "local link 20261011-source-validation.md -> evidence/access-observations.json",
+      "passed": true
+    },
+    {
+      "check": "local link 20261011-source-validation.md -> evidence/additional-observations.json",
+      "passed": true
+    },
+    {
+      "check": "local link 20261011-source-validation.md -> evidence/check_access.py",
+      "passed": true
+    },
+    {
+      "check": "trailing whitespace research\\需求调研-数据源与合规分析（成员2-成员7修订版）.md",
+      "passed": true
+    },
+    {
+      "check": "trailing whitespace requirements\\diagrams\\README.md",
+      "passed": true
+    },
+    {
+      "check": "local link README.md -> collection-transitions.json",
+      "passed": true
+    },
+    {
+      "check": "local link README.md -> collection-state.puml",
+      "passed": true
+    },
+    {
+      "check": "local link README.md -> collection-state.svg",
+      "passed": true
+    },
+    {
+      "check": "local link README.md -> ../../scripts/build_state_model.py",
+      "passed": true
+    },
+    {
+      "check": "trailing whitespace requirements\\specs\\SPEC-M7-CLEAN.md",
+      "passed": true
+    },
+    {
+      "check": "trailing whitespace requirements\\specs\\SPEC-M7-INGEST.md",
+      "passed": true
+    },
+    {
+      "check": "local link SPEC-M7-INGEST.md -> ../diagrams/collection-transitions.json",
+      "passed": true
+    },
+    {
+      "check": "trailing whitespace requirements\\specs\\SPEC-M7-RESOLVE.md",
+      "passed": true
+    },
+    {
+      "check": "evidence source access-observations.json openalex",
+      "passed": true
+    },
+    {
+      "check": "business success openalex",
+      "passed": true
+    },
+    {
+      "check": "evidence source access-observations.json dblp",
+      "passed": true
+    },
+    {
+      "check": "evidence source access-observations.json cordis",
+      "passed": true
+    },
+    {
+      "check": "business success cordis",
+      "passed": true
+    },
+    {
+      "check": "evidence source access-observations.json nsf",
+      "passed": true
+    },
+    {
+      "check": "evidence source access-observations.json most-award",
+      "passed": true
+    },
+    {
+      "check": "business success most-award",
+      "passed": true
+    },
+    {
+      "check": "evidence source access-observations.json cnipa-entry",
+      "passed": true
+    },
+    {
+      "check": "evidence source access-observations.json nsfc-entry",
+      "passed": true
+    },
+    {
+      "check": "evidence source additional-observations.json dblp",
+      "passed": true
+    },
+    {
+      "check": "evidence source additional-observations.json nsf",
+      "passed": true
+    },
+    {
+      "check": "business success nsf",
+      "passed": true
+    }
+  ],
+  "not_tested": [
+    "production ETL",
+    "database/ES integration",
+    "10000 records",
+    "live scheduler/authorization",
+    "real-data quality metrics",
+    "CodeArts source",
+    "human approval"
+  ]
+}
