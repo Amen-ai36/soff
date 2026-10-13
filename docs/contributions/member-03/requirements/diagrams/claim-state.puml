@@ -1,0 +1,24 @@
+@startuml
+!pragma layout smetana
+skinparam defaultFontName Microsoft YaHei
+title 成员3：单个认领申请状态图（候选）
+state "待审核\nPENDING" as Pending
+state "已通过\nAPPROVED" as Approved
+state "已驳回\nREJECTED" as Rejected
+[*] --> Pending : 有效提交 / 新申请，无维护权
+Pending --> Approved : 管理员通过 [非本人、版本一致、门户空闲]\n/ 决定、授权、审计原子提交
+Pending --> Rejected : 管理员驳回 [非本人、版本一致、理由非空]\n/ 决定与审计原子提交，不新增授权
+Approved --> [*]
+Rejected --> [*]
+note right of Pending
+  校验/占用/写入失败不产生本请求状态迁移。
+  并发另一请求已提交时，应读取最新状态，
+  不强制把其结果恢复为 PENDING。
+end note
+note bottom of Rejected
+  补充后重提创建新申请 ID 并关联旧 ID。
+  旧记录保持 REJECTED，不回退到 PENDING。
+  草稿/上传进度是 UI 状态。
+  撤回、申诉与授权撤销另行确认。
+end note
+@enduml

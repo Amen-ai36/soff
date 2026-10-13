@@ -1,0 +1,20 @@
+{
+  "review_date": "2026-10-12",
+  "source_commits": {
+    "origin/main": "30f7d084c46c08c2e27e8374bc2167899d8d6a44",
+    "origin/b": "4993e0198ab29ceab89891973d39b680bb5c69b3",
+    "HEAD": "c7816d93ee39ef74e698124cccacf7cf7bf2fcb1"
+  },
+  "source_files": [
+    {
+      "git_source": "origin/main:docs/deliverables/01-research/submission/学术成果分享平台需求调研报告.docx",
+      "sha256": "17ea60f2c6f9f965f6a1da0bd7bfc1687fe59a31634d20b27a1b3a4e3fabceb1",
+      "bytes": 49760
+    },
+    {
+      "git_source": "origin/b:docs/contributions/member-09/research/evidence/questionnaire-results-20260928.pdf",
+      "sha256": "92390270e527f4fb47877f02c0f1624a9050482d4e6356d24cf7cdd3fd0070ac",
+      "bytes": 2144529
+    }
+  ]
+}
