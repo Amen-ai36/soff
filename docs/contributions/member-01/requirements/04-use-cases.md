@@ -77,4 +77,6 @@
 
 ## 4. 图表入口
 
+成员1于2026-10-13提供的用例图见 [diagrams/system-use-case-member01.png](diagrams/system-use-case-member01.png)，可供统一报告和PPT汇编。图片按原文件保存；对应建模源文件和成员6复核记录尚待提供。
+
 系统用例图源草案见 [diagrams/system-use-case.puml](diagrams/system-use-case.puml)，本地渲染预览见 [diagrams/system-use-case.svg](diagrams/system-use-case.svg)。课堂提交必须由成员 1、6 在 CodeArts Modeling 中复建，保留平台源文件并导出清晰图片；PlantUML 和 SVG 只用于版本审查与文本差异比较。
