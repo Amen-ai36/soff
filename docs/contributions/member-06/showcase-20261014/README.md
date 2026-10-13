@@ -11,6 +11,7 @@
 | [个人贡献正文](01-contribution.md) | 调研总体结论、SRS总体章节、需求和非功能约束候选、优先级理由 |
 | [用例模型与绘制说明](02-use-case-model.md) | 成员1、6共同负责的用例模型及CodeArts绘制依据 |
 | [用例源稿](models/use-cases.puml) | 可编辑PlantUML语义源稿；不是CodeArts Modeling源文件 |
+| [CodeArts导出图与平台入口](models/codearts/README.md) | 成员6系统用例图PNG、可编辑平台模型链接及归档记录 |
 | [SRS汇编候选稿](06-srs-assembly.md) | 成员6总体章节、队友章节接入映射和非功能总纲，供成员1复核 |
 | [第二阶段SRS启动框架](07-srs-kickoff.md) | 10月12日启动；目录、编号、章节交接与界面/交互一致性检查点，可供各岗位开始供稿 |
 | [追踪与汇编表](03-traceability-review.md) | 调研、用例、SRS和SPEC的一致性检查，队友收件与复核结果 |
