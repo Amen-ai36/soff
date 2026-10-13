@@ -1,0 +1,135 @@
+@startuml
+title 导航结构图
+
+' 定义样式
+skinparam rectangle {
+  BackgroundColor LightBlue
+  BorderColor DarkBlue
+}
+
+skinparam package {
+  BackgroundColor LightYellow
+  BorderColor Orange
+}
+
+' 主页面
+rectangle "首页" as Home #LightGreen
+
+' 一级导航
+package "检索" {
+  rectangle "简单检索" as SimpleSearch
+  rectangle "高级检索 (P1)" as AdvSearch
+  rectangle "检索历史" as SearchHistory
+}
+
+package "领域" {
+  rectangle "领域分类首页" as FieldHome
+  rectangle "一级领域页" as Field1
+  rectangle "二级领域页" as Field2
+  rectangle "成果列表页" as FieldResults
+}
+
+package "学者" {
+  rectangle "学者列表" as ScholarList
+  rectangle "学者门户" as ScholarPortal
+  rectangle "机构列表" as OrgList
+  rectangle "机构主页" as OrgHome
+}
+
+package "统计" {
+  rectangle "统计首页" as StatsHome
+  rectangle "机构排名" as OrgRanking
+  rectangle "领域分布" as FieldDist
+  rectangle "趋势分析" as Trend
+}
+
+package "帮助" {
+  rectangle "使用指南" as Guide
+  rectangle "认领说明" as ClaimGuide
+  rectangle "常见问题" as FAQ
+}
+
+package "个人中心" {
+  rectangle "个人信息" as Profile
+  rectangle "认领管理" as ClaimManage
+  rectangle "收藏夹 (P1)" as Favorites
+  rectangle "检索历史" as UserHistory
+}
+
+' 功能页面
+rectangle "成果详情" as Detail
+rectangle "认领流程" as ClaimFlow
+rectangle "登录/注册" as Auth
+rectangle "404 错误页" as Error404
+
+' 导航关系 - 首页到一级
+Home --> SimpleSearch : 检索框
+Home --> FieldHome : 领域入口
+Home --> StatsHome : 统计入口
+
+' 检索模块
+SimpleSearch --> Detail : 点击成果
+SimpleSearch --> AdvSearch : 高级检索链接
+SimpleSearch --> SearchHistory : 历史记录
+
+' 领域模块
+FieldHome --> Field1 : 点击一级分类
+Field1 --> Field2 : 点击二级分类
+Field2 --> FieldResults : 查看成果
+FieldResults --> Detail : 点击成果
+
+' 学者模块
+ScholarList --> ScholarPortal : 点击学者
+ScholarPortal --> Detail : 点击成果
+ScholarPortal --> ClaimFlow : 认领入口
+OrgList --> OrgHome : 点击机构
+OrgHome --> ScholarPortal : 点击学者
+
+' 统计模块
+StatsHome --> OrgRanking : 机构排名
+StatsHome --> FieldDist : 领域分布
+StatsHome --> Trend : 趋势分析
+
+' 详情页
+Detail --> ClaimFlow : 认领入口
+Detail --> ScholarPortal : 点击作者
+
+' 认领流程
+ClaimFlow --> Auth : 需要登录
+ClaimFlow --> ClaimManage : 提交后查看状态
+
+' 个人中心
+Profile --> ClaimManage : 认领管理
+Profile --> Favorites : 收藏夹
+Profile --> UserHistory : 检索历史
+ClaimManage --> ClaimFlow : 重新申请
+
+' 注释
+note right of Home
+  方案 B：三入口并列
+  - 检索框 (40%)
+  - 领域入口 (30%)
+  - 统计入口 (30%)
+end note
+
+note right of ClaimFlow
+  三步式流程：
+  1. 身份验证
+  2. 成果选择
+  3. 补充信息
+end note
+
+note right of Detail
+  双认领入口：
+  1. 详情页右侧
+  2. 学者门户顶部
+end note
+
+note bottom of FieldHome
+  领域浏览层级：
+  首页 → 一级 (6-8个)
+       → 二级 (待确认)
+       → 成果列表
+end note
+
+@enduml

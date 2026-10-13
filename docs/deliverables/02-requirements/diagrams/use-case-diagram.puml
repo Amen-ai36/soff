@@ -1,0 +1,125 @@
+@startuml
+!define RECTANGLE class
+
+title 学术成果分享平台 - 用例图
+
+left to right direction
+
+' 定义参与者
+actor "访客" as Visitor
+actor "普通用户" as User
+actor "科研人员" as Researcher
+actor "管理员" as Admin
+actor "系统管理员" as SysAdmin
+
+' 继承关系
+Visitor <|-- User
+User <|-- Researcher
+
+' 系统边界
+package "学术成果分享平台" {
+
+  ' 访客用例
+  rectangle "检索成果" as UC01
+  rectangle "查看成果详情" as UC02
+  rectangle "浏览领域分类" as UC03
+  rectangle "查看学者门户" as UC04
+  rectangle "查看统计分析" as UC05
+  rectangle "注册账号" as UC06
+
+  ' 普通用户用例
+  rectangle "保存检索历史" as UC07
+  rectangle "收藏成果" as UC08
+  rectangle "导出引用" as UC09
+
+  ' 科研人员用例
+  rectangle "认领学者门户" as UC10
+  rectangle "维护个人成果" as UC11
+  rectangle "编辑个人信息" as UC12
+  rectangle "添加新成果" as UC13
+  rectangle "隐藏/显示成果" as UC14
+
+  ' 管理员用例
+  rectangle "审核认领申请" as UC15
+  rectangle "审核新增成果" as UC16
+  rectangle "处理反馈举报" as UC17
+  rectangle "管理用户权限" as UC18
+
+  ' 系统管理员用例
+  rectangle "创建采集任务" as UC19
+  rectangle "监控采集状态" as UC20
+  rectangle "配置数据源" as UC21
+  rectangle "查看系统日志" as UC22
+  rectangle "管理数据质量" as UC23
+
+  ' 扩展用例
+  rectangle "高级检索" as UC24
+  rectangle "同名消歧" as UC25
+  rectangle "研究网络可视化" as UC26
+}
+
+' 访客关联
+Visitor --> UC01
+Visitor --> UC02
+Visitor --> UC03
+Visitor --> UC04
+Visitor --> UC05
+Visitor --> UC06
+
+' 普通用户关联
+User --> UC07
+User --> UC08
+User --> UC09
+
+' 科研人员关联
+Researcher --> UC10
+Researcher --> UC11
+Researcher --> UC12
+Researcher --> UC13
+Researcher --> UC14
+
+' 管理员关联
+Admin --> UC15
+Admin --> UC16
+Admin --> UC17
+Admin --> UC18
+
+' 系统管理员关联
+SysAdmin --> UC19
+SysAdmin --> UC20
+SysAdmin --> UC21
+SysAdmin --> UC22
+SysAdmin --> UC23
+
+' 用例之间的关系
+UC01 ..> UC24 : <<extend>>
+UC01 ..> UC25 : <<extend>>
+UC02 ..> UC10 : <<include>>
+UC04 ..> UC26 : <<extend>>
+UC10 ..> UC15 : <<include>>
+UC13 ..> UC16 : <<include>>
+
+' 注释
+note right of UC01
+  支持标题、作者、机构、
+  关键词混合查询
+end note
+
+note right of UC10
+  三步式流程：
+  1. 身份验证
+  2. 成果选择
+  3. 补充信息
+end note
+
+note right of UC15
+  审核时长：3～5 个工作日
+  审核结果邮件通知
+end note
+
+note right of UC19
+  支持 OpenAlex、DBLP
+  等多数据源
+end note
+
+@enduml
