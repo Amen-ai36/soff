@@ -1,0 +1,58 @@
+@startuml
+skinparam linetype ortho
+title Collection Task（数据采集任务）状态机
+
+[*] --> DRAFT : 创建任务
+
+state "DRAFT 草稿" as DRAFT
+state "QUEUED 已入队" as QUEUED
+state "RUNNING 执行中" as RUNNING {
+  state "DISCOVER" as DISCOVER
+  state "FETCH" as FETCH
+  state "PARSE" as PARSE
+  state "CLEAN" as CLEAN
+  state "DEDUP" as DEDUP
+  state "PERSIST" as PERSIST
+  state "INDEX_SYNC" as INDEX_SYNC
+  state "FINALIZE" as FINALIZE
+  [*] --> DISCOVER
+  DISCOVER --> FETCH
+  FETCH --> PARSE
+  PARSE --> CLEAN
+  CLEAN --> DEDUP
+  DEDUP --> PERSIST
+  PERSIST --> INDEX_SYNC
+  INDEX_SYNC --> FINALIZE
+}
+state "RETRY_WAIT 退避重试" as RETRY_WAIT
+state "STOPPING 停止中" as STOPPING
+state "STOPPED 已停止" as STOPPED
+state "PARTIAL_SUCCESS 部分成功" as PARTIAL_SUCCESS
+state "SUCCEEDED 已完成" as SUCCEEDED
+state "FAILED 失败" as FAILED
+state "CANCELLED 已取消" as CANCELLED
+
+DRAFT --> QUEUED : submit()
+DRAFT --> CANCELLED : cancel()
+QUEUED --> RUNNING : 调度器派发
+QUEUED --> CANCELLED : cancel()
+RUNNING --> RUNNING : advanceStage()
+RUNNING --> SUCCEEDED : 全部阶段完成
+RUNNING --> RETRY_WAIT : 可重试错误
+RETRY_WAIT --> QUEUED : 退避到期
+RETRY_WAIT --> FAILED : 重试耗尽
+RUNNING --> PARTIAL_SUCCESS : 部分源失败
+RUNNING --> FAILED : 不可重试错误
+RUNNING --> STOPPING : stop()
+STOPPING --> STOPPED : 安全停止
+STOPPING --> FAILED : 停止超时
+STOPPED --> QUEUED : resume()
+PARTIAL_SUCCESS --> QUEUED : 重试失败源
+
+SUCCEEDED --> [*]
+PARTIAL_SUCCESS --> [*]
+FAILED --> [*]
+CANCELLED --> [*]
+STOPPED --> [*]
+
+@enduml

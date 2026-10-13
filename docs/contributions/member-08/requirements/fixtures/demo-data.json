@@ -1,0 +1,131 @@
+{
+  "note": "仅用于需求例证的合成数据；不是已采集数据或真实人物；不满足一万条验收。",
+  "data_version": "synthetic-v1",
+  "works": [
+    {
+      "id": "W01",
+      "title": "Graph",
+      "type": "paper",
+      "year": 2024,
+      "keywords": [],
+      "abstract": "",
+      "institution_ids": [
+        "I01",
+        "I02"
+      ],
+      "field_ids": [
+        "F01"
+      ],
+      "scholar_ids": [
+        "A01",
+        "A02",
+        "A01"
+      ],
+      "public": true
+    },
+    {
+      "id": "W02",
+      "title": "Graph methods",
+      "type": "patent",
+      "year": 2025,
+      "keywords": [
+        "graph"
+      ],
+      "abstract": "",
+      "institution_ids": [
+        "I01"
+      ],
+      "field_ids": [
+        "F01"
+      ],
+      "scholar_ids": [
+        "A01",
+        "A02"
+      ],
+      "public": true
+    },
+    {
+      "id": "W03",
+      "title": "Data platform",
+      "type": "project",
+      "year": 2024,
+      "keywords": [],
+      "abstract": "graph",
+      "institution_ids": [
+        "I02"
+      ],
+      "field_ids": [
+        "F02"
+      ],
+      "scholar_ids": [
+        "A03"
+      ],
+      "public": true
+    },
+    {
+      "id": "W04",
+      "title": "Research award",
+      "type": "award",
+      "year": null,
+      "keywords": [],
+      "abstract": "",
+      "institution_ids": [],
+      "field_ids": [],
+      "scholar_ids": [],
+      "public": true
+    },
+    {
+      "id": "W05",
+      "title": "Graph",
+      "type": "paper",
+      "year": 2026,
+      "keywords": [
+        "graph"
+      ],
+      "abstract": "graph",
+      "institution_ids": [
+        "I01"
+      ],
+      "field_ids": [
+        "F01"
+      ],
+      "scholar_ids": [
+        "A01",
+        "A02"
+      ],
+      "public": false
+    }
+  ],
+  "scholars": [
+    {
+      "id": "A01",
+      "name": "示例学者甲",
+      "institution_ids": [
+        "I01"
+      ],
+      "field_ids": [
+        "F01"
+      ]
+    },
+    {
+      "id": "A02",
+      "name": "示例学者甲",
+      "institution_ids": [
+        "I02"
+      ],
+      "field_ids": [
+        "F01"
+      ]
+    },
+    {
+      "id": "A03",
+      "name": "示例学者乙",
+      "institution_ids": [
+        "I02"
+      ],
+      "field_ids": [
+        "F02"
+      ]
+    }
+  ]
+}

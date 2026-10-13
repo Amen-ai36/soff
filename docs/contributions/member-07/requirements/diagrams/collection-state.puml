@@ -1,0 +1,34 @@
+@startuml
+title 采集任务状态模型 M7-ST-01
+hide empty description
+skinparam shadowing false
+skinparam stateFontName Microsoft YaHei
+state "待执行\nPENDING" as PENDING
+state "运行中\nRUNNING" as RUNNING
+state "成功\nSUCCEEDED" as SUCCEEDED
+state "失败\nFAILED" as FAILED
+state "重试等待\nRETRY_WAIT" as RETRY_WAIT
+state "安全停止中\nSTOPPING" as STOPPING
+state "已停止\nSTOPPED" as STOPPED
+[*] --> PENDING
+PENDING --> RUNNING : T01 start\n[权限与来源条件有效]
+PENDING --> STOPPED : T02 stop\n[管理员请求有效]
+RUNNING --> SUCCEEDED : T03 complete\n[版本对账和发布成功]
+RUNNING --> RETRY_WAIT : T04 transient_failure\n[临时故障或429且仍有重试预算]
+RUNNING --> FAILED : T05 access_denied\n[401/403/明确412拒绝或验证码或许可拒绝]
+RUNNING --> FAILED : T06 fatal_failure\n[不可恢复错误或重试预算耗尽]
+RUNNING --> STOPPING : T07 stop\n[管理员请求获准且尚未发布完成]
+STOPPING --> STOPPED : T08 stop_settled\n[安全边界已到且未提交写入已撤销]
+RETRY_WAIT --> RUNNING : T09 retry_due\n[等待已到期且预算权限有效]
+RETRY_WAIT --> FAILED : T10 retry_exhausted\n[预算不足或人工终止等待]
+RETRY_WAIT --> STOPPED : T11 stop\n[管理员请求有效]
+FAILED --> PENDING : T12 manual_retry\n[管理员显式重试且条件已修复 新attempt]
+note bottom of RUNNING
+仅处理与发布确认完成后成功
+stop优先获准时不再发布
+end note
+note bottom of FAILED
+manual_retry创建新attempt
+保留旧尝试记录
+end note
+@enduml

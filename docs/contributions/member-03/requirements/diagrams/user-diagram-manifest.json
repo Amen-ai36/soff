@@ -1,0 +1,23 @@
+{
+  "received_date": "2026-10-13",
+  "images": [
+    {
+      "file": "claim-state.png",
+      "sha256": "469cd441be9d90b92e11c8f46be80c26b8a0e7de69db40b0bde9b4d3f74db67c",
+      "pixels": [
+        733,
+        631
+      ],
+      "source": "成员3在2026-10-13对话中提供；平台与原生模型位置未提供"
+    },
+    {
+      "file": "claim-activity.png",
+      "sha256": "559ebf3b5d657f8b90992dbca52c57502a4f9ecae05835e852e74bad33a8e2c0",
+      "pixels": [
+        1071,
+        1031
+      ],
+      "source": "成员3在2026-10-13对话中提供；平台与原生模型位置未提供"
+    }
+  ]
+}

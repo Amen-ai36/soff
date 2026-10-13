@@ -1,0 +1,38 @@
+{
+  "scope": "Additional read-only observations preserving the initial probe results",
+  "observations": [
+    {
+      "source": "dblp",
+      "url": "https://dblp.org/search/publ/api?q=attention%20is%20all%20you%20need&h=1&format=json",
+      "observed_at": "2026-10-11T15:16:35.1861789+00:00",
+      "client": "PowerShell Invoke-WebRequest with system TLS validation",
+      "http_status": 200,
+      "content_type": "text/html; charset=utf-8",
+      "bytes_read": 7511,
+      "challenge_detected": true,
+      "business_fields_verified": false,
+      "result": "challenge_page_not_business_data",
+      "note": "Anubis challenge observed; no challenge solving or further requests. Raw page was not retained because it included network metadata."
+    },
+    {
+      "source": "nsf",
+      "url": "https://api.nsf.gov/services/v1/awards.json?keyword=graph&rpp=1&printFields=id,title,awardeeName,startDate",
+      "observed_at": "2026-10-11T15:17:11.615873+00:00",
+      "http_status": 200,
+      "content_type": "application/json",
+      "bytes_read": 4546,
+      "sha256": "29b3767b4db91d5cd257dd09d163ba0d01f6e93444ac29d68773d1784d56a5f5",
+      "returned_count": 1,
+      "business_fields_verified": true,
+      "sample": [
+        {
+          "id": "2624584",
+          "title": "EPSCoR Research Fellows: NSF: A Genotype-Forward Framework for Mechanistic Penetrance Estimation in Alzheimer's Disease",
+          "awardeeName": "New Mexico Institute of Mining and Technology",
+          "startDate": "02/01/2027"
+        }
+      ],
+      "note": "A different query returned a project sample. This does not erase the first empty response or demonstrate relevance, bulk access, or publication approval."
+    }
+  ]
+}

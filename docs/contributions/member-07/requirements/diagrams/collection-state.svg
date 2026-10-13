@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1160" height="1290" viewBox="0 0 1160 1290">
+<title>采集任务状态模型 M7-ST-01 候选语义预览</title>
+<desc>七个状态及十二条转移，与collection-transitions.json一致；不是CodeArts导出图。</desc>
+<defs><marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0 0 L10 4 L0 8 Z" fill="#334155"/></marker></defs>
+<rect width="1160" height="1290" fill="white"/>
+<g font-family="Microsoft YaHei, SimHei, sans-serif" fill="#111827">
+<text x="580" y="31" text-anchor="middle" font-size="24">采集任务状态模型 M7-ST-01</text>
+<circle cx="65" cy="170" r="10" fill="#111827"/>
+<path d="M75 170 L85 170" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+<path data-transition-ids="T01" d="M305 170 L465 170" fill="none" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="382" y="154" text-anchor="middle" font-size="16">T01</text>
+<path data-transition-ids="T02" d="M195 215 L195 425" fill="none" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="218" y="324" text-anchor="middle" font-size="16">T02</text>
+<path data-transition-ids="T03" d="M685 170 L845 170" fill="none" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="762" y="154" text-anchor="middle" font-size="16">T03</text>
+<path data-transition-ids="T04" d="M685 195 L750 195 L750 770 L685 770" fill="none" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="776" y="676" text-anchor="middle" font-size="16">T04</text>
+<path data-transition-ids="T05 T06" d="M640 125 L640 95 L810 95 L810 470 L845 470" fill="none" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="850" y="350" text-anchor="middle" font-size="16">T05 / T06</text>
+<path data-transition-ids="T07" d="M575 215 L575 425" fill="none" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="604" y="324" text-anchor="middle" font-size="16">T07</text>
+<path data-transition-ids="T08" d="M465 470 L305 470" fill="none" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="348" y="453" text-anchor="middle" font-size="16">T08</text>
+<path data-transition-ids="T09" d="M465 752 L390 752 L390 195 L465 195" fill="none" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="358" y="678" text-anchor="middle" font-size="16">T09</text>
+<path data-transition-ids="T10" d="M685 795 L955 795 L955 515" fill="none" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="905" y="780" text-anchor="middle" font-size="16">T10</text>
+<path data-transition-ids="T11" d="M465 795 L195 795 L195 515" fill="none" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="251" y="779" text-anchor="middle" font-size="16">T11</text>
+<path data-transition-ids="T12" d="M1065 470 L1105 470 L1105 65 L195 65 L195 125" fill="none" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="562" y="52" text-anchor="middle" font-size="16">T12</text>
+<rect data-state="PENDING" x="85" y="125" width="220" height="90" rx="16" fill="#f8fafc" stroke="#334155" stroke-width="2"/>
+<text x="195" y="161" text-anchor="middle" font-size="22">待执行</text>
+<text x="195" y="190" text-anchor="middle" font-size="16">PENDING</text>
+<rect data-state="RUNNING" x="465" y="125" width="220" height="90" rx="16" fill="#f8fafc" stroke="#334155" stroke-width="2"/>
+<text x="575" y="161" text-anchor="middle" font-size="22">运行中</text>
+<text x="575" y="190" text-anchor="middle" font-size="16">RUNNING</text>
+<rect data-state="SUCCEEDED" x="845" y="125" width="220" height="90" rx="16" fill="#f8fafc" stroke="#334155" stroke-width="2"/>
+<text x="955" y="161" text-anchor="middle" font-size="22">成功</text>
+<text x="955" y="190" text-anchor="middle" font-size="16">SUCCEEDED</text>
+<rect data-state="STOPPED" x="85" y="425" width="220" height="90" rx="16" fill="#f8fafc" stroke="#334155" stroke-width="2"/>
+<text x="195" y="461" text-anchor="middle" font-size="22">已停止</text>
+<text x="195" y="490" text-anchor="middle" font-size="16">STOPPED</text>
+<rect data-state="STOPPING" x="465" y="425" width="220" height="90" rx="16" fill="#f8fafc" stroke="#334155" stroke-width="2"/>
+<text x="575" y="461" text-anchor="middle" font-size="22">安全停止中</text>
+<text x="575" y="490" text-anchor="middle" font-size="16">STOPPING</text>
+<rect data-state="FAILED" x="845" y="425" width="220" height="90" rx="16" fill="#f8fafc" stroke="#334155" stroke-width="2"/>
+<text x="955" y="461" text-anchor="middle" font-size="22">失败</text>
+<text x="955" y="490" text-anchor="middle" font-size="16">FAILED</text>
+<rect data-state="RETRY_WAIT" x="465" y="725" width="220" height="90" rx="16" fill="#f8fafc" stroke="#334155" stroke-width="2"/>
+<text x="575" y="761" text-anchor="middle" font-size="22">重试等待</text>
+<text x="575" y="790" text-anchor="middle" font-size="16">RETRY_WAIT</text>
+<text x="75" y="870" font-size="18">候选语义预览 不是 CodeArts Modeling 导出图</text>
+<text x="75" y="905" font-size="16">成功必须确认发布 重试必须满足守卫 停止与成功的竞态按版本原子裁决</text>
+<text x="75" y="960" font-size="18">T01 开始 条件有效</text>
+<text x="75" y="1003" font-size="18">T02 待执行停止</text>
+<text x="75" y="1046" font-size="18">T03 处理及发布完成</text>
+<text x="75" y="1089" font-size="18">T04 临时失败或限流</text>
+<text x="75" y="1132" font-size="18">T05 访问或许可拒绝</text>
+<text x="75" y="1175" font-size="18">T06 不可恢复或预算耗尽</text>
+<text x="610" y="960" font-size="18">T07 请求安全停止</text>
+<text x="610" y="1003" font-size="18">T08 停止清理完成</text>
+<text x="610" y="1046" font-size="18">T09 等待到期且可重试</text>
+<text x="610" y="1089" font-size="18">T10 等待预算耗尽</text>
+<text x="610" y="1132" font-size="18">T11 等待中停止</text>
+<text x="610" y="1175" font-size="18">T12 人工重试 新attempt</text>
+<text x="75" y="1245" font-size="15">完整事件 守卫和动作以 SPEC-M7-INGEST 与转移表为准</text>
+</g>
+</svg>

@@ -1,0 +1,58 @@
+@startuml
+!pragma layout smetana
+skinparam defaultFontName Microsoft YaHei
+title 成员3：门户认领审核活动图（候选）
+|申请人|
+start
+:选择门户，了解材料用途;
+:提交本人证明引用、说明与幂等键;
+|系统|
+:检查会话、材料归属、门户及重复请求;
+if (有效新申请？) then (是)
+  :创建 PENDING 申请，不授予维护权;
+else (否)
+  :返回校验错误、冲突或已有结果;
+  stop
+endif
+|系统|
+if (有审核权限且非申请人？) then (是)
+else (否)
+  :拒绝审核，不提交变更;
+  stop
+endif
+|审核管理员|
+:读取申请版本和受限证明;
+:核验身份线索、同名风险和门户对应;
+if (证据满足已批准标准？) then (是)
+  :选择通过并记录理由;
+else (否)
+  :选择驳回并记录可行动理由;
+endif
+|系统|
+:原子校验申请待审、版本一致;
+if (检查通过？) then (是)
+else (否)
+  :返回冲突及最新状态，不覆盖他人结果;
+  stop
+endif
+if (决定为通过？) then (是)
+  :在原子提交内再次检查门户空闲;
+  if (门户空闲且全部写入成功？) then (是)
+    :提交 APPROVED、唯一授权和审计;
+  else (否)
+    :不提交本请求变更，无局部授权;
+    stop
+  endif
+else (否)
+  if (驳回决定及审计写入成功？) then (是)
+    :提交 REJECTED，保留理由，不新增授权;
+  else (否)
+    :不提交本请求变更;
+    stop
+  endif
+endif
+:独立发送通知，失败记录重试;
+|申请人|
+:查询已保存状态及本人可见理由;
+stop
+@enduml

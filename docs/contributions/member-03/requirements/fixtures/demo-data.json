@@ -1,0 +1,30 @@
+{
+  "synthetic": true,
+  "dataset_version": "m3-modeling-demo-v0.1",
+  "purpose": "需求建模手算样例，不是真实采集或身份核验数据",
+  "scholars": [
+    {"id": "S-A", "name": "合成学者甲", "institution_ids": ["I-A"], "field_ids": ["F-A"]},
+    {"id": "S-B", "name": "合成学者甲", "institution_ids": ["I-B"], "field_ids": ["F-B"]}
+  ],
+  "works": [
+    {"id": "W-A", "type": "paper", "title": "Graph", "keywords": [], "abstract": null, "year": 2024, "scholar_ids": ["S-A", "S-A", "S-B"], "institution_ids": ["I-A", "I-B"], "field_ids": ["F-A"], "visibility": "public", "source_refs": ["SIM-1", "SIM-2"], "simulated": true},
+    {"id": "W-B", "type": "patent", "title": "Graph Method", "keywords": ["graph", "graph"], "abstract": null, "year": 2025, "scholar_ids": ["S-A", "S-B"], "institution_ids": ["I-A"], "field_ids": ["F-A"], "visibility": "public", "source_refs": ["SIM-3"], "simulated": true},
+    {"id": "W-C", "type": "project", "title": "公开项目", "keywords": [], "abstract": "graph application", "year": 2024, "scholar_ids": ["S-B"], "institution_ids": ["I-B"], "field_ids": ["F-B"], "visibility": "public", "source_refs": ["SIM-4"], "simulated": true},
+    {"id": "W-D", "type": "award", "title": "合成奖项", "keywords": [], "abstract": null, "year": null, "scholar_ids": [], "institution_ids": [], "field_ids": [], "visibility": "public", "source_refs": ["SIM-5"], "simulated": true},
+    {"id": "W-E", "type": "paper", "title": "Graph", "keywords": ["graph"], "abstract": "graph", "year": 2026, "scholar_ids": ["S-A", "S-B"], "institution_ids": ["I-A"], "field_ids": ["F-A"], "visibility": "private", "source_refs": ["SIM-6"], "simulated": true}
+  ],
+  "expected": {
+    "public_work_count": 4,
+    "graph_order": ["W-A", "W-B", "W-C"],
+    "graph_scores": {"W-A": 5, "W-B": 8, "W-C": 1},
+    "type_counts": {"paper": 1, "patent": 1, "project": 1, "award": 1},
+    "institution_counts": {"I-A": 2, "I-B": 2},
+    "unknown_institution_count": 1,
+    "field_counts": {"F-A": 2, "F-B": 1},
+    "unknown_field_count": 1,
+    "unknown_year_count": 1,
+    "collaboration_edges": [{"from": "S-A", "to": "S-B", "weight": 2, "work_ids": ["W-A", "W-B"]}],
+    "year_field_counts": {"2024": {"F-A": 1, "F-B": 1}, "2025": {"F-A": 1}},
+    "year_totals": {"2024": 2, "2025": 1}
+  }
+}
