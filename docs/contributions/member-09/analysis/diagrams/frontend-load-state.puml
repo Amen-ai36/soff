@@ -1,0 +1,73 @@
+@startuml
+title 前端数据加载状态机（成员 9，方案 B）
+' 编号对应 02-frontend-state-model.md 第 3 节 FS9-L-*
+' 本图描述前端可观察状态，不是后端业务状态
+
+[*] --> 空闲 : 页面进入
+
+state 空闲 as IDLE
+state 加载中 as LOADING
+state 有数据 as SUCCESS
+state 业务空 as EMPTY
+state 依赖失败 as ERROR
+state 版本失效 as STALE
+state 无权限 as DENIED
+
+IDLE : FS9-L-IDLE
+IDLE : 显示任务入口与示例
+IDLE : 不显示"0 条结果"
+
+LOADING : FS9-L-LOADING
+LOADING : 保持页面框架稳定
+LOADING : 超过 300ms 才显示指示
+LOADING : 禁止同一提交重复触发
+
+SUCCESS : FS9-L-SUCCESS
+SUCCESS : 显示结果、条件、数据版本
+SUCCESS : 不隐藏当前筛选条件
+
+EMPTY : FS9-L-EMPTY
+EMPTY : 明确无匹配
+EMPTY : 提供改词与清筛选操作
+EMPTY : 不写成服务异常
+
+ERROR : FS9-L-ERROR
+ERROR : 可识别错误 + 重试入口
+ERROR : 显示追踪标识（若契约提供）
+ERROR : 不伪装成 total=0
+
+STALE : FS9-L-STALE
+STALE : 提示用原条件重新查询
+STALE : 保留用户已见内容
+
+DENIED : FS9-A-DENIED
+DENIED : 说明需登录或无访问权
+DENIED : 不泄露记录是否存在
+
+IDLE --> LOADING : 触发请求
+LOADING --> SUCCESS : 返回非空结果
+LOADING --> EMPTY : 返回成功但无匹配
+LOADING --> ERROR : 请求失败
+LOADING --> ERROR : 超过 10 秒超时\n(FS9-LR-02)
+LOADING --> DENIED : 服务端拒绝访问
+
+SUCCESS --> LOADING : 条件变化 / 翻页
+SUCCESS --> STALE : 分页时数据集已更新
+EMPTY --> LOADING : 用户改词或清筛选
+ERROR --> LOADING : 重试（保留原条件）\n(FS9-LR-04)
+STALE --> LOADING : 用原条件重新查询
+DENIED --> LOADING : 登录后重新请求
+
+note right of EMPTY
+  关键区分（EX9-R-01）：
+  业务空与依赖失败必须
+  使用不同视觉与文案，
+  不可互相替代
+end note
+
+note right of ERROR
+  区域级失败不得使整页
+  不可用（EX9-R-07）
+end note
+
+@enduml
