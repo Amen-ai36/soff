@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-19",
+  "branch": "b",
+  "input_commit": "84610760ecfff5bb59807010a754c565a79c5238",
+  "local_links_checked": 21,
+  "broken_links": [],
+  "mermaid_puml_relationships_equal": true,
+  "relationship_count": 15,
+  "diagram_rendered": false,
+  "codearts_operated": false,
+  "software_tests_run": false,
+  "human_review": "pending",
+  "placeholders": "explicitly labeled; not counted as delivered work",
+  "sha256": {
+    "docs/contributions/member-06/analysis/01-business-object-boundaries.md": "8bd7e4ba2a10bb7bd824633eacee9973b3a0aacca8145608a338d93dde07ee97",
+    "docs/contributions/member-06/analysis/02-overall-class-structure.md": "bba7be862e5981fd2e468db7ad3a37691b3365e2b3114f62e05f68b290b880ef",
+    "docs/contributions/member-06/analysis/03-document-outline-and-handoff.md": "7746d0736c983090267cdbca4e096c431e8d4ae3d11706e646397efc53ee0c14",
+    "docs/contributions/member-06/analysis/04-scope-decisions.md": "4caa5003089dd8a8e33a4f9071b0c9ff215f54c3d08f1afad217c9f71b6948d1",
+    "docs/contributions/member-06/analysis/05-review-and-human-actions.md": "cc537c1cca36a2b8c690df2a1fd5060cbe83857e3f4fbf98f678b831a13f6d48",
+    "docs/contributions/member-06/analysis/README.md": "a29a1114bd4ff0d4345197795682ce64262fe226c13ee2047302e69ea5e9a63f",
+    "docs/contributions/member-06/analysis/diagrams/overall-analysis-structure.puml": "7e107fe8845a9747cddefe6cdda35e05242b90ecd6a032efc9395d6fe72df398",
+    "docs/contributions/member-06/analysis/placeholders/README.md": "454af5491f33cc0ecace92b09e39b5bc98b86521a7ce9c952a3a24bfb7712a4e"
+  }
+}

@@ -1,0 +1,52 @@
+@startuml
+title M6-AN-FIG-01 业务类模型整体结构（分析建议，待共同确认）
+hide empty members
+left to right direction
+package "访问与认领" {
+  class "账号" as Account
+  class "认领申请" as Claim
+  class "私有证明引用" as Evidence
+  class "审核记录" as Review
+  class "维护授权" as Grant
+}
+package "学术实体与门户" {
+  class "学者" as Scholar
+  class "学者门户" as Portal
+  class "机构" as Institution
+  class "成果" as Achievement
+  class "成果参与关系（候选）" as Participation
+  class "领域" as Field
+}
+package "来源与处理" {
+  class "来源记录" as SourceRecord
+  class "采集任务" as CollectionTask
+  class "处理与更新记录" as ProcessRecord
+}
+Account "1" -- "0..*" Claim : 提交
+Claim "0..*" --> "1" Portal : 申请目标
+Claim "1" -- "1..*" Evidence : 创建时有效引用
+Claim "1" -- "0..*" Review : 审核留痕
+Account "1" -- "0..*" Grant : 被授权主体
+Portal "1" -- "0..1" Grant : 当前有效维护授权
+Portal "0..1" --> "1" Scholar : 展示
+Scholar "1" -- "0..*" Participation : 参与主体
+Achievement "1" -- "0..*" Participation : 参与成果
+Scholar "0..*" -- "0..*" Institution : 有依据的机构关系
+Achievement "0..*" -- "0..*" Field : 分类
+SourceRecord "0..*" --> "0..1" Achievement : 当前规范映射
+CollectionTask "1" -- "0..*" ProcessRecord : 执行处理
+ProcessRecord ..> SourceRecord : 处理并追溯
+ProcessRecord ..> Achievement : 形成或更新
+note bottom of Claim
+  创建申请不授予维护权；终态不可由失败请求回退。
+  审核决定、授权、审计必须原子一致。
+end note
+note bottom of SourceRecord
+  映射按单成果来源记录的当前关系表达。
+  来源行数、关系数不等于唯一公开成果数。
+end note
+legend bottom
+  本地概念语义稿，非CodeArts导出；非数据库设计或冻结公共实体。
+  详细类、属性和时序由对应岗位细化。
+endlegend
+@enduml
