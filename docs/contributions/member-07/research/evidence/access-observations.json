@@ -1,0 +1,128 @@
+{
+  "scope": "Environment-specific access observation, not legal approval or bulk ingestion proof",
+  "credential_used": false,
+  "observations": [
+    {
+      "source": "openalex",
+      "url": "https://api.openalex.org/works?filter=doi:https://doi.org/10.1038/nature14539&per_page=1&select=id,doi,title,publication_year,cited_by_count,primary_topic,updated_date",
+      "observed_at": "2026-10-11T15:15:53.400275+00:00",
+      "method": "anonymous GET; one request; no retries",
+      "http_status": 200,
+      "final_url": "https://api.openalex.org/works?filter=doi:https://doi.org/10.1038/nature14539&per_page=1&select=id,doi,title,publication_year,cited_by_count,primary_topic,updated_date",
+      "content_type": "application/json",
+      "bytes_read": 1055,
+      "body_complete": true,
+      "sha256": "01199e8fe1e79a9a25580d2609ee359d1cea7f0e6ff43dbb7d11704b6e3297ef",
+      "challenge_detected": false,
+      "business_fields_verified": true,
+      "sample": [
+        {
+          "id": "https://openalex.org/W2919115771",
+          "doi": "https://doi.org/10.1038/nature14539",
+          "title": "Deep learning",
+          "publication_year": 2015,
+          "cited_by_count": 84498,
+          "updated_date": "2026-10-11T09:32:39.932853"
+        }
+      ],
+      "topic_present": true,
+      "result": "sample_verified"
+    },
+    {
+      "source": "dblp",
+      "url": "https://dblp.org/search/publ/api?q=attention%20is%20all%20you%20need&h=1&format=json",
+      "observed_at": "2026-10-11T15:15:53.401275+00:00",
+      "method": "anonymous GET; one request; no retries",
+      "result": "request_failed",
+      "error_type": "URLError",
+      "error": "<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1010)>"
+    },
+    {
+      "source": "cordis",
+      "url": "https://cordis.europa.eu/project/id/101005435",
+      "observed_at": "2026-10-11T15:15:55.097891+00:00",
+      "method": "anonymous GET; one request; no retries",
+      "http_status": 200,
+      "final_url": "https://cordis.europa.eu/project/id/101005435",
+      "content_type": "text/html; charset=UTF-8",
+      "bytes_read": 258421,
+      "body_complete": true,
+      "sha256": "005fb59fa8b21f3b3fefc87f2641b4672f20818bdc657a3d8f9e95d0dcdbece4",
+      "challenge_detected": false,
+      "business_fields_verified": true,
+      "sample": {
+        "project_id": "101005435",
+        "acronym": "AMULET"
+      },
+      "result": "sample_verified"
+    },
+    {
+      "source": "nsf",
+      "url": "https://api.nsf.gov/services/v1/awards.json?id=2040990&printFields=id,title,awardeeName,startDate",
+      "observed_at": "2026-10-11T15:15:55.386743+00:00",
+      "method": "anonymous GET; one request; no retries",
+      "http_status": 200,
+      "final_url": "https://api.nsf.gov/services/v1/awards.json?id=2040990&printFields=id,title,awardeeName,startDate",
+      "content_type": "application/json",
+      "bytes_read": 73,
+      "body_complete": true,
+      "sha256": "89903249ef3ed2795c349398c771d8cb65e786617b56e84910bd4ad918d15f56",
+      "challenge_detected": false,
+      "business_fields_verified": false,
+      "sample": [],
+      "result": "not_verified"
+    },
+    {
+      "source": "most-award",
+      "url": "https://www.most.gov.cn/cxfw/kjjlcx/kjjl2025/202607/t20260708_196987.html",
+      "observed_at": "2026-10-11T15:15:57.555332+00:00",
+      "method": "anonymous GET; one request; no retries",
+      "http_status": 200,
+      "final_url": "https://www.most.gov.cn/cxfw/kjjlcx/kjjl2025/202607/t20260708_196987.html",
+      "content_type": "text/html",
+      "bytes_read": 351851,
+      "body_complete": true,
+      "sha256": "39aa200b519128599364671f321c843821ddb5c514526e34078026e259b9d6af",
+      "challenge_detected": false,
+      "business_fields_verified": true,
+      "sample": {
+        "award_year": 2025,
+        "announcement_date": "2026-07-08",
+        "project_number": "J-256-0-01",
+        "project_name": "奋斗者号全海深载人潜水器"
+      },
+      "result": "sample_verified"
+    },
+    {
+      "source": "cnipa-entry",
+      "url": "https://ggfw.cnipa.gov.cn/",
+      "observed_at": "2026-10-11T15:15:57.755361+00:00",
+      "method": "anonymous GET; one request; no retries",
+      "http_status": 412,
+      "final_url": "https://ggfw.cnipa.gov.cn/",
+      "content_type": "text/html; charset=utf-8",
+      "bytes_read": 3016,
+      "body_complete": true,
+      "sha256": "cc103f1b13249de351c2628917d6c56c2e6b7af6529811ad8d374efe26bc752f",
+      "challenge_detected": false,
+      "business_fields_verified": false,
+      "result": "not_verified"
+    },
+    {
+      "source": "nsfc-entry",
+      "url": "https://www.nsfc.gov.cn/p1/3281/3286/3304/3348/jhyzczzxmcx.html",
+      "observed_at": "2026-10-11T15:15:58.219714+00:00",
+      "method": "anonymous GET; one request; no retries",
+      "http_status": 200,
+      "final_url": "https://www.nsfc.gov.cn/p1/3281/3286/3304/3348/jhyzczzxmcx.html",
+      "content_type": "text/html",
+      "bytes_read": 2227,
+      "body_complete": true,
+      "sha256": "3d8a0e13bac7cc7f63f9755051f80bd7773cc1ae2e88263efdf43af2061c3f69",
+      "challenge_detected": false,
+      "business_fields_verified": false,
+      "note": "Entry page only; a 200 response does not verify a data download/API or reuse permission.",
+      "result": "not_verified"
+    }
+  ]
+}

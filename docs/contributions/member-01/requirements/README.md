@@ -18,7 +18,7 @@
 | [04-use-cases.md](04-use-cases.md) | 全局用例说明及关系 | 与成员 6 共同负责系统用例图 |
 | [diagrams/system-use-case.puml](diagrams/system-use-case.puml) | 可复核的 PlantUML 用例模型源文件 | 供 CodeArts Modeling 重绘和导出 |
 | [diagrams/system-use-case.svg](diagrams/system-use-case.svg) | 经本地渲染检查的用例图预览 | 仅供审查，不替代 CodeArts Modeling 源文件 |
-| [diagrams/system-use-case-member01.png](diagrams/system-use-case-member01.png) | 2026-10-13成员1提供的用例图图片 | 供统一报告和PPT汇编；建模源文件尚待提供 |
+| [diagrams/system-use-case-member01.png](diagrams/system-use-case-member01.png) | 2026-10-13成员1提供的用例图原始PNG文件（用户已确认） | 已收件，供统一报告汇编；是否另需平台工程按课程要求核验 |
 | [05-review-and-handoff.md](05-review-and-handoff.md) | 一致性检查、答辩映射、待决项和人工任务 | 成员 1 复核、向成员 6 交接 |
 
 ## 2. 已覆盖的课堂评分点
@@ -35,4 +35,4 @@
 
 当前未完成且不得由 AI 代填：成员 1 的人工审阅、成员 6 的共同确认、教师对范围歧义的答复、CodeArts Modeling 源文件与导出图、真实课堂反馈、最终 SRS/SPEC Word 文件、统一 PPT 和提交平台操作。详细清单见 05。
 
-2026-10-13更新：成员1已提供用例图PNG，已原样收录到上述图片路径；原PlantUML/SVG草案保留供对照。当前仅收到图片，尚未收到对应建模源文件；此更新不表示成员6复核或正式需求建模评审已完成。
+2026-10-13更新：成员1已提供用例图PNG，已原样收录到上述图片路径，用户已确认该文件就是所提交的原始图文件；原PlantUML/SVG草案保留供对照。若课程另需可编辑平台工程，再按通知核验；此更新不表示成员6复核或正式需求建模评审已完成。

@@ -1,0 +1,28 @@
+{
+  "version": "0.1",
+  "status": "candidate_not_public_contract",
+  "initial": "PENDING",
+  "states": {
+    "PENDING": "待执行",
+    "RUNNING": "运行中",
+    "SUCCEEDED": "成功",
+    "FAILED": "失败",
+    "RETRY_WAIT": "重试等待",
+    "STOPPING": "安全停止中",
+    "STOPPED": "已停止"
+  },
+  "transitions": [
+    {"id":"T01","from":"PENDING","event":"start","to":"RUNNING","guard":"权限与来源条件有效"},
+    {"id":"T02","from":"PENDING","event":"stop","to":"STOPPED","guard":"管理员请求有效"},
+    {"id":"T03","from":"RUNNING","event":"complete","to":"SUCCEEDED","guard":"版本对账和发布成功"},
+    {"id":"T04","from":"RUNNING","event":"transient_failure","to":"RETRY_WAIT","guard":"临时故障或429且仍有重试预算"},
+    {"id":"T05","from":"RUNNING","event":"access_denied","to":"FAILED","guard":"401/403/明确412拒绝或验证码或许可拒绝"},
+    {"id":"T06","from":"RUNNING","event":"fatal_failure","to":"FAILED","guard":"不可恢复错误或重试预算耗尽"},
+    {"id":"T07","from":"RUNNING","event":"stop","to":"STOPPING","guard":"管理员请求获准且尚未发布完成"},
+    {"id":"T08","from":"STOPPING","event":"stop_settled","to":"STOPPED","guard":"安全边界已到且未提交写入已撤销"},
+    {"id":"T09","from":"RETRY_WAIT","event":"retry_due","to":"RUNNING","guard":"等待已到期且预算权限有效"},
+    {"id":"T10","from":"RETRY_WAIT","event":"retry_exhausted","to":"FAILED","guard":"预算不足或人工终止等待"},
+    {"id":"T11","from":"RETRY_WAIT","event":"stop","to":"STOPPED","guard":"管理员请求有效"},
+    {"id":"T12","from":"FAILED","event":"manual_retry","to":"PENDING","guard":"管理员显式重试且条件已修复 新attempt"}
+  ]
+}

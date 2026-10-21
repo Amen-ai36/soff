@@ -1,0 +1,85 @@
+{
+  "synthetic": true,
+  "scope": "Rule examples only; identity IDs are already-parsed TEST identifiers, not raw ORCIDs or live registry IDs",
+  "text": [
+    {"ac":"AC07-01","input":"  ＧＲＡＰＨ   Learning  ","expected":"graph learning"},
+    {"ac":"AC07-01","input":"北方  示例大学","expected":"北方 示例大学"}
+  ],
+  "doi": [
+    {"ac":"AC07-02","input":" HTTPS://DOI.ORG/10.1234/TEST.A ","expected":"10.1234/test.a"},
+    {"ac":"AC07-02","input":"doi:10.1234/test.","expected":"10.1234/test."},
+    {"ac":"AC07-02","input":"not-a-doi","expected":null},
+    {"ac":"AC07-02","input":"10.1234/a b","expected":null}
+  ],
+  "year": [
+    {"ac":"AC07-04","input":null,"valid":true},
+    {"ac":"AC07-04","input":2026,"valid":true},
+    {"ac":"AC07-04","input":0,"valid":false},
+    {"ac":"AC07-04","input":true,"valid":false}
+  ],
+  "citation": [
+    {"ac":"AC07-06","input":null,"valid":true},
+    {"ac":"AC07-06","input":0,"valid":true},
+    {"ac":"AC07-06","input":-1,"valid":false},
+    {"ac":"AC07-06","input":false,"valid":false}
+  ],
+  "date": [
+    {"ac":"AC07-03","input":"2024-02-29","valid":true},
+    {"ac":"AC07-03","input":"2023-02-29","valid":false},
+    {"ac":"AC07-03","input":"2027-02-01","valid":true}
+  ],
+  "required": [
+    {"ac":"AC07-05","record":{"type":"paper","source":"test","source_record_id":"P1","title":"Example"},"valid":true},
+    {"ac":"AC07-05","record":{"type":"paper","source":"test","source_record_id":"P1","title":"  "},"valid":false},
+    {"ac":"AC07-05","record":{"type":"other","source":"test","source_record_id":"P1","title":"Example"},"valid":false},
+    {"ac":"AC07-05","record":{"type":"project","source":"test","title":"Example"},"valid":false}
+  ],
+  "pair": [
+    {"ac":"AC07-08","a":{"type":"paper","title":"Example","ids":{"doi":"10.1234/test"}},"b":{"type":"paper","title":" EXAMPLE ","ids":{"doi":"10.1234/test"}},"expected":"merge"},
+    {"ac":"AC07-09","a":{"type":"paper","title":"Example","ids":{"test":"1"}},"b":{"type":"project","title":"Example","ids":{"test":"1"}},"expected":"separate"},
+    {"ac":"AC07-10","a":{"type":"paper","title":"Example","ids":{}},"b":{"type":"paper","title":"Example","ids":{}},"expected":"review"},
+    {"ac":"AC07-11","a":{"type":"paper","title":"Example","ids":{"doi":"10.1234/test","test-source":"A"}},"b":{"type":"paper","title":"Example","ids":{"doi":"10.1234/test","test-source":"B"}},"expected":"review"},
+    {"ac":"AC07-11","a":{"type":"paper","title":"Example A","ids":{"doi":"10.1234/test"}},"b":{"type":"paper","title":"Example B","ids":{"doi":"10.1234/test"}},"expected":"review"},
+    {"ac":"AC07-11","a":{"type":"paper","title":"Example A","ids":{"doi":"10.1234/a"}},"b":{"type":"paper","title":"Example B","ids":{"doi":"10.1234/b"}},"expected":"separate"}
+  ],
+  "cluster": [
+    {"ac":"AC07-12","records":[{"ids":{"doi":"10.1234/a"}},{"ids":{"doi":"10.1234/a","test":"B"}},{"ids":{"doi":"10.1234/c","test":"B"}}],"conflict":true},
+    {"ac":"AC07-12","records":[{"ids":{"doi":"10.1234/a"}},{"ids":{"doi":"10.1234/a","test":"B"}}],"conflict":false}
+  ],
+  "author": [
+    {"ac":"AC07-13","a":{"name":"示例作者","ids":{}},"b":{"name":"示例作者","ids":{}},"expected":"separate"},
+    {"ac":"AC07-13","a":{"name":"示例作者","ids":{"TEST-identity":"A"}},"b":{"name":"Example Author","ids":{"TEST-identity":"A"}},"expected":"link"},
+    {"ac":"AC07-13","a":{"name":"示例作者","ids":{"TEST-identity":"A","TEST-source":"1"}},"b":{"name":"示例作者","ids":{"TEST-identity":"B","TEST-source":"1"}},"expected":"review"}
+  ],
+  "institution": [
+    {"ac":"AC07-14","name":"北方示例大学","aliases":{"北方示例大学":"TEST-I1"},"expected":"TEST-I1"},
+    {"ac":"AC07-14","name":"北方示例大学附属医院","aliases":{"北方示例大学":"TEST-I1"},"expected":null}
+  ],
+  "visibility": [
+    {"ac":"AC07-16","record_approval":"approved","field_approval":"approved","public":true,"expected":true},
+    {"ac":"AC07-16","record_approval":"pending","field_approval":"approved","public":true,"expected":false},
+    {"ac":"AC07-16","record_approval":"approved","field_approval":"denied","public":true,"expected":false}
+  ],
+  "traces": [
+    {"ac":"AC07-17","events":["start","complete"],"expected":"SUCCEEDED"},
+    {"ac":"AC07-18","events":["start","access_denied"],"expected":"FAILED"},
+    {"ac":"AC07-19","events":["start","transient_failure","retry_due","complete"],"expected":"SUCCEEDED"},
+    {"ac":"AC07-20","events":["start","stop","stop_settled"],"expected":"STOPPED"},
+    {"ac":"AC07-20","events":["start","stop","stop_settled","complete"],"expected":"INVALID"},
+    {"ac":"AC07-21","events":["start","fatal_failure","manual_retry","start","complete"],"expected":"SUCCEEDED"},
+    {"ac":"AC07-21","events":["start","fatal_failure","retry_due"],"expected":"INVALID"},
+    {"ac":"AC07-19","events":["start","transient_failure","stop"],"expected":"STOPPED"}
+  ],
+  "publish": [
+    {"ac":"AC07-22","state":"FAILED","persisted":true,"indexed":true,"approved":true,"expected":false},
+    {"ac":"AC07-22","state":"STOPPING","persisted":true,"indexed":true,"approved":true,"expected":false},
+    {"ac":"AC07-24","state":"RUNNING","persisted":true,"indexed":false,"approved":true,"expected":false},
+    {"ac":"AC07-24","state":"RUNNING","persisted":true,"indexed":true,"approved":false,"expected":false},
+    {"ac":"AC07-24","state":"RUNNING","persisted":true,"indexed":true,"approved":true,"expected":true}
+  ],
+  "idempotency": [
+    {"ac":"AC07-23","old_hash":null,"new_hash":"TEST-H1","expected":"new"},
+    {"ac":"AC07-23","old_hash":"TEST-H1","new_hash":"TEST-H1","expected":"unchanged"},
+    {"ac":"AC07-23","old_hash":"TEST-H1","new_hash":"TEST-H2","expected":"update"}
+  ]
+}

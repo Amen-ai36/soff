@@ -1,0 +1,2 @@
+# Preserve the user-provided export bytes across Windows/Linux checkouts.
+requirements/diagrams/collection-state-codearts.svg -text

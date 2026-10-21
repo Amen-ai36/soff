@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="2140" viewBox="0 0 1800 2140">
+<rect width="100%" height="100%" fill="white"/>
+<text x="900" y="50.0" text-anchor="middle" dominant-baseline="central" font-family="Microsoft YaHei,sans-serif" font-size="34" fill="#1c2836">系统用例图 · 成员6方案参考</text>
+<text x="900" y="98.0" text-anchor="middle" dominant-baseline="central" font-family="Microsoft YaHei,sans-serif" font-size="22" fill="#1c2836">候选稿：供CodeArts Modeling复画及成员1、6共同复核</text>
+<rect x="470" y="145" width="830" height="1880" fill="none" stroke="#24374a" stroke-width="3"/>
+<text x="885" y="180.0" text-anchor="middle" dominant-baseline="central" font-family="Microsoft YaHei,sans-serif" font-size="25" fill="#1c2836">学术成果分享平台</text>
+<polyline points="200,875 200,590" fill="none" stroke="#46586a" stroke-width="2"/>
+<polygon points="200,590 189.0,612.0 211.0,612.0" fill="white" stroke="#46586a" stroke-width="2"/>
+<polyline points="245,500 620,390" fill="none" stroke="#46586a" stroke-width="2"/>
+<polyline points="245,500 620,520" fill="none" stroke="#46586a" stroke-width="2"/>
+<polyline points="245,500 620,650" fill="none" stroke="#46586a" stroke-width="2"/>
+<polyline points="245,930 620,260" fill="none" stroke="#46586a" stroke-width="2"/>
+<polyline points="245,930 620,780" fill="none" stroke="#46586a" stroke-width="2"/>
+<polyline points="245,930 620,910" fill="none" stroke="#46586a" stroke-width="2"/>
+<polyline points="245,930 620,1040" fill="none" stroke="#46586a" stroke-width="2"/>
+<polyline points="1555,1130 1150,260" fill="none" stroke="#46586a" stroke-width="2"/>
+<polyline points="1555,1130 1150,1170" fill="none" stroke="#46586a" stroke-width="2"/>
+<polyline points="1555,1130 1150,1560" fill="none" stroke="#46586a" stroke-width="2"/>
+<polyline points="1555,1130 1150,1690" fill="none" stroke="#46586a" stroke-width="2"/>
+<polyline points="1555,1130 1150,1820" fill="none" stroke="#46586a" stroke-width="2"/>
+<polyline points="1555,1530 1150,1430" fill="none" stroke="#46586a" stroke-width="2"/>
+<polyline points="1150,1430 1245,1430 1245,1300 1150,1300" fill="none" stroke="#46586a" stroke-width="2"/>
+<polygon points="1150,1300 1172.0,1311.0 1172.0,1289.0" fill="white" stroke="#46586a" stroke-width="2"/>
+<polyline points="1150,1560 1245,1560 1245,1300 1150,1300" fill="none" stroke="#46586a" stroke-width="2"/>
+<polygon points="1150,1300 1172.0,1311.0 1172.0,1289.0" fill="white" stroke="#46586a" stroke-width="2"/>
+<polyline points="1150,1820 1258,1820 1258,1950 1150,1950" fill="none" stroke="#46586a" stroke-width="2" stroke-dasharray="10 8"/>
+<polyline points="1172.0,1961.0 1150,1950 1172.0,1939.0" fill="none" stroke="#46586a" stroke-width="2"/>
+<text x="1130" y="1885.0" text-anchor="middle" dominant-baseline="central" font-family="Microsoft YaHei,sans-serif" font-size="22" fill="#1c2836">&lt;&lt;include&gt;&gt;</text>
+<ellipse cx="885" cy="260" rx="265" ry="46" fill="#f5f8fc" stroke="#24374a" stroke-width="2"/>
+<text x="885" y="260.0" text-anchor="middle" dominant-baseline="central" font-family="Microsoft YaHei,sans-serif" font-size="25" fill="#1c2836">UC01 登录</text>
+<ellipse cx="885" cy="390" rx="265" ry="46" fill="#f5f8fc" stroke="#24374a" stroke-width="2"/>
+<text x="885" y="390.0" text-anchor="middle" dominant-baseline="central" font-family="Microsoft YaHei,sans-serif" font-size="25" fill="#1c2836">UC02 检索与查看成果详情</text>
+<ellipse cx="885" cy="520" rx="265" ry="46" fill="#f5f8fc" stroke="#24374a" stroke-width="2"/>
+<text x="885" y="520.0" text-anchor="middle" dominant-baseline="central" font-family="Microsoft YaHei,sans-serif" font-size="25" fill="#1c2836">UC03 检索学者与查看门户</text>
+<ellipse cx="885" cy="650" rx="265" ry="46" fill="#f5f8fc" stroke="#24374a" stroke-width="2"/>
+<text x="885" y="650.0" text-anchor="middle" dominant-baseline="central" font-family="Microsoft YaHei,sans-serif" font-size="25" fill="#1c2836">UC04 查看统计分析</text>
+<ellipse cx="885" cy="780" rx="265" ry="46" fill="#f5f8fc" stroke="#24374a" stroke-width="2"/>
+<text x="885" y="780.0" text-anchor="middle" dominant-baseline="central" font-family="Microsoft YaHei,sans-serif" font-size="25" fill="#1c2836">UC05 提交门户认领申请</text>
+<ellipse cx="885" cy="910" rx="265" ry="46" fill="#f5f8fc" stroke="#24374a" stroke-width="2"/>
+<text x="885" y="910.0" text-anchor="middle" dominant-baseline="central" font-family="Microsoft YaHei,sans-serif" font-size="25" fill="#1c2836">UC06 查看认领结果</text>
+<ellipse cx="885" cy="1040" rx="265" ry="46" fill="#f5f8fc" stroke="#24374a" stroke-width="2"/>
+<text x="885" y="1040.0" text-anchor="middle" dominant-baseline="central" font-family="Microsoft YaHei,sans-serif" font-size="25" fill="#1c2836">UC07 维护个人资料与成果</text>
+<ellipse cx="885" cy="1170" rx="265" ry="46" fill="#f5f8fc" stroke="#24374a" stroke-width="2"/>
+<text x="885" y="1170.0" text-anchor="middle" dominant-baseline="central" font-family="Microsoft YaHei,sans-serif" font-size="25" fill="#1c2836">UC08 管理采集任务</text>
+<ellipse cx="885" cy="1300" rx="265" ry="46" fill="#f5f8fc" stroke="#24374a" stroke-width="2"/>
+<text x="885" y="1300.0" text-anchor="middle" dominant-baseline="central" font-family="Microsoft YaHei,sans-serif" font-size="25" fill="#1c2836">UC09 执行采集或导入</text>
+<ellipse cx="885" cy="1430" rx="265" ry="46" fill="#f5f8fc" stroke="#24374a" stroke-width="2"/>
+<text x="885" y="1430.0" text-anchor="middle" dominant-baseline="central" font-family="Microsoft YaHei,sans-serif" font-size="25" fill="#1c2836">UC10 从公开数据源采集</text>
+<ellipse cx="885" cy="1560" rx="265" ry="46" fill="#f5f8fc" stroke="#24374a" stroke-width="2"/>
+<text x="885" y="1560.0" text-anchor="middle" dominant-baseline="central" font-family="Microsoft YaHei,sans-serif" font-size="25" fill="#1c2836">UC11 从文件导入</text>
+<ellipse cx="885" cy="1690" rx="265" ry="46" fill="#f5f8fc" stroke="#24374a" stroke-width="2"/>
+<text x="885" y="1690.0" text-anchor="middle" dominant-baseline="central" font-family="Microsoft YaHei,sans-serif" font-size="25" fill="#1c2836">UC12 处理数据质量问题</text>
+<ellipse cx="885" cy="1820" rx="265" ry="46" fill="#f5f8fc" stroke="#24374a" stroke-width="2"/>
+<text x="885" y="1820.0" text-anchor="middle" dominant-baseline="central" font-family="Microsoft YaHei,sans-serif" font-size="25" fill="#1c2836">UC13 审核认领申请</text>
+<ellipse cx="885" cy="1950" rx="265" ry="46" fill="#f5f8fc" stroke="#24374a" stroke-width="2"/>
+<text x="885" y="1950.0" text-anchor="middle" dominant-baseline="central" font-family="Microsoft YaHei,sans-serif" font-size="25" fill="#1c2836">UC14 验证门户对应关系</text>
+<circle cx="200" cy="458" r="13" fill="white" stroke="#24374a" stroke-width="3"/>
+<polyline points="200,471 200,522" fill="none" stroke="#46586a" stroke-width="2"/>
+<polyline points="168,490 232,490" fill="none" stroke="#46586a" stroke-width="2"/>
+<polyline points="170,557 200,522 230,557" fill="none" stroke="#46586a" stroke-width="2"/>
+<text x="200" y="582.0" text-anchor="middle" dominant-baseline="central" font-family="Microsoft YaHei,sans-serif" font-size="25" fill="#1c2836">访客</text>
+<circle cx="200" cy="888" r="13" fill="white" stroke="#24374a" stroke-width="3"/>
+<polyline points="200,901 200,952" fill="none" stroke="#46586a" stroke-width="2"/>
+<polyline points="168,920 232,920" fill="none" stroke="#46586a" stroke-width="2"/>
+<polyline points="170,987 200,952 230,987" fill="none" stroke="#46586a" stroke-width="2"/>
+<text x="200" y="1012.0" text-anchor="middle" dominant-baseline="central" font-family="Microsoft YaHei,sans-serif" font-size="25" fill="#1c2836">科研人员</text>
+<circle cx="1600" cy="1088" r="13" fill="white" stroke="#24374a" stroke-width="3"/>
+<polyline points="1600,1101 1600,1152" fill="none" stroke="#46586a" stroke-width="2"/>
+<polyline points="1568,1120 1632,1120" fill="none" stroke="#46586a" stroke-width="2"/>
+<polyline points="1570,1187 1600,1152 1630,1187" fill="none" stroke="#46586a" stroke-width="2"/>
+<text x="1600" y="1212.0" text-anchor="middle" dominant-baseline="central" font-family="Microsoft YaHei,sans-serif" font-size="25" fill="#1c2836">管理员</text>
+<circle cx="1600" cy="1488" r="13" fill="white" stroke="#24374a" stroke-width="3"/>
+<polyline points="1600,1501 1600,1552" fill="none" stroke="#46586a" stroke-width="2"/>
+<polyline points="1568,1520 1632,1520" fill="none" stroke="#46586a" stroke-width="2"/>
+<polyline points="1570,1587 1600,1552 1630,1587" fill="none" stroke="#46586a" stroke-width="2"/>
+<text x="1600" y="1612.0" text-anchor="middle" dominant-baseline="central" font-family="Microsoft YaHei,sans-serif" font-size="25" fill="#1c2836">公开数据源</text>
+<text x="900" y="2072.0" text-anchor="middle" dominant-baseline="central" font-family="Microsoft YaHei,sans-serif" font-size="22" fill="#1c2836">实线：关联   实线空心三角：泛化（指向一般角色/用例）   虚线箭头：&lt;&lt;include&gt;&gt;</text>
+<text x="900" y="2107.0" text-anchor="middle" dominant-baseline="central" font-family="Microsoft YaHei,sans-serif" font-size="22" fill="#1c2836">受保护用例需有效会话；维护成果还需门户认领通过并获得授权。</text>
+</svg>
