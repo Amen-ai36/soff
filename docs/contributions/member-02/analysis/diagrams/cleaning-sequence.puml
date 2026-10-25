@@ -1,0 +1,53 @@
+@startuml
+skinparam defaultFontName Microsoft YaHei
+skinparam shadowing false
+title M2-AN-03 数据清洗、标准化与去重消歧（M1-UC-10，DR-CLN/DED/DIS/INS）
+participant 清洗协调 as C
+database 原始载荷存储 as R
+participant 规则与映射服务 as M
+database 规范成果库 as D
+participant 质量闸门 as Q
+participant 治理与人工队列 as G
+
+C -> R : 读取原始记录与 rule_version
+R --> C : 原始字段、来源版本、许可快照
+C -> M : 结构校验与字段规范化（标题、DOI、日期、语言、venue）
+M --> C : 规范化字段 + unknown/missing 标记
+C -> M : 作者、机构、领域解析（强标识优先）
+alt 强标识一致
+  M --> C : 自动关联候选（保留证据）
+else 仅有姓名/名称相似
+  M --> C : 低置信候选
+  C -> G : 进入人工确认队列（不自动合并）
+end
+
+C -> Q : 许可与可见性判定（public / internal / restricted / unknown）
+alt 许可未知或受限
+  Q --> C : restricted（不得进入公开投影）
+else 许可允许公开
+  Q --> C : public
+end
+
+C -> D : 去重候选匹配（强标识、标题+年份+作者、来源映射）
+alt 强标识冲突
+  C -> G : 登记冲突，保留两条来源记录
+else 命中已有规范成果
+  C -> D : 追加 WorkSourceLink（记录匹配置信度）
+else 未命中
+  C -> D : 新建规范成果（canonical_id）
+end
+
+C -> Q : 质量规则校验（必填、格式、来源可追溯、计数口径）
+alt 质量不通过
+  Q --> C : 隔离记录 + QualityIssue（不进入公开计数）
+else 质量通过
+  Q --> C : 可入库
+  C -> D : 写入清洗结果、字段级来源与 rule_version
+end
+
+note over C,D
+  清洗可重放：同一原始记录 + 同一 rule_version 得到同一结果。
+  未知值保留为 null 并带标记，不写成 0 或空字符串。
+  自动合并只允许强标识或达阈值；其余转人工。
+end note
+@enduml

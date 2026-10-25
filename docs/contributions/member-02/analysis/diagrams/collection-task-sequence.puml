@@ -1,0 +1,59 @@
+@startuml
+skinparam defaultFontName Microsoft YaHei
+skinparam shadowing false
+title M2-AN-01 采集任务执行与停止边界（M1-UC-09，DR-TASK-001..010）
+actor 管理员 as A
+control 任务协调 as C
+participant 调度器 as S
+database 任务与批次存储 as D
+participant 来源适配器 as SA
+participant 外部来源 as SRC
+participant 原始载荷存储 as R
+participant 质量与审计 as Q
+
+A -> C : 创建任务（source_id、scope、retry_policy、幂等键）
+C -> D : 写 DRAFT/QUEUED；校验同 source+scope 无活动任务
+D --> C : task_id、版本
+S -> D : 领取到期任务（条件更新 QUEUED→RUNNING）
+D --> S : task_id、owner/lease、版本
+S -> C : 启动（task_id、expected_version）
+C -> D : 读取 checkpoint（cursor、batch_no、水位线）
+D --> C : checkpoint 或初始游标
+
+loop 每个批次（batch_no 递增）
+  C -> SA : fetchBatch(cursor、scope、许可版本)
+  SA -> SRC : 请求（遵守来源限流与授权范围）
+  alt 401/403、验证码、结构契约不符
+    SRC --> SA : 拒绝或不可解析
+    SA --> C : 永久错误（不自动重试）
+    C -> D : 批次失败；任务 FAILED；保留脱敏错误上下文
+  else 429、5xx、超时
+    SRC --> SA : 限流或暂时失败
+    SA --> C : 可重试错误（含 Retry-After）
+    C -> D : 保存 attempt 与 next_attempt_at；任务 RETRY_WAIT
+  else 成功
+    SRC --> SA : payload、来源版本、许可元数据
+    SA --> C : 规范化响应信封（含 content_hash）
+    C -> R : 保存不可变原始载荷（content_hash、source_version）
+    C -> Q : 记录 fetched/parsed/failed 计数
+    C -> D : 原子提交批次状态与 checkpoint(cursor、batch_no、水位线)
+  end
+end
+
+alt 收到 stop 请求
+  A -> C : stop（task_id、幂等键）
+  C -> D : 记录 stop_requested_at
+  C -> C : 仅在阶段边界处理：完成或回滚当前批次
+  C -> D : 任务 STOPPING → STOPPED；保存可恢复 checkpoint
+else 正常结束
+  C -> D : 汇总计数；SUCCEEDED / PARTIAL_SUCCESS / FAILED
+end
+
+C -> Q : 生成摘要与质量报告（脱敏）
+
+note over C,D
+  失败或进入 RETRY_WAIT 的分支结束本次执行，
+  不再处理下一批次；重试由调度器重新领取。
+  同一 batch_no 重放必须幂等，不重复计数。
+end note
+@enduml
