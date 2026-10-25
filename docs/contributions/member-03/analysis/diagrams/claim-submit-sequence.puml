@@ -1,0 +1,55 @@
+@startuml
+skinparam defaultFontName Microsoft YaHei
+skinparam shadowing false
+title M3-AN-04 提交申请与本人查询（UC3-04）
+actor 申请人 as U
+boundary 页面 as UI
+control 认领协调 as C
+control 会话与对象权限 as A
+database 权威业务存储 as D
+U -> UI : 本人材料引用、目标门户、说明
+UI -> C : 提交申请（幂等键）
+C -> A : 获取服务端主体、验证会话和对象资格
+alt 会话或资格无效
+  C --> UI : 拒绝，不创建申请
+else 主体有效
+  C -> D : 查询主体/操作/幂等键的已保存结果
+  alt 同键同参数已提交
+    D --> C : 原申请结果
+    C --> UI : 重放原结果
+  else 同键不同参数
+    C --> UI : 幂等冲突
+  else 新请求
+    C -> C : 校验参数与前序驳回申请归属
+    break 参数或前序关系非法
+      C --> UI : 字段错误或不可访问，不创建申请
+    end
+    group 原子提交边界
+      C -> D : 复查主体、材料归属/有效性、目标可申请
+      C -> D : 校验门户占用、同人同门户待审唯一性
+      alt 任一校验或写入失败
+        C -> D : 放弃本请求全部变更
+        C --> UI : 错误或冲突，允许读取权威状态
+      else 全部满足
+        C -> D : 新建PENDING、最小审计、幂等结果并提交
+        D --> C : 已提交申请ID、版本
+        C --> UI : 创建成功（尚无维护权）
+      end
+    end
+  end
+end
+U -> UI : 查询本人申请 / 超时后恢复
+UI -> C : 查询申请ID
+C -> A : 当前会话与本人/职责内访问校验
+alt 不存在或无权
+  C --> UI : 相同的不可访问反馈，不泄露存在性
+else 有权
+  C -> D : 读取权威状态、版本及本人可见理由
+  D --> C : 当前申请
+  C --> UI : 权威状态（证明不进入公开门户）
+end
+note over C,D
+  回包丢失不等于创建失败；使用同键重试或本人查询。
+  驳回重提新ID，旧REJECTED不回退。
+end note
+@enduml

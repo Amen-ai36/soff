@@ -1,0 +1,58 @@
+@startuml
+!pragma layout smetana
+skinparam defaultFontName Microsoft YaHei
+skinparam shadowing false
+hide empty methods
+title M3-AN-02 认领与权限类图（分析提案）
+class Account {
+  账号标识
+  服务端操作资格
+}
+class Scholar {
+  规范学者ID
+}
+class ScholarPortal {
+  门户标识
+}
+class ClaimRequest {
+  申请ID与版本
+  PENDING / APPROVED / REJECTED
+}
+class EvidenceReference {
+  私有材料引用
+  归属与有效性
+}
+class ReviewRecord {
+  决定与理由
+  前后版本及依据引用
+}
+class PortalGrant {
+  维护资格与有效性
+}
+class AuditRecord {
+  目标与操作
+  版本与时间
+}
+Scholar "1" -- "0..1" ScholarPortal : 对应
+Account "1" -- "0..*" ClaimRequest : 申请人
+ScholarPortal "1" -- "0..*" ClaimRequest : 目标
+Account "1" -- "0..*" EvidenceReference : 拥有
+ClaimRequest "0..*" -- "1..*" EvidenceReference : 有效提交引用
+ClaimRequest "1" -- "0..1" ReviewRecord : 有效决定
+Account "1" -- "0..*" ReviewRecord : 审核者（非申请人）
+ClaimRequest "1" -- "0..1" PortalGrant : 通过后创建
+Account "1" -- "0..*" PortalGrant : 获得
+ScholarPortal "1" -- "0..*" PortalGrant : 授权历史
+Account "1" -- "0..*" AuditRecord : 执行者
+ClaimRequest "1" -- "1..*" AuditRecord : 申请及审核轨迹
+ClaimRequest "0..1" <-- "0..*" ClaimRequest : 前序驳回申请
+note bottom of PortalGrant
+  同一门户同时有效至多一条。
+  审核决定、授权、最小审计原子提交。
+end note
+note bottom of ClaimRequest
+  同账号同门户至多一个PENDING。
+  PENDING无维护权；终态不普通回退。
+  证明、理由仅按授权范围读取。
+end note
+@enduml

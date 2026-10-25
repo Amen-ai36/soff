@@ -1,0 +1,57 @@
+@startuml
+!pragma layout smetana
+skinparam defaultFontName Microsoft YaHei
+skinparam shadowing false
+hide empty methods
+title M3-AN-01 科研实体类图（分析提案）
+class Scholar {
+  规范学者ID
+  公开姓名与别名
+  区分线索
+}
+class Work {
+  规范成果ID
+  类型与题名
+  年份（可未知）
+  公开策略与数据版本
+}
+class Authorship {
+  参与角色与顺序（可未知）
+  来源依据
+}
+class Organization {
+  规范机构ID
+  名称与别名
+}
+class Field {
+  规范领域ID
+  分类体系线索
+}
+class SourceRecord {
+  来源键与版本
+  许可依据与证据引用
+}
+class ScholarPortal {
+  门户标识
+  简介与研究兴趣
+}
+class PortalDisplayLink <<候选关联>> {
+  本人展示选择
+}
+Work "1" -- "0..*" Authorship : 参与关联
+Scholar "1" -- "0..*" Authorship : 规范参与者
+Work "0..*" -- "0..*" Organization : 成果发生时机构证据
+Work "0..*" -- "0..*" Field : 分类
+Work "0..1" -- "0..*" SourceRecord : 当前有效映射
+Scholar "1" -- "0..1" ScholarPortal : 对应
+ScholarPortal "1" -- "0..*" PortalDisplayLink : 展示选择
+Authorship "1" -- "0..*" PortalDisplayLink : 展示依据
+note bottom of Work
+  公开必须有有效来源依据；同ID只计一次。
+  多来源、多参与者不增加成果计数。
+end note
+note bottom of PortalDisplayLink
+  选择所属门户学者须与参与关联学者一致。
+  可派生默认展示；不拥有或级联删除共享成果。
+end note
+@enduml
