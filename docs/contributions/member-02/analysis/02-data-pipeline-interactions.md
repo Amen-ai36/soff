@@ -1,10 +1,10 @@
 # 数据接入交互模型
 
-版本 0.1。四张时序图覆盖成员二负责的采集任务、更新记录、数据清洗与数据入库。图中的「权威业务库」「索引投影」「原始载荷存储」是职责参与者，不表示已选定数据库、检索或部署方案。
+版本 0.2。四张时序图覆盖成员二负责的采集任务、更新记录、数据清洗与数据入库。图中的「权威业务库」「索引投影」「原始载荷存储」是职责参与者，不表示已选定数据库、检索或部署方案。
 
 ## 1 采集任务执行与停止边界（M2-AN-01）
 
-![采集任务时序](diagrams/collection-task-sequence.svg)
+![采集任务时序](diagrams/collection-task-sequence.png)
 
 覆盖 M1-UC-09，DR-TASK-001..010、DR-COL-005/007/008/013。
 
@@ -26,7 +26,7 @@
 
 ## 2 增量更新与更新记录（M2-AN-02）
 
-![增量更新时序](diagrams/incremental-update-sequence.svg)
+![增量更新时序](diagrams/incremental-update-sequence.png)
 
 覆盖 M1-UC-09/11，DR-INC 系列、DR-COL-012、DR-DED-006/007、DR-GOV。
 
@@ -46,9 +46,9 @@
 
 **说明**：UpdateRecord 是「来源变化日志」，不是规范成果的版本号；规范成果的版本由入库事务维护（见 M2-AN-04）。
 
-## 3 数据清洗、标准化与去重消歧（M2-AN-03）
+## 3 数据清洗与去重消歧（M2-AN-03）
 
-![清洗时序](diagrams/cleaning-sequence.svg)
+![清洗时序](diagrams/cleaning-sequence.png)
 
 覆盖 M1-UC-10，DR-CLN-001..010、DR-DED-001..008、DR-DIS-001..008、DR-INS-001..002。
 
@@ -68,7 +68,7 @@
 
 ## 4 入库与公开投影一致性（M2-AN-04）
 
-![入库时序](diagrams/persistence-sequence.svg)
+![入库时序](diagrams/persistence-sequence.png)
 
 覆盖 M1-UC-09/10，R05（不少于 10,000 条规范可公开成果）、R11（完整链路）。
 

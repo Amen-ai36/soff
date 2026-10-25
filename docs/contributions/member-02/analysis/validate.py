@@ -3,7 +3,7 @@ from pathlib import Path
 import csv
 import json
 import re
-import xml.etree.ElementTree as ET
+import struct
 
 ROOT = Path(__file__).resolve().parent
 REQ = ROOT.parent / "requirements"
@@ -46,28 +46,34 @@ for row in rows:
     for model in filter(None, row["analysis_models"].split(";")):
         require(model in diagram_ids or (ROOT / model).is_file(), f"Missing model: {model}")
 
-sources = sorted((ROOT / "diagrams").glob("*.puml"))
-require(len(sources) == 4, "Expected four diagram sources")
-svg_info = {}
-for path in sources:
-    source = path.read_text(encoding="utf-8")
-    require(source.count("@startuml") == 1 and source.count("@enduml") == 1,
-            f"Invalid wrapper: {path.name}")
-    svg = path.with_suffix(".svg")
-    require(svg.exists(), f"Missing SVG: {svg.name}")
-    tree = ET.parse(svg)
-    labels = "".join(tree.getroot().itertext())
-    require("Syntax Error" not in labels and "An error has occured" not in labels,
-            f"Render error: {svg.name}")
-    require("M2-AN-0" in labels, f"Missing title: {svg.name}")
-    svg_info[svg.name] = [tree.getroot().get("width"), tree.getroot().get("height")]
+def png_dimensions(path):
+    data = path.read_bytes()
+    require(data[:8] == b"\x89PNG\r\n\x1a\n", f"Not a PNG: {path.name}")
+    require(data[12:16] == b"IHDR", f"Missing PNG header: {path.name}")
+    return struct.unpack(">II", data[16:24])
+
+
+diagram_names = {
+    "collection-task-sequence.png",
+    "incremental-update-sequence.png",
+    "cleaning-sequence.png",
+    "persistence-sequence.png",
+}
+diagrams = sorted((ROOT / "diagrams").glob("*.png"))
+require({path.name for path in diagrams} == diagram_names,
+        "Expected four CodeArts diagram screenshots")
+png_info = {}
+for path in diagrams:
+    width, height = png_dimensions(path)
+    require(width >= 500 and height >= 400, f"Screenshot is too small: {path.name}")
+    png_info[path.name] = [width, height]
 
 print(json.dumps({
     "status": "PASS",
     "local_links": links,
     "traceability_rows": len(rows),
     "known_requirement_ids": len(known_requirements),
-    "diagrams": len(sources),
-    "svg_dimensions": svg_info,
+    "diagrams": len(diagrams),
+    "png_dimensions": png_info,
     "scope": "Static document/model checks only; no backend tests",
 }, ensure_ascii=False, indent=2))
