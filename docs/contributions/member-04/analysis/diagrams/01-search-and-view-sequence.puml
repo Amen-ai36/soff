@@ -1,0 +1,64 @@
+@startuml
+!pragma layout smetana
+title 检索与查看：前端交互补充视角
+
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam sequence {
+  ArrowColor #334155
+  LifeLineBorderColor #64748B
+  LifeLineBackgroundColor #F8FAFC
+  ParticipantBorderColor #475569
+  ParticipantBackgroundColor #E2E8F0
+  GroupBorderColor #64748B
+  GroupBackgroundColor #F8FAFC
+}
+
+actor 用户
+boundary "首页/检索结果页" as SearchPage
+control "检索职责边界" as SearchService
+boundary "成果详情/学者门户" as DetailPage
+
+note over SearchPage, SearchService
+分析级操作名，不代表已批准 API
+end note
+
+用户 -> SearchPage: 选择对象、输入关键词和可选条件
+SearchPage -> SearchPage: 本地格式校验
+
+alt 条件非法
+  SearchPage --> 用户: 定位字段并保留其他条件
+else 条件合法
+  SearchPage -> SearchPage: 进入加载态并登记当前请求
+  SearchPage -> SearchService: 提交公开检索意图
+
+  alt 请求成功且有结果
+    SearchService --> SearchPage: 结果、总数语义、排序、版本
+    SearchPage -> SearchPage: 仅当前请求可提交结果
+    SearchPage --> 用户: 展示条件、结果和分页位置
+    用户 -> SearchPage: 打开成果或学者
+    SearchPage -> SearchService: 读取公开详情
+    alt 记录仍可公开
+      SearchService --> DetailPage: 公开字段、来源、更新时间
+      DetailPage --> 用户: 展示详情或门户
+    else 记录已下线/权限收紧
+      SearchService --> DetailPage: 不可访问
+      DetailPage --> 用户: 清除受限缓存并提供返回操作
+    end
+  else 请求成功但无匹配
+    SearchService --> SearchPage: 空集合、total=0、版本
+    SearchPage --> 用户: 空结果；改词或清除筛选
+  else 查询版本失效
+    SearchService --> SearchPage: 原版本不可继续
+    SearchPage --> 用户: 保留条件并提示重新查询
+  else 依赖或网络故障
+    SearchService --> SearchPage: 无可靠结果
+    SearchPage --> 用户: 失败态；重试（不得显示 0 条）
+  end
+end
+
+note over SearchPage
+晚到的旧响应必须被忽略，
+不能覆盖用户的新查询。
+end note
+@enduml

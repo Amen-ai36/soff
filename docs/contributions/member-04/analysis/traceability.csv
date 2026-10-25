@@ -1,0 +1,27 @@
+analysis_id,category,summary,upstream_requirement,candidate_spec,page_or_flow,model,acceptance_input,status
+UI4-AN-01,interaction,检索提交与结果呈现,"M1-FR-06; UI4-FR-02/04/05/06/07","SPEC-M3-SEARCH; SPEC-M8-SEARCH",UI4-P01/P02,01-search-and-view-sequence,UI4-AC-01/02/03/04/05,member04-draft
+UI4-AN-02,interaction,成果详情与学者门户查看,"M1-FR-06/07; UI4-FR-08/09/10/12","SPEC-M3-SEARCH; SPEC-M8-SEARCH",UI4-P03/P04,01-search-and-view-sequence,UI4-AC-06/07/14/17,member04-draft
+UI4-AN-03,interaction,未登录认领与安全返回,"M1-FR-01/08; UI4-FR-13","SPEC-M3-AUTH/CLAIM; SPEC-M8-AUTH/CLAIM",UI4-P04/P06/P07,02-claim-sequence,UI4-AC-08/17,member04-draft
+UI4-AN-04,interaction,认领提交和权威状态查询,"M1-FR-08/09; UI4-FR-14/15/16/17","SPEC-M3-CLAIM; SPEC-M8-CLAIM",UI4-P07/P08,02-claim-sequence,UI4-AC-09/10/11/12/17,member04-draft
+UI4-AN-05,interaction,门户维护与纠错边界,"M1-FR-10/13; UI4-FR-19/20/21","SPEC-M3-CLAIM; SPEC-M8-CLAIM",UI4-P09/P10,01-user-page-interaction-analysis,UI4-AC-13/17,member04-draft
+UI4-ST-01,state,检索初始和输入非法,"UI4-NFR-02/03",SPEC-M3/M8-SEARCH,UI4-P01/P02,03-frontend-view-state,UI4-AC-01/02,member04-draft
+UI4-ST-02,state,检索加载结果空态失败与过期,"UI4-FR-07; UI4-NFR-02/08/10",SPEC-M3/M8-SEARCH,UI4-P02,03-frontend-view-state,UI4-AC-02/04/05,member04-draft
+UI4-ST-03,state,认领编辑提交和结果未知,"UI4-FR-15/16; UI4-NFR-02/03",SPEC-M3/M8-CLAIM,UI4-P07,03-frontend-view-state,UI4-AC-09/10/11,member04-draft
+UI4-ST-04,state,认领业务状态视图映射,"UI4-FR-16/17",SPEC-M3/M8-CLAIM,UI4-P08,03-frontend-view-state,UI4-AC-09/11/12,member04-draft
+UI4-ST-05,state,维护编辑保存冲突与同步,"UI4-FR-19; UI4-NFR-03/10",SPEC-M3/M8-CLAIM,UI4-P09,03-frontend-view-state,UI4-AC-13,member04-draft
+UI4-EX-01,exception,查询条件非法,"UI4-FR-04; UI4-NFR-03",SPEC-M3/M8-SEARCH,UI4-P01/P02,03-exception-feedback-analysis,UI4-AC-02,member04-draft
+UI4-EX-02,exception,业务空结果,"UI4-FR-07; UI4-NFR-08",SPEC-M3/M8-SEARCH,UI4-P02,03-exception-feedback-analysis,UI4-AC-04,member04-draft
+UI4-EX-03,exception,检索依赖失败,"UI4-FR-07; UI4-NFR-02/08",SPEC-M3/M8-SEARCH,UI4-P02,03-exception-feedback-analysis,UI4-AC-05,member04-draft
+UI4-EX-04,exception,旧响应晚到,"UI4-NFR-02/10",SPEC-M3/M8-SEARCH,UI4-P02,03-exception-feedback-analysis,UI4-AC-02/05,member04-draft
+UI4-EX-05,exception,查询版本失效,"UI4-NFR-10",SPEC-M3/M8-SEARCH,UI4-P02,03-exception-feedback-analysis,UI4-AC-02/05,member04-draft
+UI4-EX-06,exception,会话过期,"UI4-FR-13; UI4-NFR-03/09",SPEC-M3/M8-AUTH,UI4-P06/P07/P09,03-exception-feedback-analysis,UI4-AC-08/13/17,member04-draft
+UI4-EX-07,exception,无对象权限,"UI4-FR-17/19/21; UI4-NFR-09",SPEC-M3/M8-AUTH/CLAIM,UI4-P08/P09/P11,03-exception-feedback-analysis,UI4-AC-13/17,member04-draft
+UI4-EX-08,exception,重复认领申请,"UI4-FR-16/17",SPEC-M3/M8-CLAIM,UI4-P07/P08,03-exception-feedback-analysis,UI4-AC-11,member04-draft
+UI4-EX-09,exception,门户占用或不可申请,"UI4-FR-14/21",SPEC-M3/M8-CLAIM,UI4-P04/P07,03-exception-feedback-analysis,UI4-AC-11/17,member04-draft
+UI4-EX-10,exception,写入结果未知,"UI4-NFR-02/03",SPEC-M3/M8-CLAIM,UI4-P07/P09/P11,03-exception-feedback-analysis,UI4-AC-09/11/12,member04-draft
+UI4-EX-11,exception,审核或维护版本冲突,"UI4-FR-18/19; UI4-NFR-10",SPEC-M3/M8-CLAIM,UI4-P09/P11,03-exception-feedback-analysis,UI4-AC-12/13,member04-draft
+UI4-EX-12,exception,保存成功但同步待处理,"UI4-FR-19; UI4-NFR-10",SPEC-M3/M8-CLAIM,UI4-P09,03-exception-feedback-analysis,UI4-AC-13,member04-draft
+UI4-EX-13,exception,字段缺失或未知,"UI4-FR-08/12; UI4-NFR-08",SPEC-M3/M8-SEARCH,UI4-P02/P03/P04/P05,03-exception-feedback-analysis,UI4-AC-03/07/14,member04-draft
+UI4-EX-14,exception,内容下线,"UI4-FR-21; UI4-NFR-09",SPEC-M3/M8-AUTH/SEARCH,UI4-P03/P04/P08,03-exception-feedback-analysis,UI4-AC-17,member04-draft
+UI4-EX-15,exception,通知失败但审核已保存,"UI4-FR-17/18",SPEC-M3/M8-CLAIM,UI4-P08/P11,03-exception-feedback-analysis,UI4-AC-12,member04-draft
+UI4-EX-16,exception,来源外链失效,"UI4-FR-08/20",SPEC-M3/M8-SEARCH,UI4-P03/P10,03-exception-feedback-analysis,UI4-AC-03/07,member04-draft
