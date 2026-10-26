@@ -1,0 +1,48 @@
+@startuml
+!pragma layout smetana
+skinparam defaultFontName Microsoft YaHei
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam ArrowColor #334155
+skinparam classBackgroundColor #EFF6FF
+skinparam classBorderColor #38689A
+skinparam sequenceParticipantBackgroundColor #EFF6FF
+skinparam sequenceGroupBackgroundColor #F8FAFC
+skinparam sequenceGroupBorderColor #94A3B8
+hide empty members
+title M8-AN-SEQ-04 授权内维护与共享字段纠错
+actor "已授权用户" as U
+boundary "门户维护页面" as P
+control "维护协调" as C
+control "会话与当前门户授权" as A
+entity "门户展示、变更请求与审计" as S
+control "公开投影同步" as Q
+U -> P : 修改允许字段/调整本人展示/建议共享纠错
+P -> C : 操作、目标、预期版本及幂等意图
+C -> A : 校验当前会话、目标授权和操作范围
+alt 未授权或会话失效
+ C --> P : 拒绝；不写入
+else 授权有效
+ C -> S : 提交边界复核授权、版本、字段白名单
+ alt 版本冲突
+  S --> C : 冲突；保留本地输入，读取最新权威值
+ else 修改共享成果元数据
+  C -> S : 原子创建治理请求及审计
+  S --> C : 待治理编号，不假报公共字段已改变
+ else 允许字段或本人展示关联
+  C -> S : 原子保存权威变更及审计
+  S --> C : 已保存版本或整体失败
+  opt 权威变更已提交
+   C -> Q : 登记投影更新意图
+   Q --> C : 已同步或可追溯待同步
+  end
+ end
+ C --> P : 保存/待治理/待同步/错误的明确结果
+end
+note over S,Q
+ 隐藏或移除个人展示关联不删除全局成果、合作关系或来源。
+ 来源新版本不能静默覆盖人工修正；冲突进入治理。
+ 撤下后公开读取仍受当前权威策略限制。
+end note
+@enduml
