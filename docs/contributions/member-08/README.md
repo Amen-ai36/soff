@@ -1,38 +1,19 @@
-# 成员 8 · 第 2～6 周贡献包
+# 图表目录
 
-编制日期：2026-09-21；版本：0.1（供团队评审与汇编）；岗位：B 组数据库、检索与后端。
+以下7张图均由本轮PlantUML源在本地实际渲染，提供PUML、SVG、PNG。类/属性/消息表达分析职责，不冻结公共实体或接口。
 
-本包完成成员 8 可独立编制的需求调研与需求建模材料。它是统一交付物的章节素材，不是第二套正式 SRS 或独立 B 组课程报告。没有修改仓库已有公共需求、接口、团队规则，也没有实现第 10～17 周的业务代码。
+- M8-AN-CLS-01 科研实体与展示关系：[PUML](core-domain.puml) · [SVG](core-domain.svg) · [PNG](core-domain.png)。类与方法表示分析职责；类型判别不决定继承、数据库表或字段。学者、机构、领域按规范标识区分，展示选择不拥有全局成果。
 
-## 文件入口
+- M8-AN-CLS-02 门户认领、决定与授权：[PUML](claim-domain.puml) · [SVG](claim-domain.svg) · [PNG](claim-domain.png)。账号不是学者。PENDING 不产生维护权。APPROVED/REJECTED 为单个申请终态，驳回后补充材料另建新申请。
 
-| 材料 | 内容与接收人 |
-| --- | --- |
-| [同类平台调研](research/01-platform-comparison.md) | 三个平台官方资料核查与比较；成员 3 协同，成员 1 汇编 |
-| [业务流程与角色诉求](research/02-workflows-and-needs.md) | 科研人员、管理员场景和需求推导；成员 1 汇编 |
-| [证据与访谈支撑](research/03-evidence-and-interview.md) | 引用、核查边界、针对性访谈提纲；成员 4、9 协同 |
-| [SRS 章节](requirements/01-srs-contribution.md) | 检索、门户、认证、认领审核、成果维护、统计；成员 6 汇编 |
-| [用例说明](requirements/02-use-cases.md) | 主流程、异常、前后置条件；供成员 1、6 绘制全局用例图 |
-| [接口约束建议](requirements/03-interface-constraints.md) | 输入输出、权限、错误、并发、隐私与一致性 |
-| [SPEC 入口](requirements/specs/README.md) | 检索、门户认领、认证、统计四份规范 |
-| [UML 图与说明](requirements/diagrams/README.md) | 认领审核活动图、申请状态图；SVG 预览及 PlantUML 源文件 |
-| [验收场景](requirements/04-acceptance-scenarios.md) | 可供后续实现复用的预期结果，非已通过测试报告 |
-| [需求追踪表](requirements/traceability.csv) | 来源—需求—用例—SPEC—验收场景 |
-| [评审与待决事项](review-and-handoff.md) | 文档一致性检查结果、人工复核待办、分工交接 |
-| [汇报素材](slides/slide-outline.md) | 调研与建模共 8 页内容及讲稿，供成员 5、10 合入唯一 PPT |
-| [检查记录](validation-report.md) | 文档、图、夹具和打包检查的实际结果 |
-| [提交说明](SUBMISSION.md) | GitHub 上传、分支选择及 PR 文案 |
+- M8-AN-SEQ-01 检索请求处理：[PUML](search-sequence.puml) · [SVG](search-sequence.svg) · [PNG](search-sequence.png)。关键词规范化、加权分与完全相等优先级沿用已有 SPEC；不在分析阶段暗换 BM25。旧响应覆盖保护由页面负责。
 
-## 第 2～6 周映射
+- M8-AN-SEQ-02 提交认领与结果恢复：[PUML](claim-submit-sequence.puml) · [SVG](claim-submit-sequence.svg) · [PNG](claim-submit-sequence.png)。幂等重放仍核验当前身份和对象读取资格；无效输入不创建申请，私有材料不进入公开门户。
 
-| 教学周 | 本岗位产出 | 当前状态 |
-| --- | --- | --- |
-| 第 2 周 | 明确边界、选择同类平台和调研维度 | 已编制 |
-| 第 3 周 | 官方资料核查、角色诉求、核心业务流程、用例 | 已完成桌面资料分析；真实访谈待执行 |
-| 第 4 周 | SRS 章节、认领活动图/状态图、接口约束 | 已编制，待协同评审 |
-| 第 5 周 | 核心模块 SPEC、验收场景、追踪矩阵 | 已编制，尚无实现与运行测试 |
-| 第 6 周 | 文档自检、汇报素材、提交打包与交接 | 已整理；成员 3 交叉复核及成员 1、6 确认待完成 |
+- M8-AN-SEQ-03 管理员认领审核：[PUML](claim-review-sequence.puml) · [SVG](claim-review-sequence.svg) · [PNG](claim-review-sequence.png)。图中原子边界是业务要求；事务、条件写或等价机制待构件设计。提交后通知的可靠保存及恢复另交架构设计。
 
-以上按课程周次组织材料，不代表已经在过去各周执行过会议、访谈或提交。未生成历史提交、签字、通过结论或虚构身份。
+- M8-AN-SEQ-04 授权内维护与共享字段纠错：[PUML](maintenance-sequence.puml) · [SVG](maintenance-sequence.svg) · [PNG](maintenance-sequence.png)。维护和统计图补齐成员3现有稿中的衔接说明，为分析供稿，不定义新API。
 
-来源：仓库《双组并行开发与合并方案》§5.1、§5.2；课程任务书正文第 3～4、8 页；既有统一调研范围 R01～R15。外部资料见 research/03。涉及数字阈值、状态名及接口格式的细化都是待确认提案。
+- M8-AN-SEQ-05 同版本统计与口径解释：[PUML](statistics-sequence.puml) · [SVG](statistics-sequence.svg) · [PNG](statistics-sequence.png)。统计与检索采用相同公开范围和版本语义；未知值不伪造为零，空数据成功和依赖失败分别反馈。
+
+本地图不等于CodeArts原生模型；需要平台工程时由实际绘图人按课程要求建立。

@@ -1,0 +1,47 @@
+@startuml
+!pragma layout smetana
+skinparam defaultFontName Microsoft YaHei
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam ArrowColor #334155
+skinparam classBackgroundColor #EFF6FF
+skinparam classBorderColor #38689A
+skinparam sequenceParticipantBackgroundColor #EFF6FF
+skinparam sequenceGroupBackgroundColor #F8FAFC
+skinparam sequenceGroupBorderColor #94A3B8
+hide empty members
+title M8-AN-SEQ-01 检索请求处理
+actor "访客/用户" as U
+boundary "检索页面" as P
+control "公开查询协调" as C
+control "权威公开范围" as V
+entity "规范成果/学者查询视图" as Q
+U -> P : 提交有效条件、排序、分页
+P -> C : 查询意图与可选数据版本
+C -> C : 参数白名单、范围及排序语义校验
+alt 输入非法
+ C --> P : 参数错误；保留原条件
+else 参数有效
+ C -> V : 取得当前公开策略与数据版本
+ alt 版本不可用或依赖失败
+  V --> C : 无法证明有效查询范围
+  C --> P : 版本失效/依赖错误；不返回假空集
+ else 查询范围可用
+  V --> C : 可核验的公开范围及版本
+  C -> Q : 在完整合法集合上过滤、排序、分页
+  Q --> C : items、合法全集total、数据版本
+  C -> V : 返回前确认公开策略仍有效
+  alt 公开策略变化或无法核验
+   C --> P : 版本失效/可重试错误
+  else 策略有效
+   C --> P : 结果、total、版本、更新时间
+   P --> U : 有结果或真实空结果；同名实体分开
+  end
+ end
+end
+note over C,Q
+ 沿用SPEC-M8-SEARCH：先过滤，再稳定排序，最后分页。
+ 仅过滤当前页不能保证total、聚合与隐私正确。
+end note
+@enduml
