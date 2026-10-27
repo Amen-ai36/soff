@@ -8,6 +8,8 @@
 
 ## 阅读顺序
 
+需求分析阶段新增材料见[2026-10-27成员7分析供稿](analysis/README.md)，包括四张CodeArts顺序图导出及登记、参考图源、对象模型、交接和走查。下列内容仍为前一阶段需求建模材料，不覆盖或改写其历史提交记录。
+
 1. [本次来源验证](research/20261011-source-validation.md)：许可依据、实际访问、字段与国内来源缺口。
 2. [SRS数据章节](requirements/01-srs-contribution.md)：供成员6直接汇编的功能与非功能需求。
 3. [字段映射](requirements/02-field-mapping.md)：四类成果、领域、引用数和下游交接。
