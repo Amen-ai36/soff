@@ -1,0 +1,55 @@
+{
+  "scope": "静态材料检查，不是24项系统验收、真实数据验证或CodeArts操作证明",
+  "baseline_commit": "90ff35622f56cd00ab3ca9844f34b45183be8402",
+  "checks": [
+    {
+      "check": "B组输入文件哈希",
+      "passed": true,
+      "details": "核验18个输入；固定基线90ff35622f56cd00ab3ca9844f34b45183be8402",
+      "failures": []
+    },
+    {
+      "check": "需求追踪编号",
+      "passed": true,
+      "details": "38行，对应9项功能、5项非功能、24项既有验收；不代表系统通过",
+      "failures": []
+    },
+    {
+      "check": "分析走查场景",
+      "passed": true,
+      "details": "24项场景是分析预期，未执行生产测试",
+      "failures": []
+    },
+    {
+      "check": "Markdown相对链接",
+      "passed": true,
+      "details": "检查51个本地文件链接",
+      "failures": []
+    },
+    {
+      "check": "五张参考图导出",
+      "passed": true,
+      "details": "5份PUML、5份SVG、5份PNG；与CodeArts导出分目录保存",
+      "failures": []
+    },
+    {
+      "check": "四张CodeArts归档导出",
+      "passed": true,
+      "details": "1份PNG、3份SVG；逐份核对原文件SHA256和尺寸；SVG编号连续。不是工程源或人工审签证明",
+      "failures": []
+    },
+    {
+      "check": "PlantUML语法",
+      "passed": true,
+      "details": "对5图执行-checkonly，退出码0；渲染工具plantuml-1.2026.8.jar",
+      "failures": []
+    },
+    {
+      "check": "改动范围",
+      "passed": true,
+      "details": "仅成员7个人目录，不写公共SRS/API/其他成员材料",
+      "failures": []
+    }
+  ],
+  "all_passed": true
+}

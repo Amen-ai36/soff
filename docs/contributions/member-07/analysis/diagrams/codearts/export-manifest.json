@@ -1,0 +1,39 @@
+{
+  "date": "2026-10-27",
+  "scope": "用户提供的四张CodeArts图像导出；仅重命名归档，不修改内容；不是可编辑工程源备份",
+  "files": [
+    {
+      "id": "M7-AN-SEQ-01",
+      "file": "M7-AN-SEQ-01-codearts.png",
+      "original_filename": "M7-AN-SEQ-01 采集任务执行与安全停止 B组.png",
+      "sha256": "802ea61acb9a7dadd553ab26ab412d5a75b064c65f922382309744b170ddd206",
+      "format": "png", "width": 841, "height": 1441,
+      "online_graph_id": "951d6d24351442c7b215e7ce361bcba7"
+    },
+    {
+      "id": "M7-AN-SEQ-02",
+      "file": "M7-AN-SEQ-02-codearts.svg",
+      "original_filename": "M7-AN-SEQ-02 增量更新与更新记录 B组.svg",
+      "sha256": "cf3a3759981f2236f05fbcce4ad78fd1be28e787fd2247e0539d81986ef66484",
+      "format": "svg", "width": 762, "height": 1321, "message_count": 14,
+      "online_graph_id": "0d179909c4864bc6a2019a6e812d95ac"
+    },
+    {
+      "id": "M7-AN-SEQ-03",
+      "file": "M7-AN-SEQ-03-codearts.svg",
+      "original_filename": "M7-AN-SEQ-03 数据清洗与保守去重消歧 B组.svg",
+      "sha256": "d0ae213588301c4ab7b620558c3daaa30d83a9f683e68c9ee0c06ed8a318ac54",
+      "format": "svg", "width": 812, "height": 1621, "message_count": 12,
+      "online_graph_id": "65dc5395f9374a19aee7afacf64293cc"
+    },
+    {
+      "id": "M7-AN-SEQ-04",
+      "file": "M7-AN-SEQ-04-codearts.svg",
+      "original_filename": "顺序图4.svg",
+      "sha256": "834769f97b6c60638c28882db9da130781963c6b231126d70b256c05c808cadf",
+      "format": "svg", "width": 1332, "height": 1101, "message_count": 19,
+      "online_graph_id": null,
+      "note": "用户要求不处理图4，保持所提供文件；工程定位由绘制方补充"
+    }
+  ]
+}
