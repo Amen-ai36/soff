@@ -1,0 +1,52 @@
+@startuml
+skinparam defaultFontName Microsoft YaHei
+skinparam defaultFontSize 17
+skinparam shadowing false
+skinparam maxMessageSize 220
+hide footbox
+autonumber
+title M7-AN-SEQ-04 候选版本入库与确认发布 B组参考草稿
+control "处理协调" as Process
+database "候选与权威记录" as Store
+participant "隔离候选索引" as Index
+control "发布与公开控制" as Publish
+participant "检索与统计" as Read
+
+group 每批候选保存段 尚未公开
+  Process -> Store : 幂等保存成果映射 处理记录和候选账目
+  break 本次写入失败
+    Store --> Process : 回滚本次写入 不记已发布
+  end
+  Store --> Process : 候选已保存 安全检查点
+end
+group 全部批次结束后执行一次
+  Process -> Store : 固定候选V 公开策略与预期成果ID集合
+  Process -> Index : 构建V的候选投影 尚不激活
+  break 索引确认失败且恢复策略耗尽
+    Process -> Store : FAILED 旧公开版本与水位W不变
+  end
+  Index --> Process : V就绪 返回可核验ID集合
+  Process -> Process : 比较同版本ID集合 许可与账目
+  break 对账不一致
+    Process -> Store : 拒绝发布 不推进W
+  end
+  Process -> Publish : 请求发布V及成功水位U
+  Publish -> Store : 再检任务版本 停止标记及当前策略
+  alt 停止或策略变化先成立
+    Store --> Publish : 拒绝提交 保留旧版本和W
+    Publish --> Process : 未发布 不误报成功
+  else 所有条件仍有效
+    Publish -> Store : 共同切换公开版本V和水位U 记录成功
+    Store --> Publish : 已确认提交
+    Publish --> Process : SUCCEEDED及发布版本
+  end
+end
+Read -> Publish : 请求同版本合法全集与统计口径
+Publish -> Store : 复检当前权威公开策略
+Publish --> Read : 获准结果及一致total 或明确版本与依赖错误
+note over Store, Index
+业务上的共同生效 不表示跨库索引原子事务
+索引先准备 读端按已发布版本取数
+撤销许可立即阻止旧索引暴露
+end note
+@enduml

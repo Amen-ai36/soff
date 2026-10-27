@@ -1,0 +1,43 @@
+@startuml
+skinparam defaultFontName Microsoft YaHei
+skinparam shadowing false
+title M3-AN-03 检索处理（UC3-01/02）
+actor 访问者 as U
+boundary 页面 as UI
+control 检索协调 as S
+control 权威公开策略 as P
+participant 可查询视图 as Q
+U -> UI : 提交关键词、过滤、排序、分页
+UI -> S : 请求（可带数据版本）
+S -> S : 参数白名单、范围、规范化校验
+alt 输入非法
+  S --> UI : 字段错误，保留条件
+else 输入合法
+  S -> P : 获取当前公开策略及可核验快照
+  alt 依赖失败或请求版本不可用
+    P --> S : 故障或版本不可用
+    S --> UI : 明确失败或提示重新查询
+  else 快照可用
+    P --> S : 合法公开范围与版本
+    S -> Q : 在合法全集上匹配、过滤、稳定排序
+    alt 查询依赖失败
+      Q --> S : 故障
+      S --> UI : 服务失败及追踪标识（不返回伪造空集）
+    else 查询成功
+      Q --> S : 合法全集的分页项、total、版本与时间
+      S -> P : 返回前复核策略仍适用
+      alt 策略变化或无法核验
+        S --> UI : 版本失效或明确失败（不泄露旧total）
+      else 可安全返回
+        S --> UI : 公开投影、合法total、同一版本
+        UI --> U : 展示结果 / 真实空结果 / 越界空页
+      end
+    end
+  end
+end
+note over S,Q
+  过滤完整合法集合后再分页；同work_id不重复。
+  不能仅删一页受限项而保留不合法total。
+  具体快照、索引和高效核验方案留待设计。
+end note
+@enduml

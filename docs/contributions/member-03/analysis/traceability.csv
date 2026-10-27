@@ -1,0 +1,17 @@
+requirement_id,use_case_ids,spec_ids,analysis_models,acceptance_ids,coverage_note
+M3-AUTH-01,UC3-03,SPEC-M3-AUTH,01-core-class-model.md;02-business-interactions.md,AC3-01;AC3-02,会话职责衔接_认证完整时序待设计
+M3-AUTH-02,UC3-03;UC3-05;UC3-06,SPEC-M3-AUTH;SPEC-M3-CLAIM,M3-AN-02;M3-AN-04;M3-AN-05,AC3-03;AC3-04;AC3-15,服务端资格_对象权限_回避
+M3-SEARCH-01,UC3-01,SPEC-M3-SEARCH,M3-AN-01;M3-AN-03,AC3-05;AC3-06;AC3-07;AC3-08,合法全集_稳定排序_分页
+M3-SEARCH-02,UC3-01,SPEC-M3-SEARCH,M3-AN-01;M3-AN-03,AC3-09,规范学者ID_不按姓名合并
+M3-SEARCH-03,UC3-01,SPEC-M3-SEARCH,M3-AN-03,AC3-08;AC3-10,空集_故障_版本失效分离
+M3-PORTAL-01,UC3-02,SPEC-M3-SEARCH,M3-AN-01;M3-AN-02;02-business-interactions.md,AC3-11;AC3-12,详情门户读取说明_非独立时序图
+M3-PORTAL-02,UC3-02,SPEC-M3-SEARCH,M3-AN-01;02-business-interactions.md,AC3-11,四类栏目_未知值_范围
+M3-CLAIM-01,UC3-04,SPEC-M3-CLAIM,M3-AN-02;M3-AN-04,AC3-13;AC3-14,材料归属_原子待审创建
+M3-CLAIM-02,UC3-04,SPEC-M3-AUTH;SPEC-M3-CLAIM,M3-AN-02;M3-AN-04;M3-AN-05,AC3-12;AC3-14,受限材料_对象权限查询
+M3-CLAIM-03,UC3-05,SPEC-M3-CLAIM,M3-AN-02;M3-AN-05,AC3-15;AC3-16;AC3-17,回避_原子授权_并发_回滚
+M3-CLAIM-04,UC3-04;UC3-05,SPEC-M3-CLAIM,M3-AN-04;M3-AN-05,AC3-16;AC3-18,幂等_终态保护_新ID重提
+M3-MAINT-01,UC3-06;UC3-08,SPEC-M3-CLAIM,M3-AN-01;M3-AN-02;02-business-interactions.md,AC3-19;AC3-20,展示与规范关系分离_维护治理衔接说明
+M3-MAINT-02,UC3-06;UC3-08,SPEC-M3-CLAIM,01-core-class-model.md;02-business-interactions.md,AC3-20;AC3-24,版本_来源冲突_审计_待同步
+M3-STATS-01,UC3-07,SPEC-M3-STATS,M3-AN-01;02-business-interactions.md,AC3-21;AC3-22,统计口径衔接_非独立时序图
+M3-STATS-02,UC3-07,SPEC-M3-STATS,M3-AN-01;02-business-interactions.md,AC3-23,合作边_年度热点_未知值
+M3-SYNC-01,UC3-01;UC3-02;UC3-06;UC3-07;UC3-08,SPEC-M3-SEARCH;SPEC-M3-CLAIM;SPEC-M3-STATS,M3-AN-03;02-business-interactions.md,AC3-12;AC3-24,当前公开策略_版本_保存与发布区分

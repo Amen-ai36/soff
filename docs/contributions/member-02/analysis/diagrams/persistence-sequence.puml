@@ -1,0 +1,55 @@
+@startuml
+skinparam defaultFontName Microsoft YaHei
+skinparam shadowing false
+title M2-AN-04 入库与公开投影一致性（M1-UC-09/10，R05、R11）
+participant 入库协调 as P
+database 权威业务库 as DB
+database 事务外发日志 as O
+participant 索引投影 as I
+participant 公开查询 as Q
+
+P -> DB : 开启事务；upsert 规范成果、来源关联与字段级来源
+P -> O : 同一事务写 outbox 事件（work_id、version、可见性）
+alt 任一步写入失败
+  P -> DB : 全部回滚
+  P --> P : 本次不产生部分提交
+else 提交成功
+  DB --> P : canonical_version 已提交
+end
+
+O -> I : 异步投递投影事件（work_id、version）
+alt 索引写入失败或超时
+  I -> I : 保留未完成事件，按退避重试
+  I --> DB : 标记"已保存、待索引"，不回滚业务数据
+else 索引写入成功
+  I --> DB : 记录 projection_version
+end
+
+Q -> DB : 查询规范成果（按可见性策略）
+Q -> I : 查询检索文档（按版本）
+alt projection_version < canonical_version
+  Q --> Q : 返回"待同步/稍后重试"，不返回缺失或旧值冒充新值
+else 版本一致
+  Q --> Q : 合并权威字段与检索字段，返回当前版本
+end
+
+group 发布一致性校验
+  P -> DB : 取某版本的公开 work_id 集合
+  P -> I : 取同一版本的公开 work_id 集合
+  alt 集合不一致
+    P -> O : 补发缺失投影；登记一致性告警
+  else 集合一致
+    P -> P : 记录校验通过（不能只比较条数）
+  end
+end
+
+alt 可见性策略收紧
+  P -> I : 先撤下公开投影，再确认策略生效
+  P -> DB : 保留数据与审计，不物理删除
+end
+
+note over DB,I
+  数据库提交与索引发布不是同一事务：
+  先保证"已保存"，再保证"可检索"，两者用版本号对齐。
+end note
+@enduml

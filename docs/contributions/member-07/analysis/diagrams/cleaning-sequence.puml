@@ -1,0 +1,45 @@
+@startuml
+skinparam defaultFontName Microsoft YaHei
+skinparam defaultFontSize 17
+skinparam shadowing false
+skinparam maxMessageSize 220
+hide footbox
+autonumber
+title M7-AN-SEQ-03 数据清洗与保守去重消歧 B组参考草稿
+control "处理协调" as Process
+control "清洗与权限" as Clean
+control "去重消歧" as Resolve
+database "候选记录库" as Store
+collections "隔离与复核" as Review
+
+Process -> Clean : 单条来源观测 规则及映射版本
+Clean -> Clean : 校验必要字段并规范化
+break 空标题 未知类型 或非空非法强标识
+  Clean -> Review : 隔离 保留获准原值与原因
+  Clean --> Process : 本条quarantine 不继续合并
+end
+Clean -> Clean : null不补0 日期精度不伪造
+Clean -> Clean : 核验获取 存储 展示及字段权限
+break 不满足公开候选条件
+  Clean -> Review : 按允许范围处理 restricted或pending
+  Clean --> Process : 本条filtered或许可待审 不公开
+end
+Clean -> Resolve : 合法候选 类型 强键及来源证据
+Resolve -> Store : 查同类型强键与候选簇
+Store --> Resolve : 当前映射及互斥标识
+alt 无冲突强键一致
+  Resolve -> Store : 复用稳定成果ID 合并来源证据
+else 强键冲突 或只有弱匹配候选
+  Resolve -> Review : 提议人工复核 不自动合并
+else 无匹配的合法新成果
+  Resolve -> Store : 分配持久化稳定ID与来源映射
+end
+Resolve -> Resolve : 作者强证据 机构批准别名 领域批准映射
+Resolve --> Process : 候选或复核结果 含原因与规则版本
+note over Resolve, Review
+检查整个候选簇 不传递误合并
+同名无强证据保持独立
+不授予门户权限 不生成未确认合作边
+候选通过不等于已公开
+end note
+@enduml

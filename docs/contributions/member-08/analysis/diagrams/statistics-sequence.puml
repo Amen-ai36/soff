@@ -1,0 +1,43 @@
+@startuml
+!pragma layout smetana
+skinparam defaultFontName Microsoft YaHei
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam ArrowColor #334155
+skinparam classBackgroundColor #EFF6FF
+skinparam classBorderColor #38689A
+skinparam sequenceParticipantBackgroundColor #EFF6FF
+skinparam sequenceGroupBackgroundColor #F8FAFC
+skinparam sequenceGroupBorderColor #94A3B8
+hide empty members
+title M8-AN-SEQ-05 同版本统计与口径解释
+actor "查询用户" as U
+boundary "统计页面" as P
+control "统计协调" as C
+control "公开范围与数据版本" as V
+entity "规范成果及关系视图" as S
+U -> P : 类型/年份/机构/领域与分析类型
+P -> C : 提交有效统计条件
+C -> C : 校验条件与分析类型
+C -> V : 获取可核验公开快照
+alt 参数错误、版本失效或依赖失败
+ C --> P : 对应错误；不返回假全零
+else 条件与快照有效
+ C -> S : 同一公开范围按规范成果ID去重
+ S --> C : 成果、规范参与关系、发生时机构/领域
+ C -> C : 类型/机构/领域计数；合作边；年度热点
+ C -> C : 计算分母、未知数、空分母share=null
+ C -> V : 返回前复核当前公开策略
+ alt 策略失效
+  C --> P : 版本失效/依赖错误
+ else 仍可核验
+  C --> P : 数值、口径、分母、未知数、版本与更新时间
+  P --> U : 展示可解释分布；多机构/领域可交叉
+ end
+end
+note over C,S
+ 合作边依据同一成果的不同规范学者ID，无自环与反向重复。
+ 不以来源行数、作者数或个人展示选择代替成果计数。
+end note
+@enduml

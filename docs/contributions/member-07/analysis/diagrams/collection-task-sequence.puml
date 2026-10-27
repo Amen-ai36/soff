@@ -1,0 +1,74 @@
+@startuml
+skinparam defaultFontName Microsoft YaHei
+skinparam defaultFontSize 17
+skinparam shadowing false
+skinparam maxMessageSize 220
+hide footbox
+autonumber
+title M7-AN-SEQ-01 采集任务执行与安全停止 B组参考草稿
+actor "管理员" as Admin
+control "任务协调" as Task
+control "来源适配" as Adapter
+participant "获准来源" as Source
+database "任务与候选记录" as Store
+
+Admin -> Task : 创建任务 范围 规则版本 幂等键
+Task -> Task : 核验管理资格 来源权限及幂等条件
+break 权限无效 同键参数冲突 或来源未批准
+  Task --> Admin : 拒绝 不请求外部来源
+end
+Task -> Store : 按键创建或返回PENDING任务
+Store --> Task : task_id与既有执行状态
+Task --> Admin : 返回task_id 供后续查询
+break 已有同参数任务
+  Task -> Task : 本请求到此返回 不触发重复执行
+end
+Task -> Store : 版本检查并唯一领取 RUNNING
+break 范围竞争或任务版本冲突 领取失败
+  Store --> Task : 拒绝重复运行
+end
+loop 有界批次 且任务仍获准运行
+  Task -> Adapter : 请求下一批 固定范围与检查点
+  Adapter -> Source : 按来源限速获取
+  alt 访问或许可拒绝 挑战页 契约错误
+    Source --> Adapter : 拒绝或非业务结构
+    Adapter --> Task : 不可自动重试错误
+    Task -> Store : FAILED 记录脱敏错误
+    break 本轮结束 不执行后续处理或发布
+      Task -> Task : 等待人工处理
+    end
+  else 临时故障或限流 且仍有预算
+    Source --> Adapter : 限流或临时不可用
+    Adapter --> Task : 可重试错误与Retry-After
+    Task -> Store : RETRY_WAIT 保存下次允许时点
+    break 本轮挂起 到期有资格才回RUNNING
+      Task -> Task : 等待期间可停止 预算耗尽则FAILED
+    end
+  else 临时故障且预算耗尽
+    Adapter --> Task : 不再允许重试
+    Task -> Store : FAILED 不继续请求
+    break 本轮失败结束
+      Task -> Task : 不处理或发布后续结果
+    end
+  else 获准批次响应
+    Source --> Adapter : 有效业务记录或可信零结果
+    Adapter --> Task : 来源记录及允许保留的证据
+    ref over Task, Store : SEQ-03逐条处理 与SEQ-04候选保存段
+    Task -> Store : 保存安全检查点 不推进发布水位
+    opt 停止请求先于发布获准
+      Task -> Store : 已设STOPPING 在安全边界清理
+      Task -> Store : 保存账目并STOPPED
+      break 不再请求来源 不发布候选版本
+        Task -> Task : 丢弃迟到完成
+      end
+    end
+  end
+end
+ref over Task, Store : SEQ-04最终发布段 成功才SUCCEEDED
+note over Task, Store
+FAILED显式重试增加attempt并回PENDING
+STOPPED重跑新建任务 引用原任务
+停止受理时立即设标记和STOPPING
+安全边界才完成STOPPED
+end note
+@enduml

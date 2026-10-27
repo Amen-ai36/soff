@@ -1,0 +1,49 @@
+@startuml
+title M1-AN-01 整体分析类模型（成员1提案，待联合确认）
+left to right direction
+skinparam defaultFontName Microsoft YaHei
+skinparam classAttributeIconSize 0
+hide empty members
+class "账号" as Account
+class "学者" as Scholar
+class "学者门户" as ScholarPortal
+class "认领申请" as ClaimRequest
+class "门户维护授权" as PortalGrant
+class "规范成果" as Work
+class "成果作者关联" as Authorship
+class "机构" as Organization
+class "领域" as Field
+class "来源记录" as SourceRecord
+class "采集任务" as CollectionTask
+class "处理批次" as ProcessingBatch
+class "治理问题" as GovernanceIssue
+Scholar "1" -- "0..1" ScholarPortal : 对应
+Account "1" -- "0..*" ClaimRequest : 提交
+ScholarPortal "1" -- "0..*" ClaimRequest : 接收
+Account "1" -- "0..*" PortalGrant : 获得
+ScholarPortal "1" -- "0..*" PortalGrant : 授权历史
+ClaimRequest "1" -- "0..1" PortalGrant : 通过后建立
+Work "1" -- "0..*" Authorship : 具有
+Scholar "1" -- "0..*" Authorship : 署名
+Work "0..*" -- "0..*" Organization : 成果机构证据
+Work "0..*" -- "0..*" Field : 分类
+Work "0..1" -- "0..*" SourceRecord : 来源映射
+CollectionTask "1" -- "0..*" ProcessingBatch : 处理
+ProcessingBatch "0..*" -- "0..*" SourceRecord : 观察及处理
+GovernanceIssue "0..*" -- "0..*" SourceRecord : 引用证据
+GovernanceIssue "0..*" -- "0..*" Work : 涉及
+GovernanceIssue "0..*" -- "0..*" Scholar : 涉及
+note bottom of ScholarPortal
+  每门户同时最多一个有效维护授权
+  历史授权多重性不等于并行有效授权
+end note
+note bottom of Work
+  公开成果须有至少一个有效来源依据
+  同版本去重公开成果目标不少于1,000,000条
+  普通关联不表示级联删除或数据库外键
+end note
+note bottom of ClaimRequest
+  申请不即授权，禁止自审
+  通过决定、授权与审计原子一致
+end note
+@enduml

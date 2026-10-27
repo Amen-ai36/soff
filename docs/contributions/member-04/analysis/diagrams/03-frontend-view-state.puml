@@ -1,0 +1,73 @@
+@startuml
+!pragma layout smetana
+title 前端视图状态（不等同于业务实体状态）
+
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam state {
+  BackgroundColor #F8FAFC
+  BorderColor #475569
+  ArrowColor #334155
+  FontColor #0F172A
+}
+
+state "检索页面" as Search {
+  [*] --> INITIAL
+  INITIAL --> INVALID : 提交非法条件
+  INVALID --> INITIAL : 修正字段
+  INITIAL --> LOADING : 提交合法查询
+  LOADING --> LOADING : 新查询\n作废旧请求
+  LOADING --> RESULTS : 成功且有数据
+  LOADING --> EMPTY : 成功且 total=0
+  LOADING --> ERROR : 无可靠结果
+  RESULTS --> LOADING : 筛选/排序/翻页
+  EMPTY --> LOADING : 改词/清除筛选
+  ERROR --> LOADING : 重试
+  RESULTS --> STALE : 查询版本失效
+  STALE --> LOADING : 使用原条件重新查询
+}
+
+state "认领页面" as Claim {
+  [*] --> LOGIN_REQUIRED
+  LOGIN_REQUIRED --> EDITING : 登录成功并安全返回
+  EDITING --> INVALID_CLAIM : 字段不合法
+  INVALID_CLAIM --> EDITING : 修正字段
+  EDITING --> SUBMITTING : 提交合法表单
+  SUBMITTING --> PENDING_VIEW : 创建成功
+  SUBMITTING --> CONFLICT_CLAIM : 重复/门户占用
+  SUBMITTING --> OUTCOME_UNKNOWN : 超时/断网
+  OUTCOME_UNKNOWN --> PENDING_VIEW : 查到权威申请
+  OUTCOME_UNKNOWN --> EDITING : 确认未创建
+  CONFLICT_CLAIM --> PENDING_VIEW : 打开本人既有申请
+  PENDING_VIEW --> APPROVED_VIEW : 权威状态更新
+  PENDING_VIEW --> REJECTED_VIEW : 权威状态更新
+  APPROVED_VIEW --> [*]
+  REJECTED_VIEW --> [*]
+}
+
+state "门户维护页面" as Maintenance {
+  [*] --> CLEAN
+  CLEAN --> DIRTY : 修改允许字段
+  DIRTY --> INVALID_EDIT : 本地校验失败
+  INVALID_EDIT --> DIRTY : 修正字段
+  DIRTY --> SAVING : 保存
+  SAVING --> SAVED : 已保存且已同步
+  SAVING --> SYNC_PENDING : 已保存、待同步
+  SAVING --> CONFLICT_EDIT : 版本冲突
+  SAVING --> OUTCOME_UNKNOWN_EDIT : 结果未知
+  CONFLICT_EDIT --> CLEAN : 放弃草稿并重载
+  CONFLICT_EDIT --> SAVING : 人工合并后再保存
+  OUTCOME_UNKNOWN_EDIT --> CLEAN : 读取权威版本
+  SYNC_PENDING --> SAVED : 同步完成
+  SYNC_PENDING --> SYNC_FAILED : 同步失败
+}
+
+note bottom of Claim
+EDITING / SUBMITTING / OUTCOME_UNKNOWN / CONFLICT
+均为前端视图状态，不写入认领业务枚举。
+end note
+
+note bottom of Maintenance
+“已保存”与“公开检索已同步”分开反馈。
+end note
+@enduml

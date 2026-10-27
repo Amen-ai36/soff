@@ -1,0 +1,71 @@
+@startuml
+skinparam defaultFontName Microsoft YaHei
+skinparam shadowing false
+title M2-AN-02 增量更新与更新记录（M1-UC-09/11，DR-INC 系列）
+participant 调度器 as S
+control 更新协调 as C
+participant 来源适配器 as SA
+participant 外部来源 as SRC
+database 来源水位线 as W
+database 更新记录 as U
+database 规范成果 as D
+participant 治理队列 as G
+
+S -> C : 触发增量任务（source_id、范围）
+C -> W : 读取 watermark（source_version、etag、last_success_at）
+W --> C : watermark 或"从未同步"
+C -> SA : fetchChanges(since=watermark、scope)
+SA -> SRC : 增量请求（updated_since / cursor）
+alt 来源不支持增量
+  SRC --> SA : 全量分页
+  SA --> C : 全量清单 + 明确标记 full_resync
+else 支持增量
+  SRC --> SA : 变更清单 + 新 source_version
+  SA --> C : 变更清单
+end
+
+loop 每条来源记录
+  C -> C : 计算 content_hash 并与上版比较
+  alt 内容未变化
+    C -> U : NO_CHANGE（可采样登记，不逐条膨胀）
+  else 新增来源记录
+    C -> D : 创建 SourceRecord 与来源证据
+    C -> U : CREATED
+  else 内容变更
+    C -> C : 计算字段级 diff
+    alt 与人工维护字段冲突
+      C -> G : 登记 GovernanceIssue（不覆盖人工值）
+    else 无冲突
+      C -> D : 更新来源侧字段（保留字段级来源）
+      C -> U : UPDATED(field_diff、source_version)
+    end
+  else 来源撤回或删除
+    C -> D : 标记来源记录失效，不物理删除规范成果
+    C -> U : RETRACTED
+  end
+end
+
+group 原子推进边界
+  C -> U : 批量写更新记录
+  C -> W : 推进 watermark 与 etag
+  alt 任一步写入失败
+    C -> W : 本批次全部回滚
+    C --> S : 未推进水位线，可安全重试
+  else 提交成功
+    W --> C : 新 watermark
+    C --> S : 增量完成（计数与版本）
+  end
+end
+
+alt 来源版本回退或出现缺口
+  C -> C : 拒绝推进 watermark，登记来源契约异常
+  C -> G : 标记需要全量重同步
+else 重复投递同一 source_version
+  C -> C : 幂等跳过，不新增更新记录
+end
+
+note over C,U
+  更新记录是"来源变化日志"，不是规范成果版本号。
+  源更新与人工维护值冲突时只登记治理，不静默覆盖。
+end note
+@enduml

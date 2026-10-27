@@ -85,6 +85,7 @@ AI 使用证据仅针对核心代码生成、解释、续写、测试、调试�
 
 ## 当前资料
 
+- [需求分析统一交付入口](docs/deliverables/03-analysis/README.md)：2026-10-27汇编十位成员供稿，包含核心类图说明、关键交互、追踪、A/B差异及原始材料；人工联合复核状态另列。
 - [第2～6周统一调研交付入口](docs/deliverables/01-research/README.md)：已完成并经用户确认人工审核，包含统一报告、问卷与证据附件、调研汇报PPT。
 - [需求建模统一交付入口](docs/deliverables/02-requirements/README.md)：已完成并经用户确认人工审核，包含统一SRS、两组核心SPEC、UML原图、原型、追踪表及建模汇报PPT。
 - [调研与建模阶段完成记录](docs/deliverables/00-research-modeling-completion.md)：两阶段材料索引及三个PPT归档位置。

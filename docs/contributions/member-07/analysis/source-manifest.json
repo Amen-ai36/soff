@@ -1,0 +1,80 @@
+{
+  "date": "2026-10-27",
+  "branch": "b",
+  "baseline_commit": "90ff35622f56cd00ab3ca9844f34b45183be8402",
+  "scope": "B组成员7个人分析供稿；A组只参考四图组织方式，不复制业务规则",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "5c484ac9ed17a45f9f8abbd2b95e0df5ece23bc5c73c8009ce7e983208901edc"
+    },
+    {
+      "path": "AGENT.md",
+      "sha256": "b9a918095701ee5676c67ff0ca386eb2b7aea0fb690a4fbecae9f184c826849c"
+    },
+    {
+      "path": "AGENTS.md",
+      "sha256": "70194ea4343cf22c35cf5eadd65367e83255b8477f82b2786f97c533f11a305a"
+    },
+    {
+      "path": "双组并行开发与合并方案.md",
+      "sha256": "f03f1ac5b9d6f6ceff5014af8b8bcea3795ab96dbc89f2ff955d2088819056c0"
+    },
+    {
+      "path": "docs/deliverables/02-requirements/01-unified-srs.md",
+      "sha256": "896e83fba97f49e9ab943a2d70fe48c5e585b185dcd46c6a1f7747264b852cb0"
+    },
+    {
+      "path": "docs/contributions/member-07/requirements/01-srs-contribution.md",
+      "sha256": "387a3951df44c381551bb8984ce944527b9f6de57cc4b4f4f8cec29f8cee1df4"
+    },
+    {
+      "path": "docs/contributions/member-07/requirements/02-field-mapping.md",
+      "sha256": "63f7ff87ba96c9a7dd27c7b9941d50832b76515d555850025cea074442c613b0"
+    },
+    {
+      "path": "docs/contributions/member-07/requirements/03-acceptance-and-traceability.md",
+      "sha256": "7090fa880860ccebeb16c8cc30778b27904de3405196aaff8f894a4d25cae4f7"
+    },
+    {
+      "path": "docs/contributions/member-07/requirements/specs/SPEC-M7-INGEST.md",
+      "sha256": "a45db49d4bfd7b4283feca8c2fa985090418395c37af2ce70ba86c8f58c0b38f"
+    },
+    {
+      "path": "docs/contributions/member-07/requirements/specs/SPEC-M7-CLEAN.md",
+      "sha256": "30fa2a87c802c837d668e8e9153147f6c36bf27fcd2574809719d166617f034f"
+    },
+    {
+      "path": "docs/contributions/member-07/requirements/specs/SPEC-M7-RESOLVE.md",
+      "sha256": "7b5c8d51f295a5e157a7bc04b3a01bd3dd3f70c31f87a8b9c2a644f598147c26"
+    },
+    {
+      "path": "docs/contributions/member-06/analysis/01-business-object-boundaries.md",
+      "sha256": "623eb9f90aeec17e02adb5fa75bef01284d3fae2ec6d090003d0ca249e740987"
+    },
+    {
+      "path": "docs/contributions/member-06/analysis/02-overall-class-structure.md",
+      "sha256": "2ac9e3039cc03601008cbd24021d18babb37c10438cc44d83fb0f7d056f8b2bc"
+    },
+    {
+      "path": "docs/contributions/member-06/analysis/03-document-outline-and-handoff.md",
+      "sha256": "61bb28ce6672ff760b7421f3ede5f7a4988cf9c63ea3853b21fa24eb9b5c3afc"
+    },
+    {
+      "path": "docs/contributions/member-08/analysis/01-core-class-model.md",
+      "sha256": "1f46f99cc84d2d0e7632d9cedda5a14a1e09e5acea7af85b0a01df799b792f89"
+    },
+    {
+      "path": "docs/contributions/member-08/analysis/02-business-interactions.md",
+      "sha256": "aa05a3b4333d424d02d7d4947e6c04d5fef5502eecb62affffce4150df7457ca"
+    },
+    {
+      "path": "docs/contributions/member-08/analysis/03-frontend-handoff.md",
+      "sha256": "97153393c7cd883f4486fe19ac0dabce83e62c1f58c91193d9ad5f8ebb67d6df"
+    },
+    {
+      "path": "docs/contributions/member-09/analysis/04-handoff-and-actions.md",
+      "sha256": "f63bc9a46bf30aec4364edbd643dd8833294d62dd9a6242aa6f150733460af61"
+    }
+  ]
+}

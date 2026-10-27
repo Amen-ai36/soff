@@ -1,0 +1,52 @@
+@startuml
+skinparam defaultFontName Microsoft YaHei
+skinparam defaultFontSize 17
+skinparam shadowing false
+skinparam maxMessageSize 220
+hide footbox
+autonumber
+title M7-AN-SEQ-02 增量更新与更新记录 B组参考草稿
+control "更新协调" as Update
+control "来源适配" as Adapter
+database "候选与历史记录" as Store
+control "发布协调" as Publish
+
+Update -> Store : 读上次成功水位W 规则与来源版本
+Store --> Update : W及获准范围
+Update -> Update : 固定本次上界U与来源能力
+alt 来源支持可靠增量
+  Update -> Adapter : 取W到U变化 含获准重叠窗口
+else 不支持可靠增量
+  Update -> Adapter : 比较获准版本文件或受控全量
+end
+Adapter --> Update : 来源键 哈希与变化依据
+loop 每条来源变化
+  Update -> Store : 查询前值与人工维护版本
+  alt 同键同哈希
+    Update -> Store : unchanged 不新建成果或重复事件
+  else 新增或修改
+    ref over Update, Store : SEQ-03清洗去重消歧
+    alt 与人工修正冲突
+      Update -> Store : 保留人工值与来源值 登记ReviewCase
+    else 可接受的候选变化
+      Update -> Store : 幂等保存候选与UpdateRecord
+    end
+  else 有明确撤回或完整快照依据
+    Update -> Publish : 立即阻止受影响内容公开
+    Publish -> Store : 权威可见性过滤 生效后同步索引统计
+    Update -> Store : 记录撤回依据 不物理抹除审计
+  end
+  Update -> Store : 保存候选检查点 水位W不变
+end
+Update -> Publish : 请求SEQ-04发布 固定版本与上界U
+alt 索引 对账 停止或提交失败
+  Publish --> Update : 未发布 旧版本与水位W保持
+else 完整发布成功
+  Publish --> Update : 新版本与水位U已共同生效
+end
+note over Update, Store
+单页缺失不是删除证据
+来源观测时间不等于公开发布时间
+UpdateRecord不是成果ID或发布版本
+end note
+@enduml

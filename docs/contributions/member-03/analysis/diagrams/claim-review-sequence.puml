@@ -1,0 +1,66 @@
+@startuml
+skinparam defaultFontName Microsoft YaHei
+skinparam shadowing false
+title M3-AN-05 认领审核（UC3-05）
+actor 审核者 as U
+boundary 审核页面 as UI
+control 审核协调 as C
+control 会话与职责权限 as A
+database 权威业务存储 as D
+participant 通知职责 as N
+UI -> C : 读取申请与受限材料
+C -> A : 校验当前会话、职责与对象访问
+break 无权或不存在
+  C --> UI : 相同不可访问反馈，不读取材料
+end
+C -> D : 有权后读取申请及材料引用
+D --> UI : 经授权的审核视图及当前版本
+U -> UI : 决定、理由
+UI -> C : 审核（预期版本、幂等键）
+C -> A : 会话、审核职责及非申请人校验
+alt 无权或自审
+  C --> UI : 拒绝，不写决定
+else 有资格
+  C -> D : 查询主体/操作/幂等键
+  alt 相同参数已提交
+    D --> C : 原结果
+    C --> UI : 重放决定与版本
+  else 同键不同参数
+    C --> UI : 幂等冲突
+  else 新请求
+    C -> C : 校验决定、理由及预期版本
+    break 参数不合法
+      C --> UI : 字段错误，不进入写事务
+    end
+    group 原子审核边界
+      C -> D : 复核当前资格、材料与PENDING、预期版本
+      C -> D : 通过时复核门户空闲、唯一有效授权约束
+      alt 过期版本、占用、终态或校验失败
+        C -> D : 放弃本请求变更
+        C --> UI : 冲突/拒绝，按访问资格刷新权威状态
+      else 满足提交条件
+        C -> D : 写审核决定；通过时创建授权
+        C -> D : 写最小审计与幂等结果
+        alt 任一步写入或提交失败
+          C -> D : 本事务全部回滚
+          C --> UI : 未提交或结果待查询确认
+        else 提交成功
+          D --> C : 已保存终态及新版本
+          C --> UI : 权威审核结果
+          C -> N : 发送决定通知（提交后）
+          alt 通知失败
+            N -> N : 登记可追踪重试，不撤销审核决定
+          else 通知成功
+            N --> C : 已发送
+          end
+        end
+      end
+    end
+  end
+end
+note over C,D
+  两申请争同一门户：最多一个有效授权。
+  竞争同一申请：失败请求不覆盖已提交终态。
+  决定、授权、审计、幂等结果共同提交。
+end note
+@enduml

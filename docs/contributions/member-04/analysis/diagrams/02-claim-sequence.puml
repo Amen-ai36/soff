@@ -1,0 +1,89 @@
+@startuml
+!pragma layout smetana
+title 门户认领：用户与页面交互补充视角
+
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam sequence {
+  ArrowColor #334155
+  LifeLineBorderColor #64748B
+  LifeLineBackgroundColor #F8FAFC
+  ParticipantBorderColor #475569
+  ParticipantBackgroundColor #E2E8F0
+  GroupBorderColor #64748B
+  GroupBackgroundColor #F8FAFC
+}
+
+actor 申请人
+boundary 学者门户 as PortalPage
+boundary 登录页 as LoginPage
+boundary 认领申请页 as ClaimPage
+control 认证职责边界 as AuthService
+control 认领职责边界 as ClaimService
+
+note over PortalPage, ClaimService
+PENDING / APPROVED / REJECTED 为候选共同语义；
+操作名是分析语言，不代表已批准 API。
+end note
+
+申请人 -> PortalPage: 选择“申请认领”
+
+alt 未登录
+  PortalPage -> LoginPage: 保存安全的目标上下文
+  申请人 -> LoginPage: 提交凭据
+  LoginPage -> AuthService: 建立会话
+  alt 认证成功
+    AuthService --> LoginPage: 有效会话
+    LoginPage -> ClaimPage: 返回目标门户的申请入口
+  else 认证失败/服务不可用
+    AuthService --> LoginPage: 通用失败
+    LoginPage --> 申请人: 保留目标入口，不回显凭据
+  end
+else 已登录
+  PortalPage -> ClaimPage: 打开申请表
+end
+
+申请人 -> ClaimPage: 填写说明和允许的证明材料
+ClaimPage -> ClaimPage: 本地校验与提交前复核
+
+alt 字段非法
+  ClaimPage --> 申请人: 定位字段并保留非敏感输入
+else 字段合法
+  ClaimPage -> ClaimPage: 进入提交中，阻止重复操作
+  ClaimPage -> ClaimService: 创建认领申请意图
+
+  alt 创建成功
+    ClaimService --> ClaimPage: 申请编号、PENDING、版本
+    ClaimPage --> 申请人: 展示查询入口；不开放维护
+  else 已有本人待审申请
+    ClaimService --> ClaimPage: 既有申请引用
+    ClaimPage --> 申请人: 打开既有申请，不创建第二条
+  else 门户已占用或不可申请
+    ClaimService --> ClaimPage: 不泄露他人信息的冲突
+    ClaimPage --> 申请人: 返回门户或提交纠错
+  else 超时/断网，结果未知
+    ClaimService --> ClaimPage: 无法确认结果
+    ClaimPage -> ClaimService: 查询当前用户的权威申请状态
+    alt 已创建
+      ClaimService --> ClaimPage: 权威编号和 PENDING
+      ClaimPage --> 申请人: 展示既有结果
+    else 确认未创建
+      ClaimService --> ClaimPage: 无申请
+      ClaimPage --> 申请人: 恢复安全输入并允许重试
+    end
+  end
+end
+
+申请人 -> ClaimPage: 后续查看申请
+ClaimPage -> ClaimService: 读取本人申请权威状态
+alt APPROVED
+  ClaimService --> ClaimPage: 已通过、授权有效
+  ClaimPage --> 申请人: 显示维护入口
+else REJECTED
+  ClaimService --> ClaimPage: 已驳回、可公开理由
+  ClaimPage --> 申请人: 显示理由和重新申请路径
+else PENDING
+  ClaimService --> ClaimPage: 仍待审核
+  ClaimPage --> 申请人: 显示当前状态和时间
+end
+@enduml

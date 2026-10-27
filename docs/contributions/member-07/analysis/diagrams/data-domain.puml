@@ -1,0 +1,64 @@
+@startuml
+!pragma layout smetana
+skinparam defaultFontName Microsoft YaHei
+skinparam defaultFontSize 16
+skinparam shadowing false
+hide empty members
+title M7-AN-CLS-01 数据侧对象关系 B组分析建议
+class "采集任务\nCollectionTask" as Task {
+  任务ID 来源范围 状态及版本
+  +请求停止()
+  +显式重试()
+}
+class "执行尝试\nTaskAttempt" as Attempt {
+  尝试号 时间 错误摘要
+  +保留执行结果()
+}
+class "采集批次\nCollectionBatch" as Batch {
+  稳定批次键 候选检查点
+  +保存恢复位置()
+}
+class "来源记录\nSourceRecord" as Source {
+  来源键 观测版本 权利依据
+  +追溯来源()
+}
+class "处理记录\nProcessRecord" as Record {
+  规则版本 结果及原因
+  +解释处置()
+}
+class "更新记录\nUpdateRecord" as Update {
+  变化类别 前后哈希
+  +解释来源变化()
+}
+class "复核事项\nReviewCase" as Review {
+  类别 候选证据 处理状态
+  +确认或拒绝候选()
+}
+class "规范成果\nAchievement" as Work {
+  稳定ID 类型 字段证据
+  +提供规范内容()
+}
+class "候选版本\nCandidateVersion" as Candidate {
+  版本 预期公开ID集合 账目
+  +核对发布条件()
+}
+class "已发布数据集\nPublishedDataset" as Published {
+  当前版本 来源成功水位
+  +解释公开范围()
+}
+Task "1" -- "0..*" Attempt
+Attempt "1" -- "0..*" Batch
+Batch "1" -- "0..*" Record
+Record "0..*" --> "1" Source
+Record "1" -- "0..1" Update
+Record "1..*" -- "0..*" Review
+Source "0..*" --> "0..1" Work
+Candidate "0..*" -- "0..*" Work
+Task "1" -- "0..*" Candidate
+Published "0..*" --> "1" Candidate
+note bottom of Work
+复合响应先拆成单成果来源记录
+多来源和重试不增加成果计数
+本图不决定数据库表或公开字段
+end note
+@enduml
