@@ -25,9 +25,8 @@
 | [specs/SPEC-DATA-005-incremental-update.md](specs/SPEC-DATA-005-incremental-update.md) | 水位线、增量更新和冲突处理 SPEC | 已完成 |
 | [specs/SPEC-DATA-006-quality-gate.md](specs/SPEC-DATA-006-quality-gate.md) | 数据质量规则、计数和公开准入 SPEC | 已完成 |
 | [03-collection-task-state-machine.md](03-collection-task-state-machine.md) | 采集任务状态、事件、守卫、动作和异常恢复 | 已完成 |
-| [diagrams/collection-task-state.puml](diagrams/collection-task-state.puml) | 状态图 PlantUML 源文件 | 已完成 |
 | [diagrams/collection-task-state-codearts.png](diagrams/collection-task-state-codearts.png) | 状态图 CodeArts Modeling 成品截图 | 已完成 |
-| [diagrams/collection-task-state-codearts.xml](diagrams/collection-task-state-codearts.xml) | 状态图 CodeArts Modeling 模型源文件 | 已完成 |
+| [diagrams/collection-task-state-codearts.xml](diagrams/collection-task-state-codearts.xml) | 状态机模型导出文件 | 已完成 |
 | [diagrams/README.md](diagrams/README.md) | 状态图图元清单与迁移清单 | 已完成 |
 | [evidence/2026-10-12-source-accessibility-validation.md](evidence/2026-10-12-source-accessibility-validation.md) | 候选数据源许可、字段和实际访问结果 | 已完成 |
 

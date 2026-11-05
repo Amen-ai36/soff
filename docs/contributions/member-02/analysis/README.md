@@ -15,12 +15,12 @@
 
 ## 2. 图表目录
 
-| 图号 | 标题 | 图 |
-| --- | --- | --- |
-| M2-AN-01 | 采集任务执行与停止边界 | [CodeArts 顺序图](diagrams/collection-task-sequence.png) |
-| M2-AN-02 | 增量更新与更新记录 | [CodeArts 顺序图](diagrams/incremental-update-sequence.png) |
-| M2-AN-03 | 数据清洗与去重消歧 | [CodeArts 顺序图](diagrams/cleaning-sequence.png) |
-| M2-AN-04 | 入库与公开投影一致性 | [CodeArts 顺序图](diagrams/persistence-sequence.png) |
+| 图号 | 标题 | 成图 | 导出模型 |
+| --- | --- | --- | --- |
+| M2-AN-01 | 采集任务执行与停止边界 | [PNG](diagrams/collection-task-sequence.png) | [XML](diagrams/collection-task-sequence-codearts.xml) |
+| M2-AN-02 | 增量更新与更新记录 | [PNG](diagrams/incremental-update-sequence.png) | [XML](diagrams/incremental-update-sequence-codearts.xml) |
+| M2-AN-03 | 数据清洗与去重消歧 | [PNG](diagrams/cleaning-sequence.png) | [XML](diagrams/cleaning-sequence-codearts.xml) |
+| M2-AN-04 | 入库与公开投影一致性 | [PNG](diagrams/persistence-sequence.png) | [XML](diagrams/persistence-sequence-codearts.xml) |
 
 ## 3. 与既有材料的边界
 
@@ -31,4 +31,4 @@
 
 ## 4. 绘制方式
 
-四张图均在华为云 CodeArts Modeling 的「drawdemo / 软件建模 / 4+1分析」工程中维护，采用「运行模型-顺序图」模板。生命线、消息与回复消息均使用工具面板原生图元；本目录保存的 PNG 为工程内实际图形区域截图。
+四张 UML 顺序图均使用华为云 CodeArts Modeling 绘制，文档展示图形区域截图。
