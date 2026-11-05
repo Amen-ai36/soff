@@ -1,16 +1,7 @@
 # 状态图交付物说明
 
-## collection-task-state-codearts.png
+[数据采集任务状态图](collection-task-state-codearts.png)为华为云 CodeArts Modeling 绘制的 UML 状态机图。
 
-CodeArts Modeling 中「数据采集任务状态图」的成品截图（工程：`drawdemo / 4+1`，图类型：状态机图）。
-
-## collection-task-state-codearts.xml
-
-同一张图的模型源文件。该图为 draw.io 内核的 mxGraph 文档，元素以 `<object>` 包装并带 UML 语义属性（`stereotype` / `type` / `pureName` / `spaceUUID`），可在模型工程中重新导入或比对。
-
-## collection-task-state.puml
-
-同一状态机的 PlantUML 文本描述，便于在文档和评审中直接引用。
 
 ## 图元清单
 

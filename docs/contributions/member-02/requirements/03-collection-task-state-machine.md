@@ -2,8 +2,6 @@
 
 > 追踪：R04、R11
 > 责任：成员 2、7 共同负责
-> 图源：`diagrams/collection-task-state.puml`
-> CodeArts Modeling 成品：`diagrams/collection-task-state-codearts.png`，模型源文件 `diagrams/collection-task-state-codearts.xml`
 
 ## 1. 状态集合
 
@@ -96,29 +94,11 @@ finished_at
 | 写库成功但索引失败 | PARTIAL_SUCCESS，只重放 INDEX_SYNC |
 | 重复触发 start | 返回当前状态，不创建第二执行实例 |
 
-## 7. Mermaid 视图
+## 7. CodeArts 状态机图
 
-```mermaid
-stateDiagram-v2
-    [*] --> DRAFT: 创建任务
-    DRAFT --> QUEUED: submit()
-    DRAFT --> CANCELLED: cancel()
-    QUEUED --> RUNNING: 调度器派发
-    QUEUED --> CANCELLED: cancel()
-    RUNNING --> RUNNING: advanceStage()
-    RUNNING --> SUCCEEDED: 全部阶段完成
-    RUNNING --> RETRY_WAIT: 可重试错误
-    RETRY_WAIT --> QUEUED: 退避到期
-    RETRY_WAIT --> FAILED: 重试耗尽
-    RUNNING --> PARTIAL_SUCCESS: 部分源失败
-    RUNNING --> FAILED: 不可重试错误
-    RUNNING --> STOPPING: stop()
-    STOPPING --> STOPPED: 安全停止
-    STOPPING --> FAILED: 停止超时
-    STOPPED --> QUEUED: resume()
-    PARTIAL_SUCCESS --> QUEUED: 重试失败源
-    SUCCEEDED --> [*]: 结束
-```
+![数据采集任务状态图](diagrams/collection-task-state-codearts.png)
+
+[下载 UML 状态机模型（XML）](diagrams/collection-task-state-codearts.xml)
 
 ## 8. 验收
 
