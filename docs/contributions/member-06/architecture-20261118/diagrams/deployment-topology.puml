@@ -1,0 +1,30 @@
+@startuml
+title M6-ARCH-02 华为云候选部署 不是已部署证明
+actor 浏览器 as Browser
+cloud "获准外部数据源" as Sources
+node "华为云 同区域 VPC候选" {
+ node "ECS 应用部署单元" {
+ component "HTTPS入口与Web/API\n认证 检索 门户认领 统计 管理" as API
+ }
+ node "ECS 后台部署单元\n可与应用共主机但独立进程" {
+ component "采集/ETL worker" as Worker
+ component "投影worker" as Projector
+ }
+ database "RDS\n权威业务 候选 任务 outbox" as RDS
+ database "CSS\n候选与已发布Elasticsearch投影" as CSS
+ storage "OBS\n获准载荷与私有证明分别授权" as OBS
+}
+Browser --> API : HTTPS
+API --> RDS : 私网业务事务
+API --> CSS : 受控公开查询
+API --> OBS : 授权材料访问
+Worker --> Sources : 限流且批准的出口
+Worker --> OBS : 获准载荷
+Worker --> RDS : 批次候选与账目
+Projector --> RDS : 待办与回执
+Projector --> CSS : 版本化投影
+note bottom
+规格 费用 备份 恢复 安全组 权限待5/10核实。
+CCE为后续替代，不表示同时采购；本图需CodeArts复画。
+end note
+@enduml

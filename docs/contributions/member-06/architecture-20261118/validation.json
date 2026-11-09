@@ -1,0 +1,266 @@
+{
+  "date": "2026-11-09",
+  "scope": "成员6架构设计文档供稿，非业务或云部署验收",
+  "word_packages": [
+    {
+      "file": "artifacts/05-架构决策记录-成员6.docx",
+      "zip_integrity": "pass",
+      "embedded_chinese_font": true
+    },
+    {
+      "file": "artifacts/02-系统架构设计说明书-成员6.docx",
+      "zip_integrity": "pass",
+      "embedded_chinese_font": true
+    },
+    {
+      "file": "artifacts/01-架构调研分析报告-成员6.docx",
+      "zip_integrity": "pass",
+      "embedded_chinese_font": true
+    }
+  ],
+  "visual_review": {
+    "word_pages": {
+      "research": 3,
+      "design": 4,
+      "adr": 3
+    },
+    "slides": 10,
+    "method": "已逐页查看生成渲染；更新后的PPT第1/4/6页再次查看",
+    "native_office_execution": false
+  },
+  "presentation_receipt": {
+    "schemaVersion": "presentation-finalization.v1",
+    "finalSha256": "6ea51ff950845938190947e7c5c59bdc5cc240e624f55570702331094a350e7c",
+    "byteCount": 55356,
+    "packageIntegrity": {
+      "chart_count": 0,
+      "claim_boundary": "Structural package checks only; no slide text, notes, formulas, chart values, or native PowerPoint execution were inspected.",
+      "finding_count": 0,
+      "findings": [],
+      "notes_parts_skipped": 10,
+      "relationship_part_count": 30,
+      "slide_count": 10,
+      "status": "pass",
+      "exitCode": 0,
+      "findingCount": 0,
+      "warnings": []
+    },
+    "presentationLayout": {
+      "finding_count": 0,
+      "findings": [],
+      "font_policy": {
+        "checked_text_script_count": 158,
+        "native_font_rendering_verified": false,
+        "observed_font_families": [
+          "PingFang SC"
+        ],
+        "observed_font_use_counts": {
+          "PingFang SC": 158
+        },
+        "passed": true,
+        "performed": true
+      },
+      "slide_count": 10,
+      "slide_size_in": [
+        13.3333,
+        7.5
+      ],
+      "warning_count": 0,
+      "warnings": [],
+      "exitCode": 0,
+      "findingCount": 0,
+      "fontPolicy": {
+        "checked_text_script_count": 158,
+        "native_font_rendering_verified": false,
+        "observed_font_families": [
+          "PingFang SC"
+        ],
+        "observed_font_use_counts": {
+          "PingFang SC": 158
+        },
+        "passed": true,
+        "performed": true
+      }
+    },
+    "fontSelection": {
+      "basis": "design",
+      "approvedFamilies": [
+        "PingFang SC"
+      ],
+      "scriptFonts": {},
+      "referenceSha256": null,
+      "referenceFontsVerifiedInEncodedText": false,
+      "checked_text_script_count": 158,
+      "native_font_rendering_verified": false,
+      "observed_font_families": [
+        "PingFang SC"
+      ],
+      "observed_font_use_counts": {
+        "PingFang SC": 158
+      },
+      "passed": true,
+      "performed": true
+    },
+    "firstPartyImport": {
+      "performed": true,
+      "passed": true,
+      "slideCount": 10,
+      "sha256": "6ea51ff950845938190947e7c5c59bdc5cc240e624f55570702331094a350e7c",
+      "runtimeNodeModules": "/Users/ply/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules",
+      "nodeExecutable": "/Users/ply/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node"
+    },
+    "nativeTableArithmetic": {
+      "performed": true,
+      "checked_column_count": 0,
+      "checks": [],
+      "claim_boundary": "Displayed-value arithmetic with rounding tolerance; not source-data verification.",
+      "eligible_table_count": 0,
+      "finding_count": 0,
+      "findings": [],
+      "native_table_count": 0,
+      "passed": true,
+      "schema_version": "presentation-native-table-arithmetic.v1",
+      "skipped_tables": [],
+      "slide_count": 10,
+      "warning_count": 0,
+      "warnings": []
+    },
+    "nativeChartTitles": {
+      "performed": true,
+      "checks": [],
+      "finding_count": 0,
+      "findings": [],
+      "native_chart_count": 0,
+      "native_powerpoint_verified": false,
+      "passed": true,
+      "presentation_sha256": "6ea51ff950845938190947e7c5c59bdc5cc240e624f55570702331094a350e7c",
+      "schema_version": "presentation-native-chart-titles.v1",
+      "slide_count": 10,
+      "source_text_emitted": false,
+      "unresolved_linked_title_count": 0
+    },
+    "sourceDerivedPolicyFlags": [
+      "--expected-slide-size-emu",
+      "12192000,6858000",
+      "--validate-heading-fit",
+      "--cover-role",
+      "none",
+      "--expected-slide-count",
+      "10",
+      "--approved-font-family",
+      "PingFang SC"
+    ],
+    "nativeChartValidation": {
+      "detectedOwnerSlides": [],
+      "detectedChartCount": 0,
+      "targetApplication": null,
+      "sourceChartOwnersExplicitlyDeclared": false,
+      "validatorRan": false,
+      "passed": true
+    }
+  },
+  "not_performed": [
+    "业务代码测试",
+    "压力测试",
+    "CodeArts建模与正式导出",
+    "华为云部署",
+    "成员1/6联合批准与人工签字"
+  ],
+  "local_links": [
+    {
+      "file": "README.md",
+      "target": "01-architecture-research.md",
+      "exists": true
+    },
+    {
+      "file": "README.md",
+      "target": "02-system-architecture.md",
+      "exists": true
+    },
+    {
+      "file": "README.md",
+      "target": "03-adr.md",
+      "exists": true
+    },
+    {
+      "file": "README.md",
+      "target": "04-speaking-notes-and-qa.md",
+      "exists": true
+    },
+    {
+      "file": "README.md",
+      "target": "05-submission-and-placeholders.md",
+      "exists": true
+    },
+    {
+      "file": "README.md",
+      "target": "06-source-and-review.md",
+      "exists": true
+    },
+    {
+      "file": "README.md",
+      "target": "diagrams/logical-architecture.puml",
+      "exists": true
+    },
+    {
+      "file": "README.md",
+      "target": "diagrams/deployment-topology.puml",
+      "exists": true
+    },
+    {
+      "file": "README.md",
+      "target": "artifacts/01-架构调研分析报告-成员6.docx",
+      "exists": true
+    },
+    {
+      "file": "README.md",
+      "target": "artifacts/02-系统架构设计说明书-成员6.docx",
+      "exists": true
+    },
+    {
+      "file": "README.md",
+      "target": "artifacts/05-架构决策记录-成员6.docx",
+      "exists": true
+    },
+    {
+      "file": "README.md",
+      "target": "artifacts/06-架构研讨供稿-成员6.pptx",
+      "exists": true
+    },
+    {
+      "file": "README.md",
+      "target": "artifacts/NotoSansCJK-OFL.txt",
+      "exists": true
+    },
+    {
+      "file": "README.md",
+      "target": "validation.json",
+      "exists": true
+    },
+    {
+      "file": "README.md",
+      "target": "05-submission-and-placeholders.md",
+      "exists": true
+    },
+    {
+      "file": "06-source-and-review.md",
+      "target": "../../member-07/analysis/03-analysis-handoff.md",
+      "exists": true
+    },
+    {
+      "file": "06-source-and-review.md",
+      "target": "../../member-08/analysis/01-core-class-model.md",
+      "exists": true
+    },
+    {
+      "file": "06-source-and-review.md",
+      "target": "../../member-08/analysis/04-review-and-comparison.md",
+      "exists": true
+    },
+    {
+      "file": "06-source-and-review.md",
+      "target": "../analysis/01-business-object-boundaries.md",
+      "exists": true
+    }
+  ]
+}
