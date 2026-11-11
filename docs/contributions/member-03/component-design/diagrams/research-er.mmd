@@ -1,0 +1,12 @@
+erDiagram
+  WORK ||--|{ WORK_REVISION : versions
+  WORK_REVISION ||--o{ PARTICIPATION : has
+  SCHOLAR ||--o{ PARTICIPATION : participates
+  WORK_REVISION ||--o{ WORK_ORGANIZATION : historical
+  ORGANIZATION ||--o{ WORK_ORGANIZATION : linked
+  WORK_REVISION ||--o{ WORK_FIELD : classified
+  FIELD ||--o{ WORK_FIELD : linked
+  WORK o|--o{ SOURCE_RECORD : current_mapping
+  DATASET ||--o{ DATASET_MEMBER : snapshot
+  WORK_REVISION ||--o{ DATASET_MEMBER : pins_revision
+  DATASET ||--o| RELEASE_POINTER : published

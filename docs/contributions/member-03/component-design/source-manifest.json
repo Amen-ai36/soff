@@ -1,0 +1,50 @@
+[
+  {
+    "commit": "87724d13dd87d3bbcddb2dee5c283c2e2fe0680b",
+    "path": "AGENT.md"
+  },
+  {
+    "commit": "87724d13dd87d3bbcddb2dee5c283c2e2fe0680b",
+    "path": "双组并行开发与合并方案.md"
+  },
+  {
+    "commit": "87724d13dd87d3bbcddb2dee5c283c2e2fe0680b",
+    "path": "docs/contributions/member-01/architecture/03-solution-a.md"
+  },
+  {
+    "commit": "87724d13dd87d3bbcddb2dee5c283c2e2fe0680b",
+    "path": "docs/contributions/member-01/component-design/01-component-boundaries-and-contracts.md"
+  },
+  {
+    "commit": "87724d13dd87d3bbcddb2dee5c283c2e2fe0680b",
+    "path": "docs/contributions/member-02/architecture/01-data-pipeline-architecture.md"
+  },
+  {
+    "commit": "87724d13dd87d3bbcddb2dee5c283c2e2fe0680b",
+    "path": "docs/contributions/member-04/architecture/02-frontend-backend-communication.md"
+  },
+  {
+    "commit": "87724d13dd87d3bbcddb2dee5c283c2e2fe0680b",
+    "path": "docs/contributions/member-03/requirements/traceability.csv"
+  },
+  {
+    "commit": "982ddca97da40c88bd23555e8932c95cf3527d7b",
+    "path": "docs/deliverables/03-analysis/01-core-business-class-model.md"
+  },
+  {
+    "commit": "982ddca97da40c88bd23555e8932c95cf3527d7b",
+    "path": "docs/deliverables/03-analysis/10-review-confirmation.md"
+  },
+  {
+    "commit": "982ddca97da40c88bd23555e8932c95cf3527d7b",
+    "path": "docs/deliverables/02-requirements/01-unified-srs.md"
+  },
+  {
+    "commit": "6f3c8fb39df7e01e96d96ce21b7cd4ce2c257ba7",
+    "path": "docs/contributions/member-06/architecture-20261118/02-system-architecture.md"
+  },
+  {
+    "commit": "6f3c8fb39df7e01e96d96ce21b7cd4ce2c257ba7",
+    "path": "docs/contributions/member-06/architecture-20261118/03-adr.md"
+  }
+]

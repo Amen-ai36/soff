@@ -1,5 +1,16 @@
 # 模型 A 使用记录
 
+## 2026-11-11 · M3-ARCH-01 / M3-COMP-01
+
+- 模型：Codex（GPT-6系列；精确部署版本未提供，不编造小版本）。岗位：A组成员三。
+- 提示：[M3-ARCH-COMP-20261111](prompts/M3-ARCH-COMP-20261111.md)；用户要求拉取远端、判断阶段、再做两个阶段，先列任务、逐项完成并检验，期间指示“继续”。
+- 依据：SPEC-M3-AUTH/SEARCH/CLAIM/STATS；本轮先编制 SPEC-M3-DESIGN-001，再建立候选SQL/JSON与验证脚本。固定a@87724d1、main@982ddca、b@6f3c8fb，需求分析复核已完成，按百万公开规范成果目标设计。
+- 产物：[成员三架构供稿](../../contributions/member-03/architecture/README.md)、[构件供稿](../../contributions/member-03/component-design/README.md)：存储/业务/检索统计/一致性、三项ADR输入、E-R、表索引、ES映射、18操作OpenAPI候选、内部异步端口、16需求追踪及验证。没有修改公共契约、根团队规则或业务代码。
+- 实际检验：`python docs/contributions/member-03/component-design/validate.py`，25个SQLite单连接设计试验通过，静态核查18操作、16需求、24项AC定义映射、4张图源和12项固定Git来源；`python docs/contributions/member-03/analysis/validate.py`原分析静态检查通过；`git diff --check`通过。新增未跟踪文本也由脚本检查尾随空白。最终精确计数以[验证报告](../../contributions/member-03/component-design/validation-report.md)为准。
+- AI自检修正：[真实失败与修正](../../contributions/member-03/component-design/self-review-corrections.md)，先保留复现断言，修复历史关系可变、已发布快照可解冻、SQLite文本主键允许null三个问题；原失败摘要保留。不是“人工修正”证据。
+- 人工审查：成员三本人审阅、成员八交叉复核和成员一/六共同确认尚未实际发生，不代签。公共字段、路径、状态及数据库引擎仍为候选。
+- 限制：没有真实HTTP、官方OpenAPI验证器、ES集群、生产数据库并发、百万容量、CodeArts原生工程或云部署验证。无Git提交/远端推送、采购、真实认领、对他人发消息或课程平台提交。
+
 ## 2026-11-11 · M4-ARCH-UI-09-11
 
 - 模型：Codex（GPT-5）。

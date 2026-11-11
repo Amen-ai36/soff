@@ -1,0 +1,10 @@
+{
+  "date": "2026-11-11",
+  "status": "FAIL",
+  "sqlite_trial_methods": 23,
+  "failed_tests": [
+    "test_published_relationships_immutable (__main__.DesignTrials.test_published_relationships_immutable)",
+    "test_revision_and_snapshot_immutability (__main__.DesignTrials.test_revision_and_snapshot_immutability)"
+  ],
+  "reason": "Published participation could be changed; a published dataset could be reset to BUILDING. Captured before the model fix."
+}
