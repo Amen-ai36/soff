@@ -1,0 +1,95 @@
+@startuml
+!pragma layout smetana
+skinparam defaultFontName Microsoft YaHei
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam classBackgroundColor #EFF6FF
+skinparam classBorderColor #38689A
+skinparam ArrowColor #334155
+hide circle
+title M8-CD-ER-01 规范成果与来源（候选ER，关键字段）
+left to right direction
+entity "学者\nscholar" as Scholar {
+ * scholar_id : varchar(64) <<PK>>
+ --
+ display_name : text
+ version : bigint
+}
+entity "成果\nachievement" as Work {
+ * work_id : varchar(64) <<PK>>
+ --
+ work_type : text
+ year : integer nullable
+ visibility : text
+ version : bigint
+}
+entity "参与关系\nachievement_participation" as Part {
+ * participation_id <<PK>>
+ --
+ work_id <<FK>>
+ scholar_id <<FK>>
+ role_description nullable
+ ordinal nullable
+}
+entity "机构\ninstitution" as Org {
+ * institution_id <<PK>>
+ --
+ display_name : text
+}
+entity "历史任职\nscholar_institution" as Aff {
+ * affiliation_id <<PK>>
+ --
+ scholar_id <<FK>>
+ institution_id <<FK>>
+ valid_from / valid_to
+ evidence_ref
+}
+entity "成果机构\nachievement_institution" as WI {
+ * work_id <<PK,FK>>
+ * institution_id <<PK,FK>>
+ --
+ evidence_ref
+}
+entity "领域\nacademic_field" as Field {
+ * field_id <<PK>>
+ --
+ scheme_code
+ parent_field_id <<FK,nullable>>
+}
+entity "成果领域\nachievement_field" as WF {
+ * work_id <<PK,FK>>
+ * field_id <<PK,FK>>
+ --
+ evidence_ref
+}
+entity "单成果来源\nsource_record" as Source {
+ * source_record_id <<PK>>
+ --
+ source_code / external_key <<UK>>
+ current_work_id <<FK,nullable>>
+ license_ref / source_url
+}
+entity "学者领域\nscholar_field" as SF {
+ * scholar_id <<PK,FK>>
+ * field_id <<PK,FK>>
+ --
+ evidence_ref
+}
+Scholar ||--o{ SF
+Field ||--o{ SF
+Scholar ||--o{ Part
+Work ||--o{ Part
+Scholar ||--o{ Aff
+Org ||--o{ Aff
+Work ||--o{ WI
+Org ||--o{ WI
+Work ||--o{ WF
+Field ||--o{ WF
+Work |o--o{ Source : 当前规范映射
+note bottom of Work
+ 成果按规范work_id计一次；
+ 类型判别不强制四表继承。
+ 图省略非关键字段，完整定义见数据字典。
+end note
+@enduml

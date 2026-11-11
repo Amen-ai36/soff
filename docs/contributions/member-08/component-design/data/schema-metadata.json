@@ -1,0 +1,1760 @@
+{
+  "tables": [
+    {
+      "name": "app_account",
+      "purpose": "登录主体与账号有效性",
+      "columns": [
+        {
+          "name": "account_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "服务端生成的不透明账号ID",
+          "extra": "PRIMARY KEY"
+        },
+        {
+          "name": "login_name",
+          "type": "varchar(200)",
+          "required": true,
+          "meaning": "规范化登录名",
+          "extra": "UNIQUE"
+        },
+        {
+          "name": "password_hash",
+          "type": "text",
+          "required": true,
+          "meaning": "经批准密码算法的验证值，不是明文",
+          "extra": ""
+        },
+        {
+          "name": "enabled",
+          "type": "boolean",
+          "required": true,
+          "meaning": "账号当前是否允许认证",
+          "extra": "DEFAULT true"
+        },
+        {
+          "name": "auth_version",
+          "type": "bigint",
+          "required": true,
+          "meaning": "会话撤销/权限资格校验版本",
+          "extra": "DEFAULT 1 CHECK (auth_version > 0)"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamptz",
+          "required": true,
+          "meaning": "创建时间",
+          "extra": ""
+        }
+      ],
+      "constraints": []
+    },
+    {
+      "name": "app_role",
+      "purpose": "平台角色字典",
+      "columns": [
+        {
+          "name": "role_code",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "平台角色代码，初始值待确认",
+          "extra": "PRIMARY KEY"
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "required": true,
+          "meaning": "角色职责说明",
+          "extra": ""
+        }
+      ],
+      "constraints": []
+    },
+    {
+      "name": "account_role",
+      "purpose": "账号角色授予",
+      "columns": [
+        {
+          "name": "account_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "被授予账号",
+          "extra": "REFERENCES app_account(account_id)"
+        },
+        {
+          "name": "role_code",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "角色",
+          "extra": "REFERENCES app_role(role_code)"
+        },
+        {
+          "name": "granted_at",
+          "type": "timestamptz",
+          "required": true,
+          "meaning": "授予时间",
+          "extra": ""
+        }
+      ],
+      "constraints": [
+        "PRIMARY KEY (account_id, role_code)"
+      ]
+    },
+    {
+      "name": "app_session",
+      "purpose": "服务端可撤销会话",
+      "columns": [
+        {
+          "name": "session_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "会话内部ID，非浏览器凭据",
+          "extra": "PRIMARY KEY"
+        },
+        {
+          "name": "account_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "所属账号",
+          "extra": "REFERENCES app_account(account_id)"
+        },
+        {
+          "name": "token_digest",
+          "type": "text",
+          "required": true,
+          "meaning": "高熵会话令牌的摘要，不存原令牌",
+          "extra": "UNIQUE"
+        },
+        {
+          "name": "auth_version",
+          "type": "bigint",
+          "required": true,
+          "meaning": "创建时账号校验版本",
+          "extra": ""
+        },
+        {
+          "name": "expires_at",
+          "type": "timestamptz",
+          "required": true,
+          "meaning": "绝对失效时间",
+          "extra": ""
+        },
+        {
+          "name": "revoked_at",
+          "type": "timestamptz",
+          "required": false,
+          "meaning": "撤销时间；空表示未显式撤销",
+          "extra": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamptz",
+          "required": true,
+          "meaning": "建立时间",
+          "extra": ""
+        }
+      ],
+      "constraints": []
+    },
+    {
+      "name": "scholar",
+      "purpose": "规范学者身份",
+      "columns": [
+        {
+          "name": "scholar_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "学者ID，与账号ID分离",
+          "extra": "PRIMARY KEY"
+        },
+        {
+          "name": "display_name",
+          "type": "text",
+          "required": true,
+          "meaning": "公开姓名，不唯一",
+          "extra": ""
+        },
+        {
+          "name": "aliases",
+          "type": "jsonb",
+          "required": true,
+          "meaning": "公开别名数组",
+          "extra": "DEFAULT '[]'::jsonb"
+        },
+        {
+          "name": "version",
+          "type": "bigint",
+          "required": true,
+          "meaning": "权威行版本",
+          "extra": "DEFAULT 1 CHECK (version > 0)"
+        }
+      ],
+      "constraints": []
+    },
+    {
+      "name": "institution",
+      "purpose": "规范机构",
+      "columns": [
+        {
+          "name": "institution_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "机构ID",
+          "extra": "PRIMARY KEY"
+        },
+        {
+          "name": "display_name",
+          "type": "text",
+          "required": true,
+          "meaning": "机构公开名称，不以名称判唯一",
+          "extra": ""
+        },
+        {
+          "name": "aliases",
+          "type": "jsonb",
+          "required": true,
+          "meaning": "来源支持的别名数组",
+          "extra": "DEFAULT '[]'::jsonb"
+        }
+      ],
+      "constraints": []
+    },
+    {
+      "name": "scholar_institution",
+      "purpose": "带时间依据的任职关联",
+      "columns": [
+        {
+          "name": "affiliation_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "任职关系ID",
+          "extra": "PRIMARY KEY"
+        },
+        {
+          "name": "scholar_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "学者",
+          "extra": "REFERENCES scholar(scholar_id)"
+        },
+        {
+          "name": "institution_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "机构",
+          "extra": "REFERENCES institution(institution_id)"
+        },
+        {
+          "name": "valid_from",
+          "type": "date",
+          "required": false,
+          "meaning": "已知开始日期；未知保持NULL",
+          "extra": ""
+        },
+        {
+          "name": "valid_to",
+          "type": "date",
+          "required": false,
+          "meaning": "已知结束日期",
+          "extra": ""
+        },
+        {
+          "name": "evidence_ref",
+          "type": "text",
+          "required": true,
+          "meaning": "公开来源依据引用",
+          "extra": ""
+        }
+      ],
+      "constraints": [
+        "CHECK (valid_to IS NULL OR valid_from IS NULL OR valid_to >= valid_from)"
+      ]
+    },
+    {
+      "name": "academic_field",
+      "purpose": "规范领域分类",
+      "columns": [
+        {
+          "name": "field_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "领域ID",
+          "extra": "PRIMARY KEY"
+        },
+        {
+          "name": "scheme_code",
+          "type": "text",
+          "required": true,
+          "meaning": "分类体系标识",
+          "extra": ""
+        },
+        {
+          "name": "display_name",
+          "type": "text",
+          "required": true,
+          "meaning": "领域名称",
+          "extra": ""
+        },
+        {
+          "name": "parent_field_id",
+          "type": "varchar(64)",
+          "required": false,
+          "meaning": "分类父节点；根为空",
+          "extra": "REFERENCES academic_field(field_id)"
+        }
+      ],
+      "constraints": [
+        "CHECK (parent_field_id IS NULL OR parent_field_id <> field_id)"
+      ]
+    },
+    {
+      "name": "scholar_field",
+      "purpose": "有来源依据的学者规范领域分类",
+      "columns": [
+        {
+          "name": "scholar_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "分类主体",
+          "extra": "REFERENCES scholar(scholar_id)"
+        },
+        {
+          "name": "field_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "规范领域",
+          "extra": "REFERENCES academic_field(field_id)"
+        },
+        {
+          "name": "evidence_ref",
+          "type": "text",
+          "required": true,
+          "meaning": "公开来源分类依据，不由个人兴趣猜测",
+          "extra": ""
+        }
+      ],
+      "constraints": [
+        "PRIMARY KEY (scholar_id, field_id)"
+      ]
+    },
+    {
+      "name": "achievement",
+      "purpose": "规范成果主记录",
+      "columns": [
+        {
+          "name": "work_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "去重规范成果ID",
+          "extra": "PRIMARY KEY"
+        },
+        {
+          "name": "work_type",
+          "type": "text",
+          "required": true,
+          "meaning": "paper/patent/project/award四种",
+          "extra": "CHECK (work_type IN ('paper','patent','project','award'))"
+        },
+        {
+          "name": "title",
+          "type": "text",
+          "required": true,
+          "meaning": "完整题名",
+          "extra": ""
+        },
+        {
+          "name": "year",
+          "type": "integer",
+          "required": false,
+          "meaning": "已知年份；未知为NULL",
+          "extra": "CHECK (year IS NULL OR year BETWEEN 1000 AND 9999)"
+        },
+        {
+          "name": "keywords",
+          "type": "jsonb",
+          "required": true,
+          "meaning": "公开关键词数组",
+          "extra": "DEFAULT '[]'::jsonb"
+        },
+        {
+          "name": "abstract",
+          "type": "text",
+          "required": false,
+          "meaning": "允许公开的摘要；未知为空",
+          "extra": ""
+        },
+        {
+          "name": "visibility",
+          "type": "text",
+          "required": true,
+          "meaning": "权威公开资格",
+          "extra": "CHECK (visibility IN ('PUBLIC','PRIVATE','WITHDRAWN'))"
+        },
+        {
+          "name": "version",
+          "type": "bigint",
+          "required": true,
+          "meaning": "本成果单调版本",
+          "extra": "DEFAULT 1 CHECK (version > 0)"
+        },
+        {
+          "name": "simulated",
+          "type": "boolean",
+          "required": true,
+          "meaning": "是否模拟成果",
+          "extra": "DEFAULT false"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "required": true,
+          "meaning": "权威更新时点",
+          "extra": ""
+        },
+        {
+          "name": "doi",
+          "type": "text",
+          "required": false,
+          "meaning": "经来源/治理核实的DOI；未知为空，不把冲突覆盖为唯一事实",
+          "extra": ""
+        }
+      ],
+      "constraints": []
+    },
+    {
+      "name": "achievement_participation",
+      "purpose": "成果与学者的规范参与关系",
+      "columns": [
+        {
+          "name": "participation_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "参与关联ID",
+          "extra": "PRIMARY KEY"
+        },
+        {
+          "name": "work_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "成果",
+          "extra": "REFERENCES achievement(work_id)"
+        },
+        {
+          "name": "scholar_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "规范学者",
+          "extra": "REFERENCES scholar(scholar_id)"
+        },
+        {
+          "name": "role_description",
+          "type": "text",
+          "required": false,
+          "meaning": "来源支持的参与角色集合说明；未知为NULL",
+          "extra": ""
+        },
+        {
+          "name": "ordinal",
+          "type": "integer",
+          "required": false,
+          "meaning": "来源给出的顺序",
+          "extra": "CHECK (ordinal IS NULL OR ordinal > 0)"
+        },
+        {
+          "name": "evidence_ref",
+          "type": "text",
+          "required": true,
+          "meaning": "公开参与关系依据",
+          "extra": ""
+        }
+      ],
+      "constraints": [
+        "UNIQUE (work_id, scholar_id)",
+        "UNIQUE (participation_id, scholar_id)"
+      ]
+    },
+    {
+      "name": "achievement_institution",
+      "purpose": "成果发生时机构关系",
+      "columns": [
+        {
+          "name": "work_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "成果",
+          "extra": "REFERENCES achievement(work_id)"
+        },
+        {
+          "name": "institution_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "成果发生时机构",
+          "extra": "REFERENCES institution(institution_id)"
+        },
+        {
+          "name": "evidence_ref",
+          "type": "text",
+          "required": true,
+          "meaning": "历史归属证据；不从现任机构推断",
+          "extra": ""
+        }
+      ],
+      "constraints": [
+        "PRIMARY KEY (work_id, institution_id)"
+      ]
+    },
+    {
+      "name": "achievement_field",
+      "purpose": "成果领域关系",
+      "columns": [
+        {
+          "name": "work_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "成果",
+          "extra": "REFERENCES achievement(work_id)"
+        },
+        {
+          "name": "field_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "规范领域",
+          "extra": "REFERENCES academic_field(field_id)"
+        },
+        {
+          "name": "evidence_ref",
+          "type": "text",
+          "required": true,
+          "meaning": "分类依据",
+          "extra": ""
+        }
+      ],
+      "constraints": [
+        "PRIMARY KEY (work_id, field_id)"
+      ]
+    },
+    {
+      "name": "source_record",
+      "purpose": "单成果粒度来源身份，数据岗衔接",
+      "columns": [
+        {
+          "name": "source_record_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "单成果来源记录ID",
+          "extra": "PRIMARY KEY"
+        },
+        {
+          "name": "source_code",
+          "type": "text",
+          "required": true,
+          "meaning": "经批准来源代码",
+          "extra": ""
+        },
+        {
+          "name": "external_key",
+          "type": "text",
+          "required": true,
+          "meaning": "来源内稳定键",
+          "extra": ""
+        },
+        {
+          "name": "current_work_id",
+          "type": "varchar(64)",
+          "required": false,
+          "meaning": "当前规范映射；未映射为空",
+          "extra": "REFERENCES achievement(work_id)"
+        },
+        {
+          "name": "license_ref",
+          "type": "text",
+          "required": true,
+          "meaning": "许可/使用依据引用",
+          "extra": ""
+        },
+        {
+          "name": "source_url",
+          "type": "text",
+          "required": true,
+          "meaning": "公开来源地址",
+          "extra": ""
+        },
+        {
+          "name": "version",
+          "type": "bigint",
+          "required": true,
+          "meaning": "来源记录版本",
+          "extra": "DEFAULT 1 CHECK (version > 0)"
+        }
+      ],
+      "constraints": [
+        "UNIQUE (source_code, external_key)"
+      ]
+    },
+    {
+      "name": "scholar_portal",
+      "purpose": "学者公开门户",
+      "columns": [
+        {
+          "name": "portal_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "内部不透明门户ID",
+          "extra": "PRIMARY KEY"
+        },
+        {
+          "name": "scholar_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "门户展示主体",
+          "extra": "REFERENCES scholar(scholar_id)"
+        },
+        {
+          "name": "intro",
+          "type": "text",
+          "required": false,
+          "meaning": "授权内个人说明",
+          "extra": ""
+        },
+        {
+          "name": "version",
+          "type": "bigint",
+          "required": true,
+          "meaning": "门户版本",
+          "extra": "DEFAULT 1 CHECK (version > 0)"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "required": true,
+          "meaning": "最近更新时点",
+          "extra": ""
+        },
+        {
+          "name": "interests",
+          "type": "jsonb",
+          "required": true,
+          "meaning": "授权内个人兴趣字符串数组；不当作规范领域ID",
+          "extra": "DEFAULT '[]'::jsonb"
+        }
+      ],
+      "constraints": [
+        "UNIQUE (scholar_id)",
+        "UNIQUE (portal_id, scholar_id)"
+      ]
+    },
+    {
+      "name": "portal_display",
+      "purpose": "可选个人展示配置",
+      "columns": [
+        {
+          "name": "portal_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "门户",
+          "extra": "REFERENCES scholar_portal(portal_id)"
+        },
+        {
+          "name": "participation_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "被展示参与关系",
+          "extra": "REFERENCES achievement_participation(participation_id)"
+        },
+        {
+          "name": "scholar_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "冗余用于复合FK验证同一学者",
+          "extra": "REFERENCES scholar(scholar_id)"
+        },
+        {
+          "name": "visible",
+          "type": "boolean",
+          "required": true,
+          "meaning": "个人展示选择，不影响成果公共资格",
+          "extra": "DEFAULT true"
+        },
+        {
+          "name": "version",
+          "type": "bigint",
+          "required": true,
+          "meaning": "展示配置版本",
+          "extra": "DEFAULT 1 CHECK (version > 0)"
+        }
+      ],
+      "constraints": [
+        "PRIMARY KEY (portal_id, participation_id)",
+        "FOREIGN KEY (portal_id, scholar_id) REFERENCES scholar_portal(portal_id, scholar_id)",
+        "FOREIGN KEY (participation_id, scholar_id) REFERENCES achievement_participation(participation_id, scholar_id)"
+      ]
+    },
+    {
+      "name": "evidence_reference",
+      "purpose": "私有认领材料元数据",
+      "columns": [
+        {
+          "name": "evidence_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "材料引用ID，非下载凭据",
+          "extra": "PRIMARY KEY"
+        },
+        {
+          "name": "owner_account_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "材料归属",
+          "extra": "REFERENCES app_account(account_id)"
+        },
+        {
+          "name": "private_object_key",
+          "type": "text",
+          "required": true,
+          "meaning": "私有对象存储键，不向公众返回",
+          "extra": ""
+        },
+        {
+          "name": "media_type",
+          "type": "text",
+          "required": true,
+          "meaning": "经校验实际类型",
+          "extra": ""
+        },
+        {
+          "name": "size_bytes",
+          "type": "bigint",
+          "required": true,
+          "meaning": "材料字节数",
+          "extra": "CHECK (size_bytes > 0)"
+        },
+        {
+          "name": "validation_state",
+          "type": "text",
+          "required": true,
+          "meaning": "材料校验结果；具体安全流程待设计",
+          "extra": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamptz",
+          "required": true,
+          "meaning": "上传时间",
+          "extra": ""
+        },
+        {
+          "name": "expires_at",
+          "type": "timestamptz",
+          "required": false,
+          "meaning": "按已批准保留策略计算，未定不假填期限",
+          "extra": ""
+        },
+        {
+          "name": "failure_reason",
+          "type": "text",
+          "required": false,
+          "meaning": "脱敏校验失败分类；客户端映射可理解说明，不存证明正文或堆栈",
+          "extra": ""
+        }
+      ],
+      "constraints": [
+        "UNIQUE (evidence_id, owner_account_id)"
+      ]
+    },
+    {
+      "name": "claim_request",
+      "purpose": "三态认领申请",
+      "columns": [
+        {
+          "name": "claim_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "申请ID，API候选application_id映射",
+          "extra": "PRIMARY KEY"
+        },
+        {
+          "name": "applicant_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "会话确定的申请人",
+          "extra": "REFERENCES app_account(account_id)"
+        },
+        {
+          "name": "portal_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "目标门户，通过scholar_id解析",
+          "extra": "REFERENCES scholar_portal(portal_id)"
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "required": true,
+          "meaning": "申请业务状态",
+          "extra": "CHECK (status IN ('PENDING','APPROVED','REJECTED'))"
+        },
+        {
+          "name": "version",
+          "type": "bigint",
+          "required": true,
+          "meaning": "乐观并发版本",
+          "extra": "DEFAULT 1 CHECK (version > 0)"
+        },
+        {
+          "name": "previous_claim_id",
+          "type": "varchar(64)",
+          "required": false,
+          "meaning": "驳回后新申请的前序引用",
+          "extra": "REFERENCES claim_request(claim_id)"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamptz",
+          "required": true,
+          "meaning": "有效创建时点",
+          "extra": ""
+        },
+        {
+          "name": "decided_at",
+          "type": "timestamptz",
+          "required": false,
+          "meaning": "成功决定时间；待审为空",
+          "extra": ""
+        }
+      ],
+      "constraints": [
+        "UNIQUE (claim_id, applicant_id)",
+        "UNIQUE (claim_id, applicant_id, portal_id)",
+        "CHECK (previous_claim_id IS NULL OR previous_claim_id <> claim_id)",
+        "CHECK ((status = 'PENDING' AND decided_at IS NULL) OR (status <> 'PENDING' AND decided_at IS NOT NULL))"
+      ]
+    },
+    {
+      "name": "claim_evidence",
+      "purpose": "申请材料与归属约束",
+      "columns": [
+        {
+          "name": "claim_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "申请",
+          "extra": "REFERENCES claim_request(claim_id)"
+        },
+        {
+          "name": "evidence_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "材料",
+          "extra": "REFERENCES evidence_reference(evidence_id)"
+        },
+        {
+          "name": "applicant_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "同一申请人/材料所有人",
+          "extra": "REFERENCES app_account(account_id)"
+        }
+      ],
+      "constraints": [
+        "PRIMARY KEY (claim_id, evidence_id)",
+        "FOREIGN KEY (claim_id, applicant_id) REFERENCES claim_request(claim_id, applicant_id)",
+        "FOREIGN KEY (evidence_id, applicant_id) REFERENCES evidence_reference(evidence_id, owner_account_id)"
+      ]
+    },
+    {
+      "name": "review_decision",
+      "purpose": "每申请一次有效业务决定",
+      "columns": [
+        {
+          "name": "claim_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "对应申请",
+          "extra": "REFERENCES claim_request(claim_id)"
+        },
+        {
+          "name": "reviewer_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "有当前审核资格的账号",
+          "extra": "REFERENCES app_account(account_id)"
+        },
+        {
+          "name": "applicant_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "通过复合FK确定申请人",
+          "extra": "REFERENCES app_account(account_id)"
+        },
+        {
+          "name": "decision",
+          "type": "text",
+          "required": true,
+          "meaning": "有效决定",
+          "extra": "CHECK (decision IN ('APPROVED','REJECTED'))"
+        },
+        {
+          "name": "reason",
+          "type": "text",
+          "required": true,
+          "meaning": "通过/驳回理由",
+          "extra": "CHECK (length(btrim(reason)) > 0)"
+        },
+        {
+          "name": "expected_version",
+          "type": "bigint",
+          "required": true,
+          "meaning": "提交期望版本",
+          "extra": ""
+        },
+        {
+          "name": "result_version",
+          "type": "bigint",
+          "required": true,
+          "meaning": "决定后版本",
+          "extra": ""
+        },
+        {
+          "name": "decided_at",
+          "type": "timestamptz",
+          "required": true,
+          "meaning": "决定提交时点",
+          "extra": ""
+        }
+      ],
+      "constraints": [
+        "PRIMARY KEY (claim_id)",
+        "FOREIGN KEY (claim_id, applicant_id) REFERENCES claim_request(claim_id, applicant_id)",
+        "CHECK (reviewer_id <> applicant_id)",
+        "CHECK (expected_version > 0 AND result_version = expected_version + 1)"
+      ]
+    },
+    {
+      "name": "portal_grant",
+      "purpose": "门户维护资格及历史",
+      "columns": [
+        {
+          "name": "grant_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "授权ID",
+          "extra": "PRIMARY KEY"
+        },
+        {
+          "name": "portal_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "目标门户",
+          "extra": "REFERENCES scholar_portal(portal_id)"
+        },
+        {
+          "name": "account_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "获权账号",
+          "extra": "REFERENCES app_account(account_id)"
+        },
+        {
+          "name": "source_claim_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "通过申请",
+          "extra": "REFERENCES claim_request(claim_id)"
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "required": true,
+          "meaning": "当前是否有效",
+          "extra": "DEFAULT true"
+        },
+        {
+          "name": "granted_at",
+          "type": "timestamptz",
+          "required": true,
+          "meaning": "授权时点",
+          "extra": ""
+        },
+        {
+          "name": "revoked_at",
+          "type": "timestamptz",
+          "required": false,
+          "meaning": "依法撤销时点；策略待批准",
+          "extra": ""
+        }
+      ],
+      "constraints": [
+        "UNIQUE (source_claim_id)",
+        "FOREIGN KEY (source_claim_id, account_id, portal_id) REFERENCES claim_request(claim_id, applicant_id, portal_id)",
+        "CHECK ((active AND revoked_at IS NULL) OR (NOT active AND revoked_at IS NOT NULL))"
+      ]
+    },
+    {
+      "name": "audit_record",
+      "purpose": "最小操作轨迹，不存证明正文",
+      "columns": [
+        {
+          "name": "audit_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "审计记录ID",
+          "extra": "PRIMARY KEY"
+        },
+        {
+          "name": "actor_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "服务端确定的操作者",
+          "extra": "REFERENCES app_account(account_id)"
+        },
+        {
+          "name": "action_code",
+          "type": "text",
+          "required": true,
+          "meaning": "动作语义",
+          "extra": ""
+        },
+        {
+          "name": "target_type",
+          "type": "text",
+          "required": true,
+          "meaning": "对象类型",
+          "extra": ""
+        },
+        {
+          "name": "target_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "目标ID；跨类型由服务验证",
+          "extra": ""
+        },
+        {
+          "name": "claim_id",
+          "type": "varchar(64)",
+          "required": false,
+          "meaning": "认领轨迹可选申请关联",
+          "extra": "REFERENCES claim_request(claim_id)"
+        },
+        {
+          "name": "result_code",
+          "type": "text",
+          "required": true,
+          "meaning": "操作结果",
+          "extra": ""
+        },
+        {
+          "name": "before_version",
+          "type": "bigint",
+          "required": false,
+          "meaning": "操作前版本",
+          "extra": ""
+        },
+        {
+          "name": "after_version",
+          "type": "bigint",
+          "required": false,
+          "meaning": "操作后版本",
+          "extra": ""
+        },
+        {
+          "name": "occurred_at",
+          "type": "timestamptz",
+          "required": true,
+          "meaning": "发生时点",
+          "extra": ""
+        }
+      ],
+      "constraints": []
+    },
+    {
+      "name": "governance_request",
+      "purpose": "共享字段纠错与来源冲突",
+      "columns": [
+        {
+          "name": "governance_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "治理请求ID",
+          "extra": "PRIMARY KEY"
+        },
+        {
+          "name": "requester_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "请求人",
+          "extra": "REFERENCES app_account(account_id)"
+        },
+        {
+          "name": "work_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "目标成果",
+          "extra": "REFERENCES achievement(work_id)"
+        },
+        {
+          "name": "expected_version",
+          "type": "bigint",
+          "required": true,
+          "meaning": "防旧版本覆盖",
+          "extra": ""
+        },
+        {
+          "name": "proposed_public_change",
+          "type": "jsonb",
+          "required": true,
+          "meaning": "经白名单过滤的公共字段建议",
+          "extra": ""
+        },
+        {
+          "name": "state_code",
+          "type": "text",
+          "required": true,
+          "meaning": "治理流程状态，待跨岗批准",
+          "extra": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamptz",
+          "required": true,
+          "meaning": "创建时间",
+          "extra": ""
+        },
+        {
+          "name": "version",
+          "type": "bigint",
+          "required": true,
+          "meaning": "治理请求条件写/响应版本",
+          "extra": "DEFAULT 1 CHECK (version > 0)"
+        }
+      ],
+      "constraints": []
+    },
+    {
+      "name": "collection_task",
+      "purpose": "任务存储边界，最终字段归成员2/7",
+      "columns": [
+        {
+          "name": "task_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "采集任务ID",
+          "extra": "PRIMARY KEY"
+        },
+        {
+          "name": "created_by",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "有任务管理资格的创建者",
+          "extra": "REFERENCES app_account(account_id)"
+        },
+        {
+          "name": "source_code",
+          "type": "text",
+          "required": true,
+          "meaning": "经批准来源",
+          "extra": ""
+        },
+        {
+          "name": "state_code",
+          "type": "text",
+          "required": true,
+          "meaning": "任务状态映射待数据岗批准",
+          "extra": ""
+        },
+        {
+          "name": "version",
+          "type": "bigint",
+          "required": true,
+          "meaning": "条件写版本",
+          "extra": "DEFAULT 1 CHECK (version > 0)"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamptz",
+          "required": true,
+          "meaning": "创建时间",
+          "extra": ""
+        }
+      ],
+      "constraints": []
+    },
+    {
+      "name": "processing_run",
+      "purpose": "每次尝试与恢复过程",
+      "columns": [
+        {
+          "name": "run_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "执行尝试ID，与任务分离",
+          "extra": "PRIMARY KEY"
+        },
+        {
+          "name": "task_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "所属任务",
+          "extra": "REFERENCES collection_task(task_id)"
+        },
+        {
+          "name": "attempt_no",
+          "type": "integer",
+          "required": true,
+          "meaning": "正整数尝试序号",
+          "extra": "CHECK (attempt_no > 0)"
+        },
+        {
+          "name": "state_code",
+          "type": "text",
+          "required": true,
+          "meaning": "运行状态，非认领状态",
+          "extra": ""
+        },
+        {
+          "name": "checkpoint_ref",
+          "type": "text",
+          "required": false,
+          "meaning": "有据可复现检查点引用",
+          "extra": ""
+        },
+        {
+          "name": "started_at",
+          "type": "timestamptz",
+          "required": true,
+          "meaning": "开始时间",
+          "extra": ""
+        },
+        {
+          "name": "finished_at",
+          "type": "timestamptz",
+          "required": false,
+          "meaning": "完成时点",
+          "extra": ""
+        }
+      ],
+      "constraints": [
+        "UNIQUE (task_id, attempt_no)"
+      ]
+    },
+    {
+      "name": "source_observation",
+      "purpose": "原始观测与处理版本追溯",
+      "columns": [
+        {
+          "name": "observation_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "观测ID",
+          "extra": "PRIMARY KEY"
+        },
+        {
+          "name": "run_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "本次运行",
+          "extra": "REFERENCES processing_run(run_id)"
+        },
+        {
+          "name": "source_record_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "来源身份",
+          "extra": "REFERENCES source_record(source_record_id)"
+        },
+        {
+          "name": "payload_hash",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "原始内容摘要",
+          "extra": ""
+        },
+        {
+          "name": "raw_object_key",
+          "type": "text",
+          "required": true,
+          "meaning": "受许可控制的原始载荷引用",
+          "extra": ""
+        },
+        {
+          "name": "rule_version",
+          "type": "text",
+          "required": true,
+          "meaning": "处理规则版本",
+          "extra": ""
+        },
+        {
+          "name": "observed_at",
+          "type": "timestamptz",
+          "required": true,
+          "meaning": "观测时点",
+          "extra": ""
+        }
+      ],
+      "constraints": []
+    },
+    {
+      "name": "update_record",
+      "purpose": "规范成果变更追溯",
+      "columns": [
+        {
+          "name": "update_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "更新记录ID",
+          "extra": "PRIMARY KEY"
+        },
+        {
+          "name": "work_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "规范成果",
+          "extra": "REFERENCES achievement(work_id)"
+        },
+        {
+          "name": "observation_id",
+          "type": "varchar(64)",
+          "required": false,
+          "meaning": "数据岗输入观测，人工变更可空",
+          "extra": "REFERENCES source_observation(observation_id)"
+        },
+        {
+          "name": "before_version",
+          "type": "bigint",
+          "required": false,
+          "meaning": "初次入库之前无版本",
+          "extra": ""
+        },
+        {
+          "name": "after_version",
+          "type": "bigint",
+          "required": true,
+          "meaning": "本次变更后版本",
+          "extra": ""
+        },
+        {
+          "name": "rule_version",
+          "type": "text",
+          "required": true,
+          "meaning": "规则/人工治理版本",
+          "extra": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "required": true,
+          "meaning": "变更时点",
+          "extra": ""
+        }
+      ],
+      "constraints": []
+    },
+    {
+      "name": "outbox_event",
+      "purpose": "本地事务外发事件",
+      "columns": [
+        {
+          "name": "event_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "事件ID，重复投递稳定不变",
+          "extra": "PRIMARY KEY"
+        },
+        {
+          "name": "aggregate_type",
+          "type": "text",
+          "required": true,
+          "meaning": "业务聚合类型",
+          "extra": ""
+        },
+        {
+          "name": "aggregate_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "聚合ID",
+          "extra": ""
+        },
+        {
+          "name": "aggregate_version",
+          "type": "bigint",
+          "required": true,
+          "meaning": "聚合单调版本",
+          "extra": "CHECK (aggregate_version > 0)"
+        },
+        {
+          "name": "event_type",
+          "type": "text",
+          "required": true,
+          "meaning": "事件语义",
+          "extra": ""
+        },
+        {
+          "name": "destination",
+          "type": "text",
+          "required": true,
+          "meaning": "单一消费者目的地；多目的各建事件",
+          "extra": ""
+        },
+        {
+          "name": "payload",
+          "type": "jsonb",
+          "required": true,
+          "meaning": "ID/版本或公共投影；禁止证明正文",
+          "extra": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamptz",
+          "required": true,
+          "meaning": "与业务同事务创建",
+          "extra": ""
+        },
+        {
+          "name": "published_at",
+          "type": "timestamptz",
+          "required": false,
+          "meaning": "目标成功逐项ack后记录",
+          "extra": ""
+        },
+        {
+          "name": "attempts",
+          "type": "integer",
+          "required": true,
+          "meaning": "投递尝试数",
+          "extra": "DEFAULT 0 CHECK (attempts >= 0)"
+        },
+        {
+          "name": "next_attempt_at",
+          "type": "timestamptz",
+          "required": false,
+          "meaning": "重试调度时点",
+          "extra": ""
+        },
+        {
+          "name": "last_error",
+          "type": "text",
+          "required": false,
+          "meaning": "脱敏错误分类，不存敏感正文",
+          "extra": ""
+        },
+        {
+          "name": "lease_owner",
+          "type": "text",
+          "required": false,
+          "meaning": "租约工作者标识，不作认证凭据",
+          "extra": ""
+        },
+        {
+          "name": "lease_until",
+          "type": "timestamptz",
+          "required": false,
+          "meaning": "短租约失效时点",
+          "extra": ""
+        },
+        {
+          "name": "lease_token",
+          "type": "varchar(64)",
+          "required": false,
+          "meaning": "领取代次令牌；ack时条件匹配防旧工作者误确认",
+          "extra": ""
+        }
+      ],
+      "constraints": [
+        "CHECK ((lease_owner IS NULL AND lease_until IS NULL AND lease_token IS NULL) OR (lease_owner IS NOT NULL AND lease_until IS NOT NULL AND lease_token IS NOT NULL))"
+      ]
+    },
+    {
+      "name": "idempotency_record",
+      "purpose": "同主体同操作请求幂等",
+      "columns": [
+        {
+          "name": "account_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "操作主体",
+          "extra": "REFERENCES app_account(account_id)"
+        },
+        {
+          "name": "operation_code",
+          "type": "text",
+          "required": true,
+          "meaning": "操作语义范围",
+          "extra": ""
+        },
+        {
+          "name": "request_key",
+          "type": "varchar(200)",
+          "required": true,
+          "meaning": "客户端幂等键；不得写入秘密",
+          "extra": ""
+        },
+        {
+          "name": "request_digest",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "规范化参数摘要",
+          "extra": ""
+        },
+        {
+          "name": "result_ref",
+          "type": "jsonb",
+          "required": true,
+          "meaning": "最小结果引用，不复制证明正文",
+          "extra": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamptz",
+          "required": true,
+          "meaning": "与业务同事务保存",
+          "extra": ""
+        },
+        {
+          "name": "expires_at",
+          "type": "timestamptz",
+          "required": true,
+          "meaning": "按批准策略计算",
+          "extra": ""
+        }
+      ],
+      "constraints": [
+        "PRIMARY KEY (account_id, operation_code, request_key)"
+      ]
+    },
+    {
+      "name": "publication_generation",
+      "purpose": "完整不可变公开检索代次",
+      "columns": [
+        {
+          "name": "generation_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "发布代次ID",
+          "extra": "PRIMARY KEY"
+        },
+        {
+          "name": "concrete_index",
+          "type": "text",
+          "required": true,
+          "meaning": "具体不可变索引名，不仅是alias",
+          "extra": "UNIQUE"
+        },
+        {
+          "name": "data_version",
+          "type": "text",
+          "required": true,
+          "meaning": "公开响应数据版本",
+          "extra": "UNIQUE"
+        },
+        {
+          "name": "policy_epoch",
+          "type": "bigint",
+          "required": true,
+          "meaning": "该代次覆盖的权威权限epoch",
+          "extra": "CHECK (policy_epoch > 0)"
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "required": true,
+          "meaning": "发布生命周期内部状态",
+          "extra": "CHECK (status IN ('BUILDING','VALIDATED','RETIRED'))"
+        },
+        {
+          "name": "live_count",
+          "type": "bigint",
+          "required": false,
+          "meaning": "全量合法ID数",
+          "extra": "CHECK (live_count IS NULL OR live_count >= 0)"
+        },
+        {
+          "name": "id_set_checksum",
+          "type": "text",
+          "required": false,
+          "meaning": "规范ID集合对账摘要",
+          "extra": ""
+        },
+        {
+          "name": "validated_at",
+          "type": "timestamptz",
+          "required": false,
+          "meaning": "验证完成时点",
+          "extra": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamptz",
+          "required": true,
+          "meaning": "创建时点",
+          "extra": ""
+        },
+        {
+          "name": "source_snapshot_ref",
+          "type": "text",
+          "required": true,
+          "meaning": "DB一致性快照/不可变导出引用，绑定公开代次",
+          "extra": ""
+        },
+        {
+          "name": "boundary_watermark",
+          "type": "text",
+          "required": true,
+          "meaning": "导出与接续事件的明确边界水位",
+          "extra": ""
+        }
+      ],
+      "constraints": []
+    },
+    {
+      "name": "public_gate",
+      "purpose": "全局公开安全栅栏",
+      "columns": [
+        {
+          "name": "gate_id",
+          "type": "varchar(64)",
+          "required": true,
+          "meaning": "固定单例public，不是业务ID协议",
+          "extra": "PRIMARY KEY"
+        },
+        {
+          "name": "epoch",
+          "type": "bigint",
+          "required": true,
+          "meaning": "可见性收缩时单调递增",
+          "extra": "CHECK (epoch > 0)"
+        },
+        {
+          "name": "state",
+          "type": "text",
+          "required": true,
+          "meaning": "阻断或可查询",
+          "extra": "CHECK (state IN ('READY','BLOCKED'))"
+        },
+        {
+          "name": "active_generation_id",
+          "type": "varchar(64)",
+          "required": false,
+          "meaning": "已核验代次；初始化可为空",
+          "extra": "REFERENCES publication_generation(generation_id)"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "required": true,
+          "meaning": "最近权威变更时点",
+          "extra": ""
+        }
+      ],
+      "constraints": [
+        "CHECK (gate_id = 'public')",
+        "CHECK (state <> 'READY' OR active_generation_id IS NOT NULL)"
+      ]
+    }
+  ],
+  "indexes": [
+    {
+      "name": "uq_pending_claim",
+      "table": "claim_request",
+      "columns": "applicant_id, portal_id",
+      "unique": true,
+      "predicate": "status = 'PENDING'"
+    },
+    {
+      "name": "uq_active_portal_grant",
+      "table": "portal_grant",
+      "columns": "portal_id",
+      "unique": true,
+      "predicate": "active"
+    },
+    {
+      "name": "ix_claim_queue",
+      "table": "claim_request",
+      "columns": "created_at, claim_id",
+      "unique": false,
+      "predicate": "status = 'PENDING'"
+    },
+    {
+      "name": "ix_claim_applicant",
+      "table": "claim_request",
+      "columns": "applicant_id, created_at DESC",
+      "unique": false,
+      "predicate": null
+    },
+    {
+      "name": "ix_participation_scholar",
+      "table": "achievement_participation",
+      "columns": "scholar_id, work_id",
+      "unique": false,
+      "predicate": null
+    },
+    {
+      "name": "ix_work_filter",
+      "table": "achievement",
+      "columns": "work_type, year, work_id",
+      "unique": false,
+      "predicate": "visibility = 'PUBLIC'"
+    },
+    {
+      "name": "ix_work_institution",
+      "table": "achievement_institution",
+      "columns": "institution_id, work_id",
+      "unique": false,
+      "predicate": null
+    },
+    {
+      "name": "ix_work_field",
+      "table": "achievement_field",
+      "columns": "field_id, work_id",
+      "unique": false,
+      "predicate": null
+    },
+    {
+      "name": "ix_outbox_pending",
+      "table": "outbox_event",
+      "columns": "next_attempt_at, created_at, event_id",
+      "unique": false,
+      "predicate": "published_at IS NULL"
+    },
+    {
+      "name": "ix_outbox_aggregate",
+      "table": "outbox_event",
+      "columns": "aggregate_type, aggregate_id, aggregate_version",
+      "unique": false,
+      "predicate": null
+    },
+    {
+      "name": "ix_update_work",
+      "table": "update_record",
+      "columns": "work_id, after_version",
+      "unique": false,
+      "predicate": null
+    },
+    {
+      "name": "ix_observation_source",
+      "table": "source_observation",
+      "columns": "source_record_id, observed_at",
+      "unique": false,
+      "predicate": null
+    },
+    {
+      "name": "ix_audit_target",
+      "table": "audit_record",
+      "columns": "target_type, target_id, occurred_at",
+      "unique": false,
+      "predicate": null
+    },
+    {
+      "name": "ix_session_account",
+      "table": "app_session",
+      "columns": "account_id, expires_at",
+      "unique": false,
+      "predicate": null
+    },
+    {
+      "name": "ix_scholar_field",
+      "table": "scholar_field",
+      "columns": "field_id, scholar_id",
+      "unique": false,
+      "predicate": null
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "mappings": {
+    "dynamic": "strict",
+    "_meta": {
+      "status": "B-group review proposal; not installed",
+      "owner": "member-08",
+      "normalization": "Application NFKC, whitespace collapse, Latin case normalization; same at ingest and query",
+      "title_exact_rule": "Validate q/name length <= 200 both before and after normalization as a B candidate refinement; set title_exact only for normalized titles <= 200 characters.",
+      "privacy": "Only public projection; no account, evidence or session fields"
+    },
+    "properties": {
+      "work_id": {
+        "type": "keyword"
+      },
+      "work_type": {
+        "type": "keyword"
+      },
+      "title": {
+        "type": "text",
+        "analyzer": "standard"
+      },
+      "title_exact": {
+        "type": "keyword"
+      },
+      "title_norm": {
+        "type": "wildcard"
+      },
+      "keywords_norm": {
+        "type": "wildcard"
+      },
+      "abstract_norm": {
+        "type": "wildcard"
+      },
+      "year": {
+        "type": "integer"
+      },
+      "scholar_ids": {
+        "type": "keyword"
+      },
+      "institution_ids": {
+        "type": "keyword"
+      },
+      "field_ids": {
+        "type": "keyword"
+      },
+      "source_refs": {
+        "type": "keyword"
+      },
+      "simulated": {
+        "type": "boolean"
+      },
+      "aggregate_version": {
+        "type": "long"
+      },
+      "generation_id": {
+        "type": "keyword"
+      },
+      "policy_epoch": {
+        "type": "long"
+      },
+      "updated_at": {
+        "type": "date"
+      },
+      "doi": {
+        "type": "keyword"
+      }
+    }
+  }
+}
