@@ -1,5 +1,7 @@
 # 问卷结果分析报告（成员 9，方案 B）
 
+> **更正（2026-11-11）：本文的"50 份"样本及全部比例无原始证据，不得引用。** 真实问卷数据见 [06-questionnaire-results.md](06-questionnaire-results.md)（35/30/23 人，PDF 见 `evidence/`）。核查过程见 [../CORRECTION-questionnaire-data.md](../CORRECTION-questionnaire-data.md)。本文原文保留以便追溯。
+
 状态：成员 9 个人贡献草案，待成员 9 人工审阅、成员 4 协同确认，并由成员 1 汇编、成员 6 复核。本文基于 50 份有效问卷，验证普通用户需求假设。
 
 证据编号：E-B-Q-001

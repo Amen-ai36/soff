@@ -1,5 +1,7 @@
 # 成员 9 调研材料完成总结
 
+> **更正（2026-11-11）**：本文中“50 份问卷”及相关比例无原始证据，不得引用。真实问卷为 35/30/23 人的匿名汇总，见 [06-questionnaire-results.md](06-questionnaire-results.md) 与 [更正说明](../CORRECTION-questionnaire-data.md)。
+
 编制日期：2026年10月12日  
 状态：✅ 调研阶段材料已补齐
 

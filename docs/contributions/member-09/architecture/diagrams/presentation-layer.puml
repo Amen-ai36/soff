@@ -1,0 +1,62 @@
+@startuml
+title M9-ARCH-01 展现层内部分层与依赖（方案 B 候选）
+' 对应 01-presentation-layer.md 第 2 节。依赖只允许自上而下，由 frontend/src/__tests__/architecture.test.ts 检查。
+' 本文件为 PlantUML 源稿；课程要求的 CodeArts Modeling 图需另行复画。
+
+skinparam componentStyle rectangle
+skinparam shadowing false
+skinparam defaultFontName "Microsoft YaHei"
+
+actor "浏览器用户" as User
+
+package "展现层（浏览器）" {
+  component "views\n13 个页面\n读写 URL、组合组件" as Views
+  component "components\n可复用界面组件\n只收 props、发事件" as Comps
+  component "composables\n会话、异步加载、提交防重" as Comp
+  component "features\n创新功能注册表\n合作路径（候选）" as Feat
+  component "domain\n纯函数：查询校验、显示规则\n加载状态、合作图算法" as Domain
+  interface "ApiClient\n(api/port.ts)" as Port
+  component "api/http\nHTTPS、超时、错误归类\n命名转换" as Http
+  component "api/mock\n合成数据\n仅开发与测试" as Mock
+}
+
+package "业务服务层（成员 3、8）" {
+  component "认证" as Auth
+  component "检索" as Search
+  component "门户与认领" as Claim
+  component "统计" as Stats
+  component "管理后台接口" as Admin
+}
+
+User --> Views : 操作
+Views --> Comps
+Views --> Comp
+Views --> Feat
+Views --> Domain
+Comps --> Domain
+Comp --> Domain
+Comp --> Port
+Feat --> Domain
+Feat --> Port
+Http ..|> Port
+Mock ..|> Port
+Http --> Auth : HTTPS JSON
+Http --> Search : HTTPS JSON
+Http --> Claim : HTTPS JSON
+Http --> Stats : HTTPS JSON
+Http --> Admin : HTTPS JSON
+
+note bottom of Domain
+  不依赖 vue、api、浏览器全局对象
+end note
+
+note right of Http
+  契约假设 A-01～A-18 只在此处
+  浏览器不直连 RDS、CSS、OBS
+end note
+
+note right of Views
+  路由守卫只做登录引导
+  权限以服务端响应为准
+end note
+@enduml
