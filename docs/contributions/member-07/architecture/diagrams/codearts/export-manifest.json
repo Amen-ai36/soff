@@ -1,0 +1,55 @@
+{
+  "date": "2026-11-15",
+  "scope": "CodeArts软件建模平台原生绘制后用平台“导出为”功能导出的图像；不是可编辑工程源备份",
+  "project": "小图图 / 软件建模 / 需求模型",
+  "files": [
+    {
+      "file": "M7-ARCH-01-codearts.png",
+      "sha256": "196f0b7a2818d407c479e386536cee65243461d500dc0ef7f283780455ab312c",
+      "bytes": 1070953,
+      "width": 2298,
+      "height": 1412,
+      "id": "M7-ARCH-01",
+      "diagram": "B组数据采集与处理架构",
+      "type": "UML组件图",
+      "online_graph_id": "c51c24293b2e43159df5459e4d88d1e9",
+      "content": "17个组件、4个包、19条Dependency"
+    },
+    {
+      "file": "M7-ARCH-01-codearts.svg",
+      "sha256": "79d7d86ec2d7e39f9195928a33562f9551e747c1e32b60be6e7eefa490e16364",
+      "bytes": 61890,
+      "width": 1532.0,
+      "height": 941.0,
+      "id": "M7-ARCH-01",
+      "diagram": "B组数据采集与处理架构",
+      "type": "UML组件图",
+      "online_graph_id": "c51c24293b2e43159df5459e4d88d1e9",
+      "content": "17个组件、4个包、19条Dependency"
+    },
+    {
+      "file": "M7-ARCH-02-codearts.png",
+      "sha256": "6bbbf98fe254ca7a8e78c8c25bcb709384db81f51d4cd359e7e83893afd70000",
+      "bytes": 478725,
+      "width": 2454,
+      "height": 2666,
+      "id": "M7-ARCH-02",
+      "diagram": "采集任务异步执行与候选版本发布 B组",
+      "type": "UML顺序图",
+      "online_graph_id": "d271f6cebe664b129b26c2a7e5e29255",
+      "content": "6条生命线、22条消息、1个loop与2个alt"
+    },
+    {
+      "file": "M7-ARCH-02-codearts.svg",
+      "sha256": "930da47bf79644212380cfd3e801b9d53881f8d48a00f2a8138bf12a8c2f40e9",
+      "bytes": 48127,
+      "width": 1227.0,
+      "height": 1333.0,
+      "id": "M7-ARCH-02",
+      "diagram": "采集任务异步执行与候选版本发布 B组",
+      "type": "UML顺序图",
+      "online_graph_id": "d271f6cebe664b129b26c2a7e5e29255",
+      "content": "6条生命线、22条消息、1个loop与2个alt"
+    }
+  ]
+}
