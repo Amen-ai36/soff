@@ -1,0 +1,60 @@
+@startuml
+!pragma layout smetana
+skinparam defaultFontName Microsoft YaHei
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam ArrowColor #334155
+skinparam componentBackgroundColor #EFF6FF
+skinparam componentBorderColor #38689A
+title M8-AR-02 Outbox与公开资格收缩恢复
+actor "授权操作者" as U
+control "业务协调" as B
+entity "权威DB/Outbox/公开栅栏" as D
+control "同步与发布工作进程" as W
+entity "候选ES索引代" as E
+control "公开查询" as Q
+U -> B : 修改/审核/撤下意图
+B -> D : 当前资格、版本、唯一性校验
+alt 业务事务失败
+ D --> B : 全部回滚，不发事件
+ B --> U : 明确失败
+else 成功提交
+ group 同一DB事务
+  B -> D : 业务变化、审计、Outbox
+  opt 公开资格收缩
+   B -> D : epoch递增，公开栅栏BLOCKED
+  end
+ end
+ D --> B : 权威保存成功/公开待同步
+ B --> U : 已保存，不谎报已公开发布
+ W -> D : 有界领取事件、读取权威版本
+ W -> E : 规范ID、单调版本投影/受限墓碑
+ alt ES单项失败或进程重启
+  W -> D : 保留未确认项、退避/告警/重放
+ else 所有处理项成功
+  W -> D : 标记各成功事件published_at
+  W -> E : 生成不可变索引代与统计
+  W -> D : 完整合法ID集合及摘要对账
+  alt epoch已改变或对账失败
+   W -> D : 不发布；若BLOCKED则继续保持
+  else 对账通过且epoch相同
+   W -> D : 原子更新active_generation与READY
+  end
+ end
+end
+Q -> D : 查询/翻页读取当前栅栏
+alt BLOCKED或不可核验
+ D --> Q : 失败关闭；不返回假空集
+else 可核验
+ Q -> E : 指定具体已发布代查询完整合法集合
+ E --> Q : items、合法total/统计
+ Q -> D : 最终响应授权与收缩事务互斥校验
+ D --> Q : 同epoch则物化响应，否则失败
+end
+note over Q,E
+ PIT固定索引视图，不冻结当前权限。
+ 收缩期间全局查询不可用是保守方案代价。
+end note
+
+@enduml

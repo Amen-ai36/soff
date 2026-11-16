@@ -1,0 +1,3405 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "成员8第10周接口设计评审草案",
+    "version": "0.1.0-review",
+    "description": "2026-11-11 B组个人供稿。非已发布公共契约；URI/字段/协议须3及1/6联合评审。统一分析10/27已复核，百万规模为规划输入，无后端/性能测试。"
+  },
+  "servers": [
+    {
+      "url": "/api/v1",
+      "description": "候选相对服务根路径，未部署。"
+    }
+  ],
+  "paths": {
+    "/auth/session": {
+      "get": {
+        "operationId": "getSession",
+        "summary": "读取当前或匿名会话及CSRF挑战",
+        "description": "未登录仍200 authenticated=false，建立匿名CSRF上下文；不在正文返回会话凭据。",
+        "tags": [
+          "session"
+        ],
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "成功；仅返回当前主体有权读取的内容。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Session"
+                }
+              }
+            },
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ]
+                }
+              },
+              "Set-Cookie": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "候选HttpOnly;Secure服务端会话cookie；正文不返回cookie值；期限及SameSite策略待联合确认。"
+              }
+            }
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        }
+      },
+      "post": {
+        "operationId": "login",
+        "summary": "登录并轮换服务端会话",
+        "description": "先GET匿名会话取得CSRF挑战；校验Origin及绑定令牌；错误登录通用化；Set-Cookie轮换HttpOnly会话。",
+        "tags": [
+          "session"
+        ],
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "成功；仅返回当前主体有权读取的内容。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Session"
+                }
+              }
+            },
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ]
+                }
+              },
+              "Set-Cookie": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "候选HttpOnly;Secure服务端会话cookie；正文不返回cookie值；期限及SameSite策略待联合确认。"
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Csrf"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Login"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "logout",
+        "summary": "退出并撤销当前服务端会话",
+        "description": "撤销服务端会话并清理cookie；旧会话不能继续写入。",
+        "tags": [
+          "session"
+        ],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "成功；仅返回当前主体有权读取的内容。",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Csrf"
+          }
+        ]
+      }
+    },
+    "/works": {
+      "get": {
+        "operationId": "searchWorks",
+        "summary": "检索公开成果",
+        "description": "保持M8-SEARCH的NFKC/AND匹配、完全相等优先、5/3/1权重及稳定ID次序；先完整合法集合过滤、再排序分页。首次省略query_context创建上下文，非第一页省略上下文返回400。 候选细化：原始q/name及NFKC、空白、大小写归一化后长度均不超过200；归一化扩张超限400。该限制待联合确认。",
+        "tags": [
+          "discovery"
+        ],
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "成功；仅返回当前主体有权读取的内容。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkPage"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "maxLength": 200
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "relevance",
+                "year_desc",
+                "year_asc"
+              ],
+              "default": "relevance"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Types"
+          },
+          {
+            "$ref": "#/components/parameters/YearFrom"
+          },
+          {
+            "$ref": "#/components/parameters/YearTo"
+          },
+          {
+            "$ref": "#/components/parameters/Institutions"
+          },
+          {
+            "$ref": "#/components/parameters/Fields"
+          },
+          {
+            "$ref": "#/components/parameters/Context"
+          },
+          {
+            "$ref": "#/components/parameters/Page"
+          },
+          {
+            "$ref": "#/components/parameters/PageSize"
+          }
+        ]
+      }
+    },
+    "/works/{work_id}": {
+      "get": {
+        "operationId": "getWork",
+        "summary": "公开成果详情",
+        "description": "按权威当前公开策略读取；无法核验或发布BLOCKED则503，不回退旧缓存。",
+        "tags": [
+          "discovery"
+        ],
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "成功；仅返回当前主体有权读取的内容。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Work"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "parameters": [
+          {
+            "name": "work_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ]
+      }
+    },
+    "/scholars": {
+      "get": {
+        "operationId": "searchScholars",
+        "summary": "同名学者检索",
+        "description": "同名保持不同规范ID。完全姓名匹配优先，再不同token命中及ID排序；拒绝学者年份排序。非第一页须query_context。 候选细化：原始q/name及NFKC、空白、大小写归一化后长度均不超过200；归一化扩张超限400。该限制待联合确认。",
+        "tags": [
+          "discovery"
+        ],
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "成功；仅返回当前主体有权读取的内容。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScholarPage"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "maxLength": 200
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Institutions"
+          },
+          {
+            "$ref": "#/components/parameters/Fields"
+          },
+          {
+            "$ref": "#/components/parameters/Context"
+          },
+          {
+            "$ref": "#/components/parameters/Page"
+          },
+          {
+            "$ref": "#/components/parameters/PageSize"
+          }
+        ]
+      }
+    },
+    "/scholars/{scholar_id}": {
+      "get": {
+        "operationId": "getScholar",
+        "summary": "公开学者档案",
+        "description": "公开学者档案",
+        "tags": [
+          "discovery"
+        ],
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "成功；仅返回当前主体有权读取的内容。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Scholar"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "parameters": [
+          {
+            "name": "scholar_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ]
+      }
+    },
+    "/scholars/{scholar_id}/portal": {
+      "get": {
+        "operationId": "getPortal",
+        "summary": "门户主档与四类成果首屏",
+        "description": "四类栏目均存在，各自首屏、合法total与query_context；主档不包含账号、证明引用或私有联系方式。四类分页由同路径下works接口承接。",
+        "tags": [
+          "discovery"
+        ],
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "成功；仅返回当前主体有权读取的内容。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Portal"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "parameters": [
+          {
+            "name": "scholar_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/PageSize"
+          }
+        ]
+      }
+    },
+    "/scholars/{scholar_id}/portal/works": {
+      "get": {
+        "operationId": "getPortalWorks",
+        "summary": "门户单类成果分页",
+        "description": "category选定四类之一，query_context绑定同一门户、分类与公开数据代；后续页须回传上下文，所有页均复核当前公开策略。",
+        "tags": [
+          "discovery"
+        ],
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "成功；仅返回当前主体有权读取的内容。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkPage"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "parameters": [
+          {
+            "name": "scholar_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/WorkType"
+            },
+            "required": true
+          },
+          {
+            "$ref": "#/components/parameters/Context"
+          },
+          {
+            "$ref": "#/components/parameters/Page"
+          },
+          {
+            "$ref": "#/components/parameters/PageSize"
+          }
+        ]
+      }
+    },
+    "/claims": {
+      "post": {
+        "operationId": "createClaim",
+        "summary": "提交本人待审认领申请",
+        "description": "申请人取服务端会话；scholar_id映射门户。提交边界核验本人有效材料、目标未占用、待审唯一；申请/幂等结果/审计原子写入。重提新ID并校验前序属于本人同目标REJECTED。",
+        "tags": [
+          "claim"
+        ],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "成功；仅返回当前主体有权读取的内容。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Claim"
+                }
+              }
+            },
+            "headers": {
+              "Location": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "新资源或异步状态查询的相对URI候选。"
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Csrf"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClaimCreate"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/claims": {
+      "get": {
+        "operationId": "listMyClaims",
+        "summary": "读取本人申请列表",
+        "description": "本人取会话，不接受客户端applicant_id。",
+        "tags": [
+          "claim"
+        ],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功；仅返回当前主体有权读取的内容。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClaimPage"
+                }
+              }
+            },
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Page"
+          },
+          {
+            "$ref": "#/components/parameters/PageSize"
+          }
+        ]
+      }
+    },
+    "/claims/{application_id}": {
+      "get": {
+        "operationId": "getClaim",
+        "summary": "本人或职责内管理员读取申请",
+        "description": "不存在和无私有读取资格均404；不会把该对象嵌入公开门户。",
+        "tags": [
+          "claim"
+        ],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功；仅返回当前主体有权读取的内容。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Claim"
+                }
+              }
+            },
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "parameters": [
+          {
+            "name": "application_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ]
+      }
+    },
+    "/admin/claims/{application_id}/reviews": {
+      "post": {
+        "operationId": "reviewClaim",
+        "summary": "管理员提交有效审核决定",
+        "description": "提交边界重查职责、非本人、PENDING、版本、理由和通过时门户空闲及材料依据。决定/状态/通过时授权/幂等结果/审计原子提交。两申请争门户落败者不自动驳回；同申请并发不覆盖已提交终态；已终态新操作409，合法幂等重放返回原结果。",
+        "tags": [
+          "claim"
+        ],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功；仅返回当前主体有权读取的内容。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Claim"
+                }
+              }
+            },
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "parameters": [
+          {
+            "name": "application_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Csrf"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Review"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/private/evidence/{evidence_id}": {
+      "get": {
+        "operationId": "getEvidenceMetadata",
+        "summary": "受控证明元数据",
+        "description": "受控证明元数据",
+        "tags": [
+          "claim"
+        ],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功；仅返回当前主体有权读取的内容。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Evidence"
+                }
+              }
+            },
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "parameters": [
+          {
+            "name": "evidence_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ]
+      }
+    },
+    "/private/evidence": {
+      "post": {
+        "operationId": "uploadEvidence",
+        "summary": "受控上传及异步校验证明材料",
+        "description": "认证及CSRF后接收私有材料。实际类型、大小、内容安全和归属由服务端按批准配置检查，不信任客户端媒体类型。202仅表示已登记并受理校验；Location指向受控元数据，valid=true后才可用于申请，绝不等价真实身份审核通过。幂等摘要包含文件内容摘要；临时私有对象与DB登记失败的孤儿清理由批准生命周期策略管理。",
+        "tags": [
+          "claim"
+        ],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "成功；仅返回当前主体有权读取的内容。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Evidence"
+                }
+              }
+            },
+            "headers": {
+              "Location": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "新资源或异步状态查询的相对URI候选。"
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Csrf"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/EvidenceUpload"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/private/evidence/{evidence_id}/content": {
+      "get": {
+        "operationId": "getEvidenceContent",
+        "summary": "受控下载证明附件",
+        "description": "检查归属/审核职责及有效性；不提供无需鉴权的OBS公开URL。格式大小及保留期未批准，上传协议需专项确认。",
+        "tags": [
+          "claim"
+        ],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "授权附件；实际媒体类型须已验证。",
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ]
+                }
+              },
+              "Content-Disposition": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "attachment；安全处理文件名。"
+              }
+            },
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "parameters": [
+          {
+            "name": "evidence_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ]
+      }
+    },
+    "/me/portals/{scholar_id}": {
+      "patch": {
+        "operationId": "editMyPortal",
+        "summary": "修改当前授权门户允许字段",
+        "description": "biography/interests至少一项；字段白名单与当前资源授权、版本校验。保存成功但投影未发布返回saved=true和PENDING，不让前端盲目重试新操作。",
+        "tags": [
+          "maintenance"
+        ],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功；仅返回当前主体有权读取的内容。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mutation"
+                }
+              }
+            },
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "parameters": [
+          {
+            "name": "scholar_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Csrf"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PortalEdit"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/portals/{scholar_id}/display-selections/{participation_id}": {
+      "put": {
+        "operationId": "setDisplaySelection",
+        "summary": "调整本人参与成果的展示选择",
+        "description": "参与学者须等于门户学者；仅改展示关联，不全局删成果，不改变合作统计依据。",
+        "tags": [
+          "maintenance"
+        ],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功；仅返回当前主体有权读取的内容。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mutation"
+                }
+              }
+            },
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "parameters": [
+          {
+            "name": "scholar_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          {
+            "name": "participation_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Csrf"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DisplayEdit"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/governance-requests": {
+      "post": {
+        "operationId": "createGovernanceRequest",
+        "summary": "提出公共成果元数据纠错",
+        "description": "验证成果与授权门户关联，proposed_changes至少一字段；只建治理请求及审计，不直接覆盖公共字段。",
+        "tags": [
+          "maintenance"
+        ],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "成功；仅返回当前主体有权读取的内容。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Governance"
+                }
+              }
+            },
+            "headers": {
+              "Location": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "新资源或异步状态查询的相对URI候选。"
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Csrf"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GovernanceCreate"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/governance-requests/{request_id}": {
+      "get": {
+        "operationId": "getGovernanceRequest",
+        "summary": "读取本人或职责内治理请求",
+        "description": "读取本人或职责内治理请求",
+        "tags": [
+          "maintenance"
+        ],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功；仅返回当前主体有权读取的内容。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Governance"
+                }
+              }
+            },
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "parameters": [
+          {
+            "name": "request_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ]
+      }
+    },
+    "/statistics/distributions": {
+      "get": {
+        "operationId": "getDistributions",
+        "summary": "类型/机构排名/领域分布",
+        "description": "同一合法公开快照按work_id去重。机构取成果发生时依据，排名并列1,1,3。多机构/领域可交叉；未知数单列，空分母share=null，故障不假全零。",
+        "tags": [
+          "statistics"
+        ],
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "成功；仅返回当前主体有权读取的内容。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Distribution"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "parameters": [
+          {
+            "name": "dimension",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "type",
+                "institution",
+                "field"
+              ]
+            },
+            "required": true
+          },
+          {
+            "$ref": "#/components/parameters/Types"
+          },
+          {
+            "$ref": "#/components/parameters/YearFrom"
+          },
+          {
+            "$ref": "#/components/parameters/YearTo"
+          },
+          {
+            "$ref": "#/components/parameters/Institutions"
+          },
+          {
+            "$ref": "#/components/parameters/Fields"
+          },
+          {
+            "$ref": "#/components/parameters/Context"
+          }
+        ]
+      }
+    },
+    "/statistics/cooperations": {
+      "get": {
+        "operationId": "getCooperations",
+        "summary": "基础专家合作网络",
+        "description": "无自环的规范ID无向对，权重为共享不同成果数。cursor绑定query_context，候选排序按source、target规范ID。限制输出边数，next_cursor标明截断；单边支撑集合过大时应明确资源限制而非伪造支撑。上限200为设计候选，未冻结性能指标。",
+        "tags": [
+          "statistics"
+        ],
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "成功；仅返回当前主体有权读取的内容。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cooperations"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Types"
+          },
+          {
+            "$ref": "#/components/parameters/YearFrom"
+          },
+          {
+            "$ref": "#/components/parameters/YearTo"
+          },
+          {
+            "$ref": "#/components/parameters/Institutions"
+          },
+          {
+            "$ref": "#/components/parameters/Fields"
+          },
+          {
+            "$ref": "#/components/parameters/Context"
+          },
+          {
+            "name": "edge_limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "default": 100
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        ]
+      }
+    },
+    "/statistics/hotspots": {
+      "get": {
+        "operationId": "getHotspots",
+        "summary": "年度领域热点",
+        "description": "分母为当年公开成果数，领域可交叉；未知年份另计，不补当前年，空分母share=null。",
+        "tags": [
+          "statistics"
+        ],
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "成功；仅返回当前主体有权读取的内容。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Hotspots"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Types"
+          },
+          {
+            "$ref": "#/components/parameters/YearFrom"
+          },
+          {
+            "$ref": "#/components/parameters/YearTo"
+          },
+          {
+            "$ref": "#/components/parameters/Institutions"
+          },
+          {
+            "$ref": "#/components/parameters/Fields"
+          },
+          {
+            "$ref": "#/components/parameters/Context"
+          }
+        ]
+      }
+    },
+    "/admin/collection-tasks": {
+      "post": {
+        "operationId": "createCollectionTask",
+        "summary": "异步受理采集任务",
+        "description": "成员7协同草案；只接受已审批source_configuration_id，不接受任意URL和凭据。202仅表示受理，Location指向任务进度；规范化公开规模与处理条数不同。",
+        "tags": [
+          "collection"
+        ],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "成功；仅返回当前主体有权读取的内容。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Task"
+                }
+              }
+            },
+            "headers": {
+              "Location": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "新资源或异步状态查询的相对URI候选。"
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Csrf"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TaskCreate"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/collection-tasks/{task_id}": {
+      "get": {
+        "operationId": "getCollectionTask",
+        "summary": "查询采集任务进度",
+        "description": "不透明state保留A/B差异；失败摘要脱敏，生命周期映射交2/7及1/6共同确认。",
+        "tags": [
+          "collection"
+        ],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功；仅返回当前主体有权读取的内容。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Task"
+                }
+              }
+            },
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ]
+      }
+    },
+    "/admin/collection-tasks/{task_id}/stop-requests": {
+      "post": {
+        "operationId": "stopCollectionTask",
+        "summary": "异步受理STOP操作意图",
+        "description": "资格/版本检查后保存幂等操作意图，Location指向命令进展。受理不等于已经停止/重试完成；B组新任务/重试规则由成员7确认，不擅自重置旧终态。",
+        "tags": [
+          "collection"
+        ],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "成功；仅返回当前主体有权读取的内容。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskCommand"
+                }
+              }
+            },
+            "headers": {
+              "Location": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "新资源或异步状态查询的相对URI候选。"
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Csrf"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TaskAction"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/collection-tasks/{task_id}/retry-requests": {
+      "post": {
+        "operationId": "retryCollectionTask",
+        "summary": "异步受理RETRY操作意图",
+        "description": "资格/版本检查后保存幂等操作意图，Location指向命令进展。受理不等于已经停止/重试完成；B组新任务/重试规则由成员7确认，不擅自重置旧终态。",
+        "tags": [
+          "collection"
+        ],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "成功；仅返回当前主体有权读取的内容。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskCommand"
+                }
+              }
+            },
+            "headers": {
+              "Location": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "新资源或异步状态查询的相对URI候选。"
+              },
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Csrf"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TaskAction"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/task-commands/{command_id}": {
+      "get": {
+        "operationId": "getTaskCommand",
+        "summary": "查询任务操作意图进展",
+        "description": "查询任务操作意图进展",
+        "tags": [
+          "collection"
+        ],
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功；仅返回当前主体有权读取的内容。",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskCommand"
+                }
+              }
+            },
+            "headers": {
+              "Cache-Control": {
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "no-store"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "429": {
+            "$ref": "#/components/responses/429"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
+          },
+          "503": {
+            "$ref": "#/components/responses/503"
+          }
+        },
+        "parameters": [
+          {
+            "name": "command_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Id": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 64,
+        "description": "服务生成的规范标识，长度不超过候选DDL的64；原始来源ID在来源映射中另存。"
+      },
+      "Version": {
+        "type": "integer",
+        "format": "int64",
+        "minimum": 1
+      },
+      "Time": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "WorkType": {
+        "type": "string",
+        "enum": [
+          "paper",
+          "patent",
+          "project",
+          "award"
+        ]
+      },
+      "ClaimStatus": {
+        "type": "string",
+        "enum": [
+          "PENDING",
+          "APPROVED",
+          "REJECTED"
+        ]
+      },
+      "RequestKey": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 128,
+        "description": "按当前账号+操作+键唯一，并记录规范参数摘要；保存期限待批准。"
+      },
+      "Error": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "trace_id": {
+            "type": "string"
+          },
+          "field_errors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "field": {
+                  "type": "string"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "field",
+                "message"
+              ]
+            }
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "trace_id"
+        ]
+      },
+      "Source": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "source_id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "source_url": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          },
+          "observed_at": {
+            "$ref": "#/components/schemas/Time"
+          },
+          "simulation": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "source_id",
+          "source_url",
+          "observed_at",
+          "simulation"
+        ]
+      },
+      "Work": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "work_id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "type": {
+            "$ref": "#/components/schemas/WorkType"
+          },
+          "title": {
+            "type": "string"
+          },
+          "year": {
+            "type": "integer",
+            "nullable": true,
+            "minimum": 1000,
+            "maximum": 9999
+          },
+          "doi": {
+            "type": "string",
+            "nullable": true
+          },
+          "scholar_ids": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Id"
+            },
+            "uniqueItems": true
+          },
+          "institution_ids": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Id"
+            },
+            "uniqueItems": true
+          },
+          "field_ids": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Id"
+            },
+            "uniqueItems": true
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Source"
+            },
+            "minItems": 1
+          },
+          "simulation": {
+            "type": "boolean"
+          },
+          "version": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "updated_at": {
+            "$ref": "#/components/schemas/Time"
+          }
+        },
+        "required": [
+          "work_id",
+          "type",
+          "title",
+          "year",
+          "doi",
+          "scholar_ids",
+          "institution_ids",
+          "field_ids",
+          "sources",
+          "simulation",
+          "version",
+          "updated_at"
+        ]
+      },
+      "Scholar": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "scholar_id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "name": {
+            "type": "string"
+          },
+          "aliases": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "institution_ids": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Id"
+            },
+            "uniqueItems": true
+          },
+          "field_ids": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Id"
+            },
+            "uniqueItems": true
+          },
+          "version": {
+            "$ref": "#/components/schemas/Version"
+          }
+        },
+        "required": [
+          "scholar_id",
+          "name",
+          "aliases",
+          "institution_ids",
+          "field_ids",
+          "version"
+        ]
+      },
+      "WorkPage": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "page": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "page_size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0,
+            "format": "int64"
+          },
+          "data_version": {
+            "type": "string",
+            "minLength": 1
+          },
+          "query_context": {
+            "type": "string",
+            "minLength": 1
+          },
+          "updated_at": {
+            "$ref": "#/components/schemas/Time"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Work"
+            }
+          }
+        },
+        "required": [
+          "page",
+          "page_size",
+          "total",
+          "data_version",
+          "query_context",
+          "updated_at",
+          "items"
+        ]
+      },
+      "ScholarPage": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "page": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "page_size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0,
+            "format": "int64"
+          },
+          "data_version": {
+            "type": "string",
+            "minLength": 1
+          },
+          "query_context": {
+            "type": "string",
+            "minLength": 1
+          },
+          "updated_at": {
+            "$ref": "#/components/schemas/Time"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Scholar"
+            }
+          }
+        },
+        "required": [
+          "page",
+          "page_size",
+          "total",
+          "data_version",
+          "query_context",
+          "updated_at",
+          "items"
+        ]
+      },
+      "Portal": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "scholar": {
+            "$ref": "#/components/schemas/Scholar"
+          },
+          "is_claimed": {
+            "type": "boolean"
+          },
+          "biography": {
+            "type": "string",
+            "nullable": true
+          },
+          "interests": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "paper": {
+            "$ref": "#/components/schemas/WorkPage"
+          },
+          "patent": {
+            "$ref": "#/components/schemas/WorkPage"
+          },
+          "project": {
+            "$ref": "#/components/schemas/WorkPage"
+          },
+          "award": {
+            "$ref": "#/components/schemas/WorkPage"
+          },
+          "version": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "data_version": {
+            "type": "string"
+          },
+          "updated_at": {
+            "$ref": "#/components/schemas/Time"
+          }
+        },
+        "description": "四类栏目均存在，分别有结果和完整合法total；不含账号或证明资料。",
+        "required": [
+          "scholar",
+          "is_claimed",
+          "biography",
+          "interests",
+          "paper",
+          "patent",
+          "project",
+          "award",
+          "version",
+          "data_version",
+          "updated_at"
+        ]
+      },
+      "Login": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "username": {
+            "type": "string",
+            "minLength": 1
+          },
+          "password": {
+            "type": "string",
+            "minLength": 1,
+            "format": "password",
+            "writeOnly": true
+          }
+        },
+        "required": [
+          "username",
+          "password"
+        ]
+      },
+      "Session": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "authenticated": {
+            "type": "boolean"
+          },
+          "account_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "csrf_token": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "description": "匿名状态account_id=null、roles=[]；csrf_token为当前匿名或登录会话的写请求令牌，不是认证凭据。",
+        "required": [
+          "authenticated",
+          "account_id",
+          "roles",
+          "csrf_token"
+        ]
+      },
+      "ClaimCreate": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "scholar_id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Id"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "request_key": {
+            "$ref": "#/components/schemas/RequestKey"
+          },
+          "previous_application_id": {
+            "type": "string",
+            "nullable": true,
+            "minLength": 1,
+            "maxLength": 64
+          }
+        },
+        "required": [
+          "scholar_id",
+          "evidence_refs",
+          "request_key"
+        ]
+      },
+      "Claim": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "application_id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "scholar_id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "status": {
+            "$ref": "#/components/schemas/ClaimStatus"
+          },
+          "version": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "submitted_at": {
+            "$ref": "#/components/schemas/Time"
+          },
+          "review_reason": {
+            "type": "string",
+            "nullable": true
+          },
+          "previous_application_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        },
+        "description": "仅本人或职责内管理员可读；不用于公开响应。",
+        "required": [
+          "application_id",
+          "scholar_id",
+          "status",
+          "version",
+          "submitted_at",
+          "review_reason",
+          "previous_application_id",
+          "evidence_refs"
+        ]
+      },
+      "ClaimPage": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Claim"
+            }
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "page_size": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "items",
+          "page",
+          "page_size",
+          "total"
+        ]
+      },
+      "Review": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "decision": {
+            "type": "string",
+            "enum": [
+              "APPROVED",
+              "REJECTED"
+            ]
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expected_version": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "request_key": {
+            "$ref": "#/components/schemas/RequestKey"
+          }
+        },
+        "required": [
+          "decision",
+          "reason",
+          "expected_version",
+          "request_key"
+        ]
+      },
+      "Evidence": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "evidence_id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "valid": {
+            "type": "boolean"
+          },
+          "processing_state": {
+            "type": "string",
+            "minLength": 1
+          },
+          "failure_reason": {
+            "type": "string",
+            "nullable": true
+          },
+          "media_type": {
+            "type": "string"
+          },
+          "created_at": {
+            "$ref": "#/components/schemas/Time"
+          }
+        },
+        "description": "受控元数据，processing_state为候选材料处理字符串；有效引用不等于真实身份审核通过。不返回公开OBS链接；格式/大小/保留期待确认。",
+        "required": [
+          "evidence_id",
+          "valid",
+          "processing_state",
+          "failure_reason",
+          "media_type",
+          "created_at"
+        ]
+      },
+      "EvidenceUpload": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "file": {
+            "type": "string",
+            "format": "binary"
+          },
+          "request_key": {
+            "$ref": "#/components/schemas/RequestKey"
+          }
+        },
+        "description": "multipart文件及幂等键；真实类型/字节数由服务端验证，限制来自经批准配置。",
+        "required": [
+          "file",
+          "request_key"
+        ]
+      },
+      "PortalEdit": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "biography": {
+            "type": "string",
+            "nullable": true
+          },
+          "interests": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "expected_version": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "request_key": {
+            "$ref": "#/components/schemas/RequestKey"
+          }
+        },
+        "required": [
+          "expected_version",
+          "request_key"
+        ],
+        "minProperties": 3
+      },
+      "DisplayEdit": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "visible": {
+            "type": "boolean"
+          },
+          "expected_version": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "request_key": {
+            "$ref": "#/components/schemas/RequestKey"
+          }
+        },
+        "required": [
+          "visible",
+          "expected_version",
+          "request_key"
+        ]
+      },
+      "Mutation": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "resource_id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "version": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "saved": {
+            "type": "boolean"
+          },
+          "projection_status": {
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "PUBLISHED"
+            ]
+          },
+          "updated_at": {
+            "$ref": "#/components/schemas/Time"
+          }
+        },
+        "description": "saved=true表示权威写入成功；projection_status为投影发布状态，与申请业务三态不同。",
+        "required": [
+          "resource_id",
+          "version",
+          "saved",
+          "projection_status",
+          "updated_at"
+        ]
+      },
+      "GovernanceCreate": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "work_id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "expected_version": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "proposed_changes": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "title": {
+                "type": "string",
+                "minLength": 1
+              },
+              "year": {
+                "type": "integer",
+                "nullable": true,
+                "minimum": 1000,
+                "maximum": 9999
+              },
+              "doi": {
+                "type": "string",
+                "nullable": true
+              }
+            },
+            "minProperties": 1
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "request_key": {
+            "$ref": "#/components/schemas/RequestKey"
+          }
+        },
+        "required": [
+          "work_id",
+          "expected_version",
+          "proposed_changes",
+          "reason",
+          "request_key"
+        ]
+      },
+      "Governance": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "request_id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "work_id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "state": {
+            "type": "string",
+            "minLength": 1
+          },
+          "version": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "created_at": {
+            "$ref": "#/components/schemas/Time"
+          }
+        },
+        "description": "治理生命周期未统一，使用opaque字符串。",
+        "required": [
+          "request_id",
+          "work_id",
+          "state",
+          "version",
+          "created_at"
+        ]
+      },
+      "DistributionGroup": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "count": {
+            "type": "integer",
+            "minimum": 0,
+            "format": "int64"
+          },
+          "rank": {
+            "type": "integer",
+            "minimum": 1,
+            "nullable": true
+          },
+          "share": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "count",
+          "rank",
+          "share"
+        ]
+      },
+      "Distribution": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data_version": {
+            "type": "string"
+          },
+          "query_context": {
+            "type": "string"
+          },
+          "updated_at": {
+            "$ref": "#/components/schemas/Time"
+          },
+          "counting_rule": {
+            "type": "string"
+          },
+          "dimension": {
+            "type": "string",
+            "enum": [
+              "type",
+              "institution",
+              "field"
+            ]
+          },
+          "groups": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DistributionGroup"
+            }
+          },
+          "denominator": {
+            "type": "integer",
+            "minimum": 0,
+            "format": "int64"
+          },
+          "unknown_count": {
+            "type": "integer",
+            "minimum": 0,
+            "format": "int64"
+          }
+        },
+        "required": [
+          "data_version",
+          "query_context",
+          "updated_at",
+          "counting_rule",
+          "dimension",
+          "groups",
+          "denominator",
+          "unknown_count"
+        ]
+      },
+      "CooperationEdge": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "source_scholar_id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "target_scholar_id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "weight": {
+            "type": "integer",
+            "minimum": 1,
+            "format": "int64"
+          },
+          "supporting_work_ids": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Id"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "source_scholar_id",
+          "target_scholar_id",
+          "weight",
+          "supporting_work_ids"
+        ]
+      },
+      "Cooperations": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data_version": {
+            "type": "string"
+          },
+          "query_context": {
+            "type": "string"
+          },
+          "updated_at": {
+            "$ref": "#/components/schemas/Time"
+          },
+          "counting_rule": {
+            "type": "string"
+          },
+          "nodes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "scholar_id": {
+                  "$ref": "#/components/schemas/Id"
+                },
+                "name": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "scholar_id",
+                "name"
+              ]
+            }
+          },
+          "edges": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CooperationEdge"
+            }
+          },
+          "truncated": {
+            "type": "boolean"
+          },
+          "next_cursor": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "data_version",
+          "query_context",
+          "updated_at",
+          "counting_rule",
+          "nodes",
+          "edges",
+          "truncated",
+          "next_cursor"
+        ]
+      },
+      "HotspotRow": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "year": {
+            "type": "integer",
+            "minimum": 1000,
+            "maximum": 9999
+          },
+          "field_id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "count": {
+            "type": "integer",
+            "minimum": 0,
+            "format": "int64"
+          },
+          "denominator": {
+            "type": "integer",
+            "minimum": 0,
+            "format": "int64"
+          },
+          "share": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "nullable": true
+          },
+          "delta_previous_year": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          }
+        },
+        "required": [
+          "year",
+          "field_id",
+          "count",
+          "denominator",
+          "share",
+          "delta_previous_year"
+        ]
+      },
+      "Hotspots": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "data_version": {
+            "type": "string"
+          },
+          "query_context": {
+            "type": "string"
+          },
+          "updated_at": {
+            "$ref": "#/components/schemas/Time"
+          },
+          "counting_rule": {
+            "type": "string"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HotspotRow"
+            }
+          },
+          "unknown_year_count": {
+            "type": "integer",
+            "minimum": 0,
+            "format": "int64"
+          }
+        },
+        "required": [
+          "data_version",
+          "query_context",
+          "updated_at",
+          "counting_rule",
+          "items",
+          "unknown_year_count"
+        ]
+      },
+      "TaskCreate": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "source_configuration_id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "work_types": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WorkType"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "request_key": {
+            "$ref": "#/components/schemas/RequestKey"
+          }
+        },
+        "required": [
+          "source_configuration_id",
+          "work_types",
+          "request_key"
+        ]
+      },
+      "Task": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "task_id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "state": {
+            "type": "string",
+            "minLength": 1
+          },
+          "version": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "processed_count": {
+            "type": "integer",
+            "minimum": 0,
+            "format": "int64"
+          },
+          "failure_summary": {
+            "type": "string",
+            "nullable": true
+          },
+          "data_version": {
+            "type": "string",
+            "nullable": true
+          },
+          "updated_at": {
+            "$ref": "#/components/schemas/Time"
+          }
+        },
+        "description": "数据侧生命周期字符串待统一；处理条数不等于公开成果数。",
+        "required": [
+          "task_id",
+          "state",
+          "version",
+          "processed_count",
+          "failure_summary",
+          "data_version",
+          "updated_at"
+        ]
+      },
+      "TaskAction": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "expected_version": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "request_key": {
+            "$ref": "#/components/schemas/RequestKey"
+          }
+        },
+        "required": [
+          "expected_version",
+          "request_key"
+        ]
+      },
+      "TaskCommand": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "command_id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "task_id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "intent": {
+            "type": "string",
+            "enum": [
+              "STOP",
+              "RETRY"
+            ]
+          },
+          "command_state": {
+            "type": "string",
+            "minLength": 1
+          },
+          "version": {
+            "$ref": "#/components/schemas/Version"
+          },
+          "updated_at": {
+            "$ref": "#/components/schemas/Time"
+          }
+        },
+        "description": "STOP/RETRY为操作意图，不是已完成的任务状态。",
+        "required": [
+          "command_id",
+          "task_id",
+          "intent",
+          "command_state",
+          "version",
+          "updated_at"
+        ]
+      }
+    },
+    "parameters": {
+      "Csrf": {
+        "name": "X-CSRF-Token",
+        "in": "header",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": "候选会话CSRF令牌；同时验证Origin和服务端会话绑定。"
+      },
+      "Page": {
+        "name": "page",
+        "in": "query",
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 1
+        }
+      },
+      "PageSize": {
+        "name": "page_size",
+        "in": "query",
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 20
+        }
+      },
+      "YearFrom": {
+        "name": "year_from",
+        "in": "query",
+        "schema": {
+          "type": "integer",
+          "minimum": 1000,
+          "maximum": 9999
+        }
+      },
+      "YearTo": {
+        "name": "year_to",
+        "in": "query",
+        "schema": {
+          "type": "integer",
+          "minimum": 1000,
+          "maximum": 9999
+        }
+      },
+      "Context": {
+        "name": "query_context",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": "不透明上下文绑定数据代/条件/排序/公开epoch；过期或不匹配409，不与新代拼接。"
+      },
+      "Types": {
+        "name": "type",
+        "in": "query",
+        "schema": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/WorkType"
+          },
+          "uniqueItems": true
+        },
+        "style": "form",
+        "explode": true
+      },
+      "Institutions": {
+        "name": "institution_ids",
+        "in": "query",
+        "schema": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "uniqueItems": true
+        },
+        "style": "form",
+        "explode": true
+      },
+      "Fields": {
+        "name": "field_ids",
+        "in": "query",
+        "schema": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "uniqueItems": true
+        },
+        "style": "form",
+        "explode": true
+      }
+    },
+    "responses": {
+      "400": {
+        "description": "参数非法或未知字段；包含未知查询参数和起年大于止年。",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "401": {
+        "description": "无效会话或通用登录失败。",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        },
+        "headers": {
+          "WWW-Authenticate": {
+            "schema": {
+              "type": "string"
+            },
+            "description": "认证挑战语法待公共认证设计确认。"
+          }
+        }
+      },
+      "403": {
+        "description": "操作无权或CSRF/Origin检查失败。",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "不存在/不可公开或无私有对象读取资格，不区分存在性。",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "409": {
+        "description": "版本/占用/幂等参数冲突，或QUERY_CONTEXT_EXPIRED。",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "429": {
+        "description": "请求超限；阈值待批准。",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "500": {
+        "description": "内部失败，仅返回脱敏追踪标识。",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "503": {
+        "description": "DEPENDENCY_UNAVAILABLE或PROJECTION_NOT_READY，不伪造空集/全零。",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "cookieAuth": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "soff_session",
+        "description": "候选服务端会话，cookie设HttpOnly和Secure；SameSite与期限待批准。"
+      }
+    }
+  },
+  "security": [],
+  "x-review-status": "PROPOSED_NOT_PUBLISHED",
+  "x-no-business-tests-executed": true,
+  "x-publication-protocol": "Immutable published generation plus DB public-policy gate; see architecture/02-consistency-and-failure.md."
+}

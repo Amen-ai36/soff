@@ -1,0 +1,65 @@
+{
+  "status": "PASS",
+  "date": "2026-11-11",
+  "checks": {
+    "preserved_input": {
+      "original_member08_files_unchanged": 67,
+      "source_archive_unchanged": true
+    },
+    "openapi": {
+      "acceptance_scenarios_mapped": 26,
+      "version": "3.0.3",
+      "paths": 26,
+      "operations": 28,
+      "schemas": 36,
+      "strict_validator": "PASS",
+      "local_refs": "PASS",
+      "protected_writes_csrf": "PASS",
+      "backend_executed": false
+    },
+    "data_design": {
+      "tables": 31,
+      "dictionary_columns": 197,
+      "sql_statements_parsed": 48,
+      "dialect": "PostgreSQL via SQLGlot; no PostgreSQL engine execution",
+      "dictionary_sql_match": true,
+      "es_json": "PASS",
+      "database_or_es_executed": false
+    },
+    "traceability": {
+      "requirements": 18,
+      "legacy_source_columns_preserved": true
+    },
+    "diagrams": {
+      "new_uml_sources": 6,
+      "rendered_png": 6,
+      "rendered_svg": 6,
+      "codearts_engine_created": false
+    },
+    "reports": [
+      {
+        "file": "成员8-后端架构设计供稿.pdf",
+        "pages": 11,
+        "text_characters": 8985,
+        "actual_rendered_pages": 11,
+        "cjk_fonts_embedded": true
+      },
+      {
+        "file": "成员8-数据库与接口构件设计初稿.pdf",
+        "pages": 18,
+        "text_characters": 19206,
+        "actual_rendered_pages": 18,
+        "cjk_fonts_embedded": true
+      }
+    ],
+    "office_render_scope": "DOCX/PPTX container and relationships checked; no native Word/PowerPoint rendering. PDFs independently typeset from same source and actually rendered.",
+    "slides": {
+      "count": 12,
+      "speaker_notes": 12,
+      "shape_bounds": "PASS"
+    },
+    "local_links": {
+      "resolved": 61
+    }
+  }
+}

@@ -1,5 +1,7 @@
 # 成员 4 与成员 9 调研材料对比报告
 
+> **更正（2026-11-11）**：本文中“50 份问卷”及相关比例无原始证据，不得引用。真实问卷为 35/30/23 人的匿名汇总，见 [06-questionnaire-results.md](06-questionnaire-results.md) 与 [更正说明](../CORRECTION-questionnaire-data.md)。
+
 编制日期：2026年10月12日  
 目的：为成员 1 汇编统一调研报告提供对照参考
 

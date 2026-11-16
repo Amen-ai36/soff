@@ -1,0 +1,88 @@
+@startuml
+!pragma layout smetana
+skinparam defaultFontName Microsoft YaHei
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam classBackgroundColor #EFF6FF
+skinparam classBorderColor #38689A
+skinparam ArrowColor #334155
+hide circle
+title M8-CD-ER-02 认领、证明与有效授权（候选ER）
+left to right direction
+entity "账号\napp_account" as Account {
+ * account_id <<PK>>
+ --
+ enabled / auth_version
+}
+entity "门户\nscholar_portal" as Portal {
+ * portal_id <<PK>>
+ --
+ scholar_id <<UK,FK>>
+ version
+}
+entity "申请\nclaim_request" as Claim {
+ * claim_id <<PK>>
+ --
+ applicant_id <<FK>>
+ portal_id <<FK>>
+ status / version
+ previous_claim_id <<FK,nullable>>
+}
+entity "私有材料引用\nevidence_reference" as Evidence {
+ * evidence_id <<PK>>
+ --
+ owner_account_id <<FK>>
+ private_object_key
+ validation_state / expires_at
+}
+entity "申请材料\nclaim_evidence" as CE {
+ * claim_id <<PK,FK>>
+ * evidence_id <<PK,FK>>
+ --
+ applicant_id <<FK>>
+}
+entity "有效决定\nreview_decision" as Review {
+ * claim_id <<PK,FK>>
+ --
+ reviewer_id / applicant_id <<FK>>
+ decision / reason
+ expected_version / result_version
+}
+entity "维护授权\nportal_grant" as Grant {
+ * grant_id <<PK>>
+ --
+ portal_id / account_id <<FK>>
+ source_claim_id <<UK,FK>>
+ active / revoked_at
+}
+entity "审计\naudit_record" as Audit {
+ * audit_id <<PK>>
+ --
+ actor_id <<FK>>
+ claim_id <<FK,nullable>>
+ action_code / result_code
+}
+Account ||--o{ Claim : 提交
+Portal ||--o{ Claim : 目标
+Account ||--o{ Evidence : 私有归属
+Claim ||--|{ CE : 有效提交至少一项
+Evidence ||--o{ CE
+Claim ||--o| Review : 最多一次有效决定
+Account ||--o{ Review : 非本人审核
+Claim ||--o| Grant : 仅通过时
+Portal ||--o{ Grant : 历史多条
+Account ||--o{ Grant
+Account ||--o{ Audit
+Claim |o--|{ Audit : 创建及决定轨迹
+note bottom of CE
+ applicant_id复合FK约束材料归属；
+ “至少一有效材料”由提交事务保证，
+ 并非单独一条外键已强制。
+end note
+note bottom of Grant
+ 部分唯一索引：portal_id WHERE active。
+ 通过/决定/授权/审计同事务仍须服务实现。
+ 不以历史多条开放多人同时维护。
+end note
+@enduml

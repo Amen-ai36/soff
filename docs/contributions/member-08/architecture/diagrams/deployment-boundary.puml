@@ -1,0 +1,42 @@
+@startuml
+!pragma layout smetana
+skinparam defaultFontName Microsoft YaHei
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam ArrowColor #334155
+skinparam componentBackgroundColor #EFF6FF
+skinparam componentBorderColor #38689A
+title M8-AR-03 华为云候选部署与信任边界
+left to right direction
+actor "浏览器用户" as U
+cloud "公网HTTPS入口\n证书、入口限流（待5/10细化）" as In
+node "云内应用网络（候选）" {
+ node "ECS应用进程\n认证/检索/门户认领/统计/后台" as App
+ node "ECS异步工作进程\n采集/ETL/Outbox/发布" as Worker
+ database "RDS PostgreSQL候选\n权威业务与事务" as DB
+ database "CSS/ES候选\n公开投影，不接收证明" as ES
+ component "可选Redis缓存\n版本化公开缓存" as Cache
+}
+cloud "OBS私有证明桶\n专用服务身份与受控访问" as OBS
+cloud "获准公开来源" as Source
+U --> In : 仅业务请求
+In --> App
+App --> DB : 当前资格/公开栅栏
+App --> ES : 指定公开索引代
+App --> Cache
+App --> OBS : 后端校验后代理证明
+Worker --> DB : 有界批处理/事件/对账
+Worker --> ES : 逐项确认与索引构建
+Worker --> Source : 合规接入
+note bottom of App
+ 只示意逻辑边界；未创建云资源。
+ 具体实例、网络、IAM、备份和CCE替代
+ 由成员1/6与5/10共同评审。
+end note
+note bottom of ES
+ CSS地域/版本与Elastic API兼容性待核验。
+ 无百万规模、P95或可用性实测结论。
+end note
+
+@enduml

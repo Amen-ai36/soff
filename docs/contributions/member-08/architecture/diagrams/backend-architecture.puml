@@ -1,0 +1,57 @@
+@startuml
+!pragma layout smetana
+skinparam defaultFontName Microsoft YaHei
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam ArrowColor #334155
+skinparam componentBackgroundColor #EFF6FF
+skinparam componentBorderColor #38689A
+title M8-AR-01 B组候选后端逻辑架构
+left to right direction
+actor "访客/科研人员/管理员" as U
+component "Web前端与管理界面\n成员4/9" as UI
+package "模块化业务应用（候选部署边界）" {
+ component "认证服务\n会话、CSRF、当前资格" as Auth
+ component "检索服务\n公开版本、排序、分页" as Search
+ component "门户与认领服务\n申请、审核、维护、治理" as Claim
+ component "统计服务\n同版本去重、分母、未知数" as Stats
+ component "管理后台服务\n任务、受控审核、发布运维" as Admin
+}
+package "异步工作进程（候选）" {
+ component "采集服务\n任务/来源/停止与恢复" as Collect
+ component "ETL服务\n清洗、去重、消歧、候选成果" as ETL
+ component "Outbox同步与发布\n版本、逐项确认、完整集合对账" as Publish
+}
+database "权威关系数据库\nPostgreSQL候选\n业务/授权/审计/Outbox/公开栅栏" as DB
+database "ES公开索引代\n只存白名单投影" as ES
+cloud "私有OBS证明对象\n后端逐次授权代理" as OBS
+component "可选缓存\n公开版本键，不作权限真相" as Cache
+cloud "批准的公开来源/模拟数据" as Source
+U --> UI
+UI --> Auth
+UI --> Search
+UI --> Claim
+UI --> Stats
+UI --> Admin
+Admin --> Collect : 任务意图
+Collect --> Source : 有界合规接入
+Collect --> ETL
+ETL --> DB : 规范ID/来源/候选版本
+Auth --> DB
+Claim --> DB : 业务+授权+审计+事件同事务
+Claim --> OBS : 受控材料访问
+Publish --> DB : 领取、对账、发布栅栏
+Publish --> ES : 构建与清理索引代
+Search --> DB : 当前公开栅栏
+Stats --> DB : 同一公开栅栏
+Search --> ES
+Stats --> ES
+Search --> Cache
+Stats --> Cache
+note bottom of DB
+ 账号不等于学者；PENDING不授权。
+ ES/PIT/缓存不能绕过当前公开策略。
+end note
+
+@enduml
