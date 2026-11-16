@@ -1,0 +1,30 @@
+@startuml
+left to right direction
+title M6-COMP-01 构件边界候选（非CodeArts导出）
+actor 用户
+actor 管理员
+cloud "获准公开数据源" as Source
+component "Web/API" as Web
+component "认证与授权" as Auth
+component "检索/门户/认领/统计" as Biz
+component "采集任务" as Ingest
+component "清洗与消歧" as ETL
+component "投影与发布" as Pub
+database "权威业务库" as DB
+database "公开检索投影" as IDX
+用户 --> Web
+管理员 --> Web
+Web --> Auth
+Web --> Biz
+Source --> Ingest
+Ingest --> ETL
+ETL --> DB
+DB --> Pub
+Pub --> IDX
+Biz --> DB
+Biz --> IDX
+Auth --> DB
+note bottom
+构件边界和方向供统一设计评审；正式平台模型、字段和接口待对应岗位提交。
+end note
+@enduml
