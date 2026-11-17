@@ -21,14 +21,14 @@
 ## 2. 展现层内部分层
 
 ```text
-views/         页面：组合组件、读写 URL、调用 composables
+views/         页面（13 个路由页面 + 404 页）：组合组件、读写 URL、调用 composables
 components/    可复用界面组件：只接收 props、发出事件
 composables/   页面状态：会话、异步加载状态、取消与防重
 domain/        纯函数：查询参数校验、显示规则、加载状态、合作图算法
 api/port.ts    ApiClient 接口与数据类型（展现层视角）
 api/http.ts    HTTP 实现：请求构造、超时、错误归类
 api/mock/      假实现：基于成员 8 合成夹具，供并行开发与测试
-features/      创新功能注册表与候选模块
+features/      创新功能注册表与开关（候选功能的页面在 views/，算法在 domain/）
 ```
 
 依赖方向只允许自上而下：
@@ -86,7 +86,7 @@ URL 作为检索状态的唯一来源，意味着"改筛选→回到第 1 页"�
 | 质量属性 | 措施 | 落实位置 | 验证 |
 | --- | --- | --- | --- |
 | 安全：权限 | 界面隐藏按钮只是提示；所有写操作的结果以服务端响应为准 | views 中处理 401/403/404 | 假实现返回 FORBIDDEN 时页面显示无权限的组件测试 |
-| 安全：信息泄露 | 对私有资源"无权"和"不存在"使用同一提示；不展示服务端原始错误正文 | `api/errors.ts` | 错误映射单测 |
+| 安全：信息泄露 | 对私有资源"无权"和"不存在"使用同一提示；不展示服务端原始错误正文 | `domain/errors.ts`、`api/http.ts` | 错误映射单测 |
 | 安全：开放重定向 | 登录后返回地址只接受站内路径，拒绝 `//`、协议前缀 | `domain/redirect.ts` | 单测覆盖 `//evil.com`、`https://` 等 |
 | 安全：凭据 | 不把令牌放进 URL 或 localStorage；会话机制待 SPEC-M8-AUTH 选型 | `api/http.ts` | 代码审查项 |
 | 性能 | 列表只取一页（默认 20，最大 100）；按路由拆分代码；连续改条件时只保留最后一次请求 | `useAsync.ts`、路由懒加载 | 构建产物分块；"最后一次请求获胜"单测 |
@@ -107,7 +107,7 @@ URL 作为检索状态的唯一来源，意味着"改筛选→回到第 1 页"�
 | 交互规则 IA9-RULE-03、04、05（改条件回第 1 页、移除条件保留关键词、非法条件不发请求） | `domain/searchQuery.ts` |
 | 前端加载状态 FS9-L-*（空闲、加载、成功、业务空、失败、版本失效） | `domain/loadState.ts` |
 | 业务映射规则 FS9-BR-01～04（以服务端权威状态为准） | 写操作成功后重新读取，冲突时刷新 |
-| 6 类异常 EX9-C1～C6 | `api/errors.ts` 的错误种类与 `LoadStateView.vue` |
+| 6 类异常 EX9-C1～C6 | `domain/errors.ts` 的错误种类与 `LoadStateView.vue` |
 
 分析阶段材料中引用的"50 份问卷"比例已作废（见 [更正说明](../CORRECTION-questionnaire-data.md)），上述交互规则本身不依赖那些比例，仍然有效。本文需要用户证据的地方只引用真实问卷 [06-questionnaire-results.md](../research/06-questionnaire-results.md)。
 

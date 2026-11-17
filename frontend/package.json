@@ -1,0 +1,33 @@
+{
+  "name": "academic-portal-frontend-b",
+  "private": true,
+  "version": "0.1.0",
+  "description": "学术成果分享平台 B 组前端原型（成员 9，方案 B 候选）",
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "vue-tsc --noEmit",
+    "test": "vitest run",
+    "coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "vue": "3.5.45",
+    "vue-router": "4.6.4"
+  },
+  "devDependencies": {
+    "@types/node": "24.19.2",
+    "@vitejs/plugin-vue": "6.0.10",
+    "@vitest/coverage-v8": "5.1.0",
+    "@vue/test-utils": "2.5.1",
+    "jsdom": "27.4.0",
+    "typescript": "5.9.3",
+    "vite": "8.3.8",
+    "vitest": "5.1.0",
+    "vue-tsc": "3.3.14"
+  }
+}
