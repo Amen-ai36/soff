@@ -1,0 +1,79 @@
+@startuml
+!theme plain
+left to right direction
+skinparam componentStyle rectangle
+skinparam packageStyle rectangle
+
+cloud "外部数据源\nOpenAlex / DBLP / 获准模拟数据" as SRC
+actor "普通用户 / 科研人员 / 管理员" as USER
+
+package "华为云接入区（候选）" {
+  [Web前端] as WEB
+  [管理前端] as ADMINWEB
+  [HTTPS入口/API入口] as ENTRY
+}
+
+package "计算区 ECS / CCE（候选）" {
+  [认证服务] as AUTH
+  [检索服务] as SEARCH
+  [门户与认领服务] as PORTAL
+  [统计服务] as STATS
+  [管理后台服务] as MGMT
+  [采集Worker] as COLLECT
+  [ETL Worker] as ETL
+  [任务调度/异步任务组件] as SCHED
+}
+
+database "RDS\n权威业务数据" as RDS
+cloud "OBS\n原始批次/受控对象" as OBS
+database "CSS\n公开检索索引" as CSS
+
+package "工程与运维区" {
+  [CodeArts\n代码/检查/构建/测试/部署] as CODEARTS
+  [日志/监控/告警能力\n待云环境确认] as MON
+}
+
+USER --> WEB
+USER --> ADMINWEB
+WEB --> ENTRY : HTTPS API
+ADMINWEB --> ENTRY : HTTPS API
+ENTRY --> AUTH
+ENTRY --> SEARCH
+ENTRY --> PORTAL
+ENTRY --> STATS
+ENTRY --> MGMT
+SRC --> COLLECT : 获准采集
+SCHED --> COLLECT
+COLLECT --> OBS : 原始批次+来源元数据
+COLLECT --> ETL : 批次/任务触发
+ETL --> RDS : 权威元数据/状态
+ETL --> CSS : 可重放公开索引更新
+SEARCH --> CSS : 检索
+SEARCH --> RDS : 必要详情回查
+PORTAL --> RDS : 申请/审核/授权/审计
+PORTAL --> OBS : 受控证明访问
+STATS --> RDS : 已确认数据口径
+MGMT --> RDS : 管理与任务元数据
+CODEARTS --> WEB : 受控制品部署
+CODEARTS --> COLLECT : 受控制品部署
+CODEARTS --> ETL : 受控制品部署
+CODEARTS --> MON : 部署/运行证据
+AUTH --> MON
+SEARCH --> MON
+PORTAL --> MON
+COLLECT --> MON
+ETL --> MON
+
+note bottom of CSS
+只承载可公开检索投影；
+不可作为认领证明或授权事实来源。
+end note
+note bottom of OBS
+私有访问控制；禁止将认领证明
+写入公开索引或普通日志。
+end note
+note bottom of CODEARTS
+此图为PlantUML复画参考稿。
+正式部署图须在CodeArts Modeling绘制。
+end note
+@enduml
