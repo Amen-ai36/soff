@@ -1,0 +1,16 @@
+flowchart TB
+  UI[Web 与管理后台] --> API[应用入口 当前会话与对象授权]
+  API --> Claim[门户 认领 审核模块]
+  API --> Query[公开查询与统计协调器]
+  Claim --> DB[(权威事务存储)]
+  ETL[ETL Worker] --> DB
+  DB --> Outbox[事务 outbox]
+  Outbox --> Worker[投影 Worker]
+  Worker --> ES[(不可变公开索引与统计版本)]
+  Worker --> Verify[集合与字段核验]
+  Verify --> Pointer[条件提交发布指针和来源水位]
+  Pointer --> DB
+  Query --> Gate[当前发布与策略闸门]
+  Gate --> DB
+  Gate --> ES
+  Claim --> Private[(私有材料引用存储)]

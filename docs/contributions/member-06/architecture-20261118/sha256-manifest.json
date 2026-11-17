@@ -1,0 +1,18 @@
+{
+  "01-architecture-research.md": "480d6e3e4a93e8ccaed8ad4a4517725b863a94c59752701207d297aaa9293db6",
+  "02-system-architecture.md": "3fcd499b52fef1445f6c3659e5b8def5670676a372cd99206b4d8077308debc1",
+  "03-adr.md": "66aa5b9e9856b6b538d19620c1826dc4f77c99dc33b452882f299248ed22ed8d",
+  "04-speaking-notes-and-qa.md": "21c1c1d8397f1abaa2c59dd14b12834c1df9f67f918651cf04327a9db6859828",
+  "05-submission-and-placeholders.md": "e4eaa141636cba5d2088ba3bbeb072b0b79c35142322d08dcdd27692c69c65fa",
+  "06-source-and-review.md": "404bd6b00464b0bb6b29864679f7d1c69a7b30f01bfc9430e81c1ae7eada09d7",
+  "README.md": "9fed943759bfe0306bc1b6c33f6323c7059fbad7f7a564a4102956313ea280da",
+  "artifacts/01-架构调研分析报告-成员6.docx": "e76a617de88b187aed7430b564a5e72eb514eb89758d5e86da41017080a1efd3",
+  "artifacts/02-系统架构设计说明书-成员6.docx": "8f4e7e39b1d7dd09dc814d585cba67eecd0c2b85a3c85d6006447a9ff968e4b4",
+  "artifacts/05-架构决策记录-成员6.docx": "cc6eb0207bb7c0d3e6082237253b42ab5c58be0d9f43757bc2e8764f71621937",
+  "artifacts/06-架构研讨供稿-成员6.pptx": "6ea51ff950845938190947e7c5c59bdc5cc240e624f55570702331094a350e7c",
+  "artifacts/NotoSansCJK-OFL.txt": "6a73f9541c2de74158c0e7cf6b0a58ef774f5a780bf191f2d7ec9cc53efe2bf2",
+  "diagrams/deployment-topology.puml": "6fae459335e43b73381b0c01cc3ab25eb0324be864a292a0427f3bc9630eb749",
+  "diagrams/logical-architecture.puml": "df4cb3150ea320720920f69e836bc4e737ee89fd855f92b4dc7a2e9eb96caa8b",
+  "source-manifest.json": "cbf4b6769bbaef7777179265f278504434abe65a9cd46597f5f02bb830f36ae1",
+  "validation.json": "5f53281715eedfd7ac6aa2d62a4591ebec24ec9cfe566810d300bb6404bf04b6"
+}

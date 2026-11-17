@@ -1,0 +1,66 @@
+@startuml
+title M9-ARCH-02 前后端通信时序（方案 B 候选）
+' 对应 02-frontend-backend-communication.md。接口路径为假设 A-08、A-10、A-11，待契约冻结。
+skinparam defaultFontName "Microsoft YaHei"
+skinparam shadowing false
+
+actor 用户 as U
+participant "页面\n(views)" as V
+participant "useAsync /\nuseSubmit" as C
+participant "HttpApiClient" as H
+participant "业务服务层" as S
+
+== 1 正常检索 ==
+U -> V : 修改筛选
+V -> V : 写 URL（page 复位为 1）
+V -> C : run(查询)
+C -> H : searchWorks(查询, signal)
+H -> S : GET /api/works?q=..&type=paper&type=patent&page=1
+S --> H : 200 {items, total, data_version, ...}
+H --> C : 转为驼峰字段
+C --> V : success / empty
+V --> U : 结果列表或"未找到匹配结果"
+
+== 2 条件快速变化：只保留最后一次 ==
+U -> V : 修改条件 1
+V -> C : run(查询 1)
+C -> H : 请求 1
+U -> V : 修改条件 2
+V -> C : run(查询 2)
+C -> H : 取消请求 1（AbortSignal）
+C -> H : 请求 2
+H --> C : 请求 2 结果
+C --> V : 只显示请求 2 的结果
+
+== 3 依赖失败不显示为空结果 ==
+V -> C : run(查询)
+C -> H : searchWorks
+H -> S : GET /api/works
+S --> H : 503 {code, trace_id}
+H --> C : ApiError(DEPENDENCY_UNAVAILABLE)
+C --> V : error
+V --> U : "服务暂时不可用"+追踪 ID+重试
+
+== 4 认领提交：网络中断后用同一 request_key 重试 ==
+U -> V : 提交认领
+V -> C : submit（进行中忽略再次点击）
+C -> H : submitClaim(scholarId, evidenceRefs, requestKey=K)
+H -> S : POST /api/claims (request_key=K)
+S --> H : （连接中断）
+H --> C : ApiError(NETWORK)
+V --> U : "提交是否成功未确认"+重试
+U -> V : 重试
+C -> H : submitClaim(..., requestKey=K)
+H -> S : POST /api/claims (request_key=K)
+S --> H : 201 返回已有申请（幂等）
+V --> U : 申请编号、PENDING，不产生第二个申请
+
+== 5 审核遇到并发冲突 ==
+U -> V : 通过申请
+C -> H : decideClaim(id, APPROVED, reason, expectedVersion=3)
+H -> S : POST /api/admin/claims/{id}/decision
+S --> H : 409 CONFLICT
+H --> C : ApiError(CONFLICT)
+V -> H : 重新读取申请
+V --> U : "记录已被更新"，显示最新状态，不自动重试
+@enduml

@@ -1,0 +1,42 @@
+@startuml
+left to right direction
+title M6-ARCH-01 逻辑架构复画稿 非平台导出
+actor 用户 as U
+actor 管理员 as A
+component "展现层\n检索 门户 认领 统计 管理后台" as Web
+package "业务服务层" {
+ component 认证 as Auth
+ component 检索 as Search
+ component 门户与认领 as Claim
+ component 统计 as Stats
+}
+component "存储访问接口" as Access
+component "采集层\n来源适配 任务执行" as Ingest
+component "处理层\n清洗 去重 消歧 候选" as ETL
+component "投影与发布\n幂等 对账 条件切换" as Pub
+database "权威业务与版本存储" as DB
+database "公开检索统计投影" as IDX
+cloud "获准外部来源" as Source
+U --> Web
+A --> Web
+Web --> Auth
+Web --> Search
+Web --> Claim
+Web --> Stats
+Auth --> Access
+Claim --> Access
+Search --> Access
+Stats --> Access
+Access --> DB
+Access --> IDX
+Ingest --> Source : 获准访问
+Ingest --> ETL : 来源观测
+ETL --> DB : 候选与处置记录
+DB --> Pub : 已提交变更与待办
+Pub --> IDX : 隔离投影
+Pub --> DB : 核验后切换发布与水位
+note bottom
+七类逻辑服务含采集 ETL 检索 门户认领 统计 认证 管理后台。
+箭头是交互/数据方向；CodeArts正式图需核验并导出。
+end note
+@enduml

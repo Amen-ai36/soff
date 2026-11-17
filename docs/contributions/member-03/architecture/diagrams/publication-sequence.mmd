@@ -1,0 +1,20 @@
+sequenceDiagram
+  participant E as ETL
+  participant D as 权威事务存储
+  participant W as 投影Worker
+  participant S as 目标公开索引
+  participant Q as 查询协调器
+  E->>D: 事务提交规范版本 批次 检查点 outbox
+  W->>D: 领取已提交事件和候选manifest
+  W->>S: 幂等构建并防止旧事件覆盖
+  W->>D: 保存同版本ID集合与字段核验结果
+  W->>D: 条件事务切换指针与发布水位
+  alt 基线 代次 停止状态 策略均匹配
+    D-->>W: 已发布
+  else 竞争或故障
+    D-->>W: 保持旧版本 重新规划
+  end
+  Q->>D: 读发布指针与当前策略
+  Q->>S: 指定就绪物理目标执行查询及统计
+  Q->>D: 响应前再次核对代次与策略
+  D-->>Q: 一致则返回 否则重试或显式失败
