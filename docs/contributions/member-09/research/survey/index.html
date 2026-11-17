@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>学术成果查找习惯调研</title>
+<style>
+  :root{
+    --bg:#f5f6f8; --card:#fff; --text:#1f2329; --sub:#646a73;
+    --line:#dee0e3; --brand:#2563eb; --brand-weak:#eff4ff;
+    --err:#c9353f; --ok:#1a7f37; --radius:10px;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--bg);color:var(--text);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    padding-bottom:88px;
+  }
+  .wrap{max-width:640px;margin:0 auto;padding:16px}
+  header{background:var(--card);border-radius:var(--radius);padding:20px;margin-bottom:12px}
+  h1{font-size:19px;margin:0 0 12px}
+  .intro{font-size:14px;color:var(--sub);margin:0 0 10px}
+  .intro strong{color:var(--text)}
+  .meta{font-size:13px;color:var(--sub);border-top:1px solid var(--line);padding-top:10px;margin-top:4px}
+  .progress{position:sticky;top:0;z-index:10;background:var(--bg);padding:8px 0 10px}
+  .bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+  .bar>i{display:block;height:100%;width:0;background:var(--brand);transition:width .25s}
+  .bar-txt{font-size:12px;color:var(--sub);margin-top:6px;text-align:right}
+  fieldset{
+    background:var(--card);border:0;border-radius:var(--radius);
+    padding:18px;margin:0 0 12px;
+  }
+  fieldset[hidden]{display:none}
+  legend{
+    font-size:15px;font-weight:600;padding:0;margin-bottom:4px;
+    display:block;width:100%;
+  }
+  .hint{font-size:13px;color:var(--sub);margin:0 0 12px}
+  .opt{display:block;position:relative;margin-bottom:8px}
+  .opt:last-child{margin-bottom:0}
+  .opt input{position:absolute;opacity:0;width:1px;height:1px}
+  .opt span{
+    display:block;border:1px solid var(--line);border-radius:8px;
+    padding:11px 14px;font-size:15px;cursor:pointer;
+    transition:border-color .15s,background .15s;
+  }
+  .opt input:checked+span{border-color:var(--brand);background:var(--brand-weak);color:var(--brand);font-weight:500}
+  .opt input:focus-visible+span{outline:2px solid var(--brand);outline-offset:2px}
+  .matrix{border-top:1px solid var(--line);padding-top:12px;margin-top:4px}
+  .m-row{margin-bottom:16px}
+  .m-row:last-child{margin-bottom:0}
+  .m-q{font-size:14px;margin-bottom:8px;font-weight:500}
+  .m-opts{display:flex;gap:6px;flex-wrap:wrap}
+  .m-opts label{flex:1;min-width:58px;position:relative}
+  .m-opts input{position:absolute;opacity:0;width:1px;height:1px}
+  .m-opts span{
+    display:block;text-align:center;border:1px solid var(--line);
+    border-radius:6px;padding:8px 4px;font-size:13px;cursor:pointer;
+  }
+  .m-opts input:checked+span{border-color:var(--brand);background:var(--brand-weak);color:var(--brand);font-weight:500}
+  textarea{
+    width:100%;border:1px solid var(--line);border-radius:8px;padding:12px;
+    font:inherit;font-size:15px;resize:vertical;min-height:88px;
+  }
+  textarea:focus{outline:none;border-color:var(--brand)}
+  .count{font-size:12px;color:var(--sub);text-align:right;margin-top:4px}
+  .err{color:var(--err);font-size:13px;margin-top:8px;display:none}
+  fieldset.invalid{box-shadow:0 0 0 1.5px var(--err)}
+  fieldset.invalid .err{display:block}
+  .bottom{
+    position:fixed;left:0;right:0;bottom:0;background:var(--card);
+    border-top:1px solid var(--line);padding:12px 16px;
+    padding-bottom:calc(12px + env(safe-area-inset-bottom));
+  }
+  .bottom-in{max-width:640px;margin:0 auto}
+  button{
+    width:100%;border:0;border-radius:8px;background:var(--brand);color:#fff;
+    font:inherit;font-size:16px;font-weight:600;padding:13px;cursor:pointer;
+  }
+  button:disabled{background:#a8b3c4;cursor:default}
+  .note{font-size:12px;color:var(--sub);text-align:center;margin-top:8px}
+  .done{background:var(--card);border-radius:var(--radius);padding:32px 20px;text-align:center}
+  .done h2{font-size:18px;margin:0 0 10px;color:var(--ok)}
+  .done p{font-size:14px;color:var(--sub);margin:0 0 16px}
+  .data{
+    background:#f7f8fa;border:1px solid var(--line);border-radius:8px;
+    padding:12px;font:12px/1.5 ui-monospace,Menlo,Consolas,monospace;
+    word-break:break-all;text-align:left;max-height:180px;overflow:auto;
+    margin-bottom:12px;
+  }
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  @media (prefers-color-scheme:dark){
+    :root{--bg:#1a1d21;--card:#24282d;--text:#e8eaed;--sub:#9aa0a6;--line:#3a3f45;--brand-weak:#1e2a45}
+    .data{background:#1a1d21}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>学术成果查找习惯调研</h1>
+  <p class="intro">本问卷用于高校软件工程课程的学术成果平台需求调研，了解你查找学术论文、专利、科研项目和获奖信息的习惯。</p>
+  <p class="intro"><strong>全程匿名</strong>，不收集姓名、学号、手机号等个人信息，约 3 分钟完成。结果仅用于课程作业分析，不对外发布原始数据。</p>
+  <p class="meta">你可以随时关闭页面终止填写。继续填写视为同意以上说明。</p>
+</header>
+
+<div class="progress">
+  <div class="bar"><i id="bar"></i></div>
+  <div class="bar-txt"><span id="bar-txt">已完成 0 / 17 题</span></div>
+</div>
+
+<form id="f" novalidate>
+
+<!-- Q1 -->
+<fieldset data-q="q1" data-type="single" data-required="1">
+  <legend>1. 你目前的身份是？</legend>
+  <p class="hint">单选</p>
+  <label class="opt"><input type="radio" name="q1" value="本科生"><span>本科生</span></label>
+  <label class="opt"><input type="radio" name="q1" value="硕士研究生"><span>硕士研究生</span></label>
+  <label class="opt"><input type="radio" name="q1" value="博士研究生"><span>博士研究生</span></label>
+  <label class="opt"><input type="radio" name="q1" value="教师或科研人员"><span>教师或科研人员</span></label>
+  <label class="opt"><input type="radio" name="q1" value="其他"><span>其他</span></label>
+  <p class="err">请选择一项</p>
+</fieldset>
+
+<!-- Q2 -->
+<fieldset data-q="q2" data-type="single" data-required="1">
+  <legend>2. 你查找学术成果的频率大约是？</legend>
+  <p class="hint">单选</p>
+  <label class="opt"><input type="radio" name="q2" value="几乎每天"><span>几乎每天</span></label>
+  <label class="opt"><input type="radio" name="q2" value="每周几次"><span>每周几次</span></label>
+  <label class="opt"><input type="radio" name="q2" value="每月几次"><span>每月几次</span></label>
+  <label class="opt"><input type="radio" name="q2" value="每学期几次"><span>每学期几次</span></label>
+  <label class="opt"><input type="radio" name="q2" value="几乎不查找" data-skip="to16"><span>几乎不查找</span></label>
+  <p class="err">请选择一项</p>
+</fieldset>
+
+<!-- Q3 -->
+<fieldset data-q="q3" data-type="multi" data-required="1" data-group="main">
+  <legend>3. 你查找过以下哪些类型的成果？</legend>
+  <p class="hint">多选</p>
+  <label class="opt"><input type="checkbox" name="q3" value="期刊或会议论文"><span>期刊或会议论文</span></label>
+  <label class="opt"><input type="checkbox" name="q3" value="专利"><span>专利</span></label>
+  <label class="opt"><input type="checkbox" name="q3" value="科研项目"><span>科研项目</span></label>
+  <label class="opt"><input type="checkbox" name="q3" value="获奖信息"><span>获奖信息</span></label>
+  <label class="opt"><input type="checkbox" name="q3" value="学位论文"><span>学位论文</span></label>
+  <label class="opt"><input type="checkbox" name="q3" value="以上都没有" data-exclusive="1"><span>以上都没有</span></label>
+  <p class="err">请至少选择一项</p>
+</fieldset>
+
+<!-- Q4 -->
+<fieldset data-q="q4" data-type="single" data-required="1" data-group="main">
+  <legend>4. 最近一次查找学术成果时，你是从哪里开始的？</legend>
+  <p class="hint">单选</p>
+  <label class="opt"><input type="radio" name="q4" value="直接在搜索框输入关键词"><span>直接在搜索框输入关键词</span></label>
+  <label class="opt"><input type="radio" name="q4" value="从某个学科或领域分类进入"><span>从某个学科或领域分类进入</span></label>
+  <label class="opt"><input type="radio" name="q4" value="从某位作者的页面进入"><span>从某位作者的页面进入</span></label>
+  <label class="opt"><input type="radio" name="q4" value="从他人推荐的链接或参考文献进入"><span>从他人推荐的链接或参考文献进入</span></label>
+  <label class="opt"><input type="radio" name="q4" value="记不清了"><span>记不清了</span></label>
+  <p class="err">请选择一项</p>
+</fieldset>
+
+<!-- Q5 -->
+<fieldset data-q="q5" data-type="multi" data-required="1" data-group="main">
+  <legend>5. 你通常用哪些内容作为查询条件？</legend>
+  <p class="hint">多选</p>
+  <label class="opt"><input type="checkbox" name="q5" value="主题关键词"><span>主题关键词</span></label>
+  <label class="opt"><input type="checkbox" name="q5" value="论文标题"><span>论文标题</span></label>
+  <label class="opt"><input type="checkbox" name="q5" value="作者姓名"><span>作者姓名</span></label>
+  <label class="opt"><input type="checkbox" name="q5" value="机构名称"><span>机构名称</span></label>
+  <label class="opt"><input type="checkbox" name="q5" value="期刊或会议名称"><span>期刊或会议名称</span></label>
+  <label class="opt"><input type="checkbox" name="q5" value="项目或基金编号"><span>项目或基金编号</span></label>
+  <p class="err">请至少选择一项</p>
+</fieldset>
+
+<!-- Q6 -->
+<fieldset data-q="q6" data-type="multi" data-required="1" data-group="main">
+  <legend>6. 你使用过哪些筛选或排序方式？</legend>
+  <p class="hint">多选</p>
+  <label class="opt"><input type="checkbox" name="q6" value="按年份筛选"><span>按年份筛选</span></label>
+  <label class="opt"><input type="checkbox" name="q6" value="按成果类型筛选"><span>按成果类型筛选</span></label>
+  <label class="opt"><input type="checkbox" name="q6" value="按机构筛选"><span>按机构筛选</span></label>
+  <label class="opt"><input type="checkbox" name="q6" value="按学科领域筛选"><span>按学科领域筛选</span></label>
+  <label class="opt"><input type="checkbox" name="q6" value="按引用次数排序"><span>按引用次数排序</span></label>
+  <label class="opt"><input type="checkbox" name="q6" value="按发表时间排序"><span>按发表时间排序</span></label>
+  <label class="opt"><input type="checkbox" name="q6" value="按相关度排序"><span>按相关度排序</span></label>
+  <label class="opt"><input type="checkbox" name="q6" value="没用过筛选或排序" data-exclusive="1"><span>没用过筛选或排序</span></label>
+  <p class="err">请至少选择一项</p>
+</fieldset>
+
+<!-- Q7 -->
+<fieldset data-q="q7" data-type="multi" data-required="1" data-max="3" data-group="main">
+  <legend>7. 拿到一屏搜索结果后，你最先看哪些信息判断要不要点开？</legend>
+  <p class="hint">最多选 3 项</p>
+  <label class="opt"><input type="checkbox" name="q7" value="标题"><span>标题</span></label>
+  <label class="opt"><input type="checkbox" name="q7" value="作者姓名"><span>作者姓名</span></label>
+  <label class="opt"><input type="checkbox" name="q7" value="作者所属机构"><span>作者所属机构</span></label>
+  <label class="opt"><input type="checkbox" name="q7" value="发表年份"><span>发表年份</span></label>
+  <label class="opt"><input type="checkbox" name="q7" value="期刊或会议名称"><span>期刊或会议名称</span></label>
+  <label class="opt"><input type="checkbox" name="q7" value="引用次数"><span>引用次数</span></label>
+  <label class="opt"><input type="checkbox" name="q7" value="摘要片段"><span>摘要片段</span></label>
+  <label class="opt"><input type="checkbox" name="q7" value="数据来源标识"><span>数据来源标识</span></label>
+  <p class="err">请选择 1～3 项</p>
+</fieldset>
+
+<!-- Q8 -->
+<fieldset data-q="q8" data-type="single" data-required="1" data-group="main">
+  <legend>8. 你平时用简单搜索还是高级搜索更多？</legend>
+  <p class="hint">单选</p>
+  <label class="opt"><input type="radio" name="q8" value="几乎只用简单搜索框"><span>几乎只用简单搜索框</span></label>
+  <label class="opt"><input type="radio" name="q8" value="大多简单搜索，偶尔用高级搜索"><span>大多简单搜索，偶尔用高级搜索</span></label>
+  <label class="opt"><input type="radio" name="q8" value="两者差不多"><span>两者差不多</span></label>
+  <label class="opt"><input type="radio" name="q8" value="大多用高级搜索"><span>大多用高级搜索</span></label>
+  <label class="opt"><input type="radio" name="q8" value="不知道有高级搜索"><span>不知道有高级搜索</span></label>
+  <p class="err">请选择一项</p>
+</fieldset>
+
+<!-- Q9 矩阵 -->
+<fieldset data-q="q9" data-type="matrix" data-required="1" data-group="main">
+  <legend>9. 过去半年，你遇到过以下情况吗？</legend>
+  <p class="hint">每行选择一项</p>
+  <div class="matrix" id="m9"></div>
+  <p class="err">请完成所有行</p>
+</fieldset>
+
+<!-- Q10 -->
+<fieldset data-q="q10" data-type="single" data-required="1" data-group="main">
+  <legend>10. 上题中哪一项最影响你的效率？</legend>
+  <p class="hint">单选</p>
+  <label class="opt"><input type="radio" name="q10" value="搜不到想要的成果"><span>搜不到想要的成果</span></label>
+  <label class="opt"><input type="radio" name="q10" value="结果太多无法筛选"><span>结果太多无法筛选</span></label>
+  <label class="opt"><input type="radio" name="q10" value="同名作者混在一起"><span>同名作者混在一起</span></label>
+  <label class="opt"><input type="radio" name="q10" value="不确定记录准确性"><span>不确定记录准确性</span></label>
+  <label class="opt"><input type="radio" name="q10" value="找不到原始出处"><span>找不到原始出处</span></label>
+  <label class="opt"><input type="radio" name="q10" value="作者成果列表不完整"><span>作者成果列表不完整</span></label>
+  <label class="opt"><input type="radio" name="q10" value="以上都不太影响我"><span>以上都不太影响我</span></label>
+  <p class="err">请选择一项</p>
+</fieldset>
+
+<!-- Q11 -->
+<fieldset data-q="q11" data-type="single" data-required="1" data-group="main">
+  <legend>11. 当搜索结果为空时，你接下来通常做什么？</legend>
+  <p class="hint">单选</p>
+  <label class="opt"><input type="radio" name="q11" value="换关键词重新搜索"><span>换关键词重新搜索</span></label>
+  <label class="opt"><input type="radio" name="q11" value="减少筛选条件"><span>减少筛选条件</span></label>
+  <label class="opt"><input type="radio" name="q11" value="换一个平台搜索"><span>换一个平台搜索</span></label>
+  <label class="opt"><input type="radio" name="q11" value="放弃这次查找"><span>放弃这次查找</span></label>
+  <label class="opt"><input type="radio" name="q11" value="看平台是否给出建议"><span>看平台是否给出建议</span></label>
+  <p class="err">请选择一项</p>
+</fieldset>
+
+<!-- Q12 -->
+<fieldset data-q="q12" data-type="multi" data-required="1" data-group="main">
+  <legend>12. 遇到同名作者时，你靠什么区分？</legend>
+  <p class="hint">多选</p>
+  <label class="opt"><input type="checkbox" name="q12" value="所属机构"><span>所属机构</span></label>
+  <label class="opt"><input type="checkbox" name="q12" value="研究领域或方向"><span>研究领域或方向</span></label>
+  <label class="opt"><input type="checkbox" name="q12" value="已知的代表性成果"><span>已知的代表性成果</span></label>
+  <label class="opt"><input type="checkbox" name="q12" value="合作者"><span>合作者</span></label>
+  <label class="opt"><input type="checkbox" name="q12" value="无法区分，只能逐条看" data-exclusive="1"><span>无法区分，只能逐条看</span></label>
+  <label class="opt"><input type="checkbox" name="q12" value="没遇到过这种情况" data-exclusive="1"><span>没遇到过这种情况</span></label>
+  <p class="err">请至少选择一项</p>
+</fieldset>
+
+<!-- Q13 -->
+<fieldset data-q="q13" data-type="single" data-required="1" data-group="main">
+  <legend>13. 你查看过学术平台上某位学者的个人主页吗？</legend>
+  <p class="hint">单选</p>
+  <label class="opt"><input type="radio" name="q13" value="查看过，为了了解其研究方向"><span>查看过，为了了解其研究方向</span></label>
+  <label class="opt"><input type="radio" name="q13" value="查看过，为了找其某篇具体成果"><span>查看过，为了找其某篇具体成果</span></label>
+  <label class="opt"><input type="radio" name="q13" value="查看过，为了了解其学术影响力"><span>查看过，为了了解其学术影响力</span></label>
+  <label class="opt"><input type="radio" name="q13" value="查看过，其他原因"><span>查看过，其他原因</span></label>
+  <label class="opt"><input type="radio" name="q13" value="没有查看过" data-skip="to15"><span>没有查看过</span></label>
+  <p class="err">请选择一项</p>
+</fieldset>
+
+<!-- Q14 -->
+<fieldset data-q="q14" data-type="multi" data-required="1" data-max="3" data-group="main" data-skipgroup="to15">
+  <legend>14. 在学者个人主页上，你实际会看哪些内容？</legend>
+  <p class="hint">最多选 3 项</p>
+  <label class="opt"><input type="checkbox" name="q14" value="研究方向和简介"><span>研究方向和简介</span></label>
+  <label class="opt"><input type="checkbox" name="q14" value="成果列表"><span>成果列表</span></label>
+  <label class="opt"><input type="checkbox" name="q14" value="成果数量统计"><span>成果数量统计</span></label>
+  <label class="opt"><input type="checkbox" name="q14" value="引用统计"><span>引用统计</span></label>
+  <label class="opt"><input type="checkbox" name="q14" value="合作者信息"><span>合作者信息</span></label>
+  <label class="opt"><input type="checkbox" name="q14" value="所属机构和职位"><span>所属机构和职位</span></label>
+  <p class="err">请选择 1～3 项</p>
+</fieldset>
+
+<!-- Q15 -->
+<fieldset data-q="q15" data-type="single" data-required="1" data-group="main">
+  <legend>15. 你查看过机构排名、领域分布这类统计信息吗？</legend>
+  <p class="hint">单选</p>
+  <label class="opt"><input type="radio" name="q15" value="经常看，用于了解领域或机构情况"><span>经常看，用于了解领域或机构情况</span></label>
+  <label class="opt"><input type="radio" name="q15" value="偶尔看"><span>偶尔看</span></label>
+  <label class="opt"><input type="radio" name="q15" value="看过但用不上"><span>看过但用不上</span></label>
+  <label class="opt"><input type="radio" name="q15" value="没看过"><span>没看过</span></label>
+  <p class="err">请选择一项</p>
+</fieldset>
+
+<!-- Q16 -->
+<fieldset data-q="q16" data-type="multi" data-required="1">
+  <legend>16. 你在哪些设备上查找过学术成果？</legend>
+  <p class="hint">多选</p>
+  <label class="opt"><input type="checkbox" name="q16" value="电脑"><span>电脑</span></label>
+  <label class="opt"><input type="checkbox" name="q16" value="手机"><span>手机</span></label>
+  <label class="opt"><input type="checkbox" name="q16" value="平板"><span>平板</span></label>
+  <label class="opt"><input type="checkbox" name="q16" value="只在电脑上" data-exclusive="1"><span>只在电脑上</span></label>
+  <p class="err">请至少选择一项</p>
+</fieldset>
+
+<!-- Q17 -->
+<fieldset data-q="q17" data-type="text">
+  <legend>17. 关于查找学术成果，还有什么你觉得重要但本问卷没问到的？</legend>
+  <p class="hint">选答，限 200 字。请勿填写姓名、学号等个人信息</p>
+  <label class="sr" for="q17">补充说明</label>
+  <textarea id="q17" name="q17" maxlength="200" rows="4"></textarea>
+  <div class="count"><span id="c17">0</span> / 200</div>
+</fieldset>
+
+</form>
+
+<div id="done" class="done" hidden>
+  <h2>提交成功</h2>
+  <p>感谢填写。本问卷不收集个人信息，结果仅用于课程作业分析。</p>
+  <div class="data" id="payload"></div>
+  <button type="button" id="dl">下载我的回答（JSON）</button>
+  <p class="note">如页面提示保存失败，请点击上方按钮下载并发送给调研者。</p>
+</div>
+
+</div>
+
+<div class="bottom" id="bottom">
+  <div class="bottom-in">
+    <button type="submit" form="f" id="submit">提交问卷</button>
+    <p class="note">匿名提交，不收集个人信息</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  // ===== 配置：数据提交地址 =====
+  // 留空则只在本机保存并提示下载（不发送任何数据到外部）。
+  // 填入你自己的接口地址后，回答会以 POST JSON 提交。
+  var ENDPOINT = '';
+
+  var MATRIX_ROWS = [
+    ['r1','搜不到想要的成果'],
+    ['r2','结果太多，无法筛选出有用的'],
+    ['r3','同名作者的成果混在一起'],
+    ['r4','不确定记录是否准确或最新'],
+    ['r5','找不到成果的原始出处或全文链接'],
+    ['r6','作者的成果列表不完整']
+  ];
+  var MATRIX_COLS = ['经常','有时','很少','从未','不记得'];
+
+  var form = document.getElementById('f');
+  var bar = document.getElementById('bar');
+  var barTxt = document.getElementById('bar-txt');
+
+  // 构建矩阵题
+  var m9 = document.getElementById('m9');
+  MATRIX_ROWS.forEach(function(row, i){
+    var d = document.createElement('div');
+    d.className = 'm-row';
+    var q = document.createElement('div');
+    q.className = 'm-q';
+    q.textContent = (i+1) + '. ' + row[1];
+    d.appendChild(q);
+    var opts = document.createElement('div');
+    opts.className = 'm-opts';
+    MATRIX_COLS.forEach(function(col){
+      var lab = document.createElement('label');
+      var inp = document.createElement('input');
+      inp.type = 'radio';
+      inp.name = 'q9_' + row[0];
+      inp.value = col;
+      var sp = document.createElement('span');
+      sp.textContent = col;
+      lab.appendChild(inp);
+      lab.appendChild(sp);
+      opts.appendChild(lab);
+    });
+    d.appendChild(opts);
+    m9.appendChild(d);
+  });
+
+  var sets = Array.prototype.slice.call(form.querySelectorAll('fieldset'));
+
+  function setOf(q){ return form.querySelector('fieldset[data-q="'+q+'"]'); }
+
+  function answered(fs){
+    var t = fs.dataset.type;
+    if(t === 'text') return true;
+    if(t === 'matrix'){
+      return MATRIX_ROWS.every(function(r){
+        return form.querySelector('input[name="q9_'+r[0]+'"]:checked');
+      });
+    }
+    var picked = fs.querySelectorAll('input:checked').length;
+    if(!picked) return false;
+    if(fs.dataset.max && picked > +fs.dataset.max) return false;
+    return true;
+  }
+
+  // 跳转逻辑
+  function applySkips(){
+    var q2 = form.querySelector('input[name="q2"]:checked');
+    var skipMain = !!(q2 && q2.dataset.skip === 'to16');
+    sets.forEach(function(fs){
+      if(fs.dataset.group === 'main') fs.hidden = skipMain;
+    });
+
+    if(!skipMain){
+      var q13 = form.querySelector('input[name="q13"]:checked');
+      var skip14 = !!(q13 && q13.dataset.skip === 'to15');
+      var fs14 = setOf('q14');
+      fs14.hidden = skip14;
+    }
+    // 隐藏题清除已选，避免提交无效数据
+    sets.forEach(function(fs){
+      if(fs.hidden){
+        fs.classList.remove('invalid');
+        Array.prototype.forEach.call(fs.querySelectorAll('input:checked'), function(i){ i.checked = false; });
+      }
+    });
+    updateProgress();
+  }
+
+  function visibleRequired(){
+    return sets.filter(function(fs){
+      return !fs.hidden && fs.dataset.required === '1';
+    });
+  }
+
+  function updateProgress(){
+    var req = visibleRequired();
+    var ok = req.filter(answered).length;
+    var total = req.length;
+    var pct = total ? Math.round(ok/total*100) : 0;
+    bar.style.width = pct + '%';
+    barTxt.textContent = '已完成 ' + ok + ' / ' + total + ' 题';
+  }
+
+  // 互斥选项 + 上限控制
+  form.addEventListener('change', function(e){
+    var el = e.target;
+    if(el.type === 'checkbox'){
+      var fs = el.closest('fieldset');
+      if(el.dataset.exclusive && el.checked){
+        Array.prototype.forEach.call(fs.querySelectorAll('input[type=checkbox]'), function(i){
+          if(i !== el) i.checked = false;
+        });
+      } else if(el.checked){
+        var ex = fs.querySelector('input[data-exclusive]');
+        if(ex) ex.checked = false;
+        var max = fs.dataset.max ? +fs.dataset.max : 0;
+        if(max){
+          var picked = fs.querySelectorAll('input:checked');
+          if(picked.length > max){ el.checked = false; }
+        }
+      }
+    }
+    if(el.name === 'q2' || el.name === 'q13') applySkips();
+    var fs2 = el.closest('fieldset');
+    if(fs2 && answered(fs2)) fs2.classList.remove('invalid');
+    updateProgress();
+  });
+
+  var ta = document.getElementById('q17');
+  var c17 = document.getElementById('c17');
+  ta.addEventListener('input', function(){ c17.textContent = ta.value.length; });
+
+  function collect(){
+    var out = {
+      submittedAt: new Date().toISOString(),
+      formVersion: 'B-survey-v1',
+      answers: {}
+    };
+    sets.forEach(function(fs){
+      if(fs.hidden) return;
+      var q = fs.dataset.q, t = fs.dataset.type;
+      if(t === 'text'){
+        var v = ta.value.trim();
+        if(v) out.answers[q] = v;
+      } else if(t === 'matrix'){
+        var m = {};
+        MATRIX_ROWS.forEach(function(r){
+          var sel = form.querySelector('input[name="q9_'+r[0]+'"]:checked');
+          if(sel) m[r[1]] = sel.value;
+        });
+        out.answers[q] = m;
+      } else if(t === 'single'){
+        var s = fs.querySelector('input:checked');
+        if(s) out.answers[q] = s.value;
+      } else {
+        out.answers[q] = Array.prototype.map.call(
+          fs.querySelectorAll('input:checked'), function(i){ return i.value; }
+        );
+      }
+    });
+    return out;
+  }
+
+  var payload = null;
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var bad = visibleRequired().filter(function(fs){ return !answered(fs); });
+    sets.forEach(function(fs){ fs.classList.remove('invalid'); });
+    if(bad.length){
+      bad.forEach(function(fs){ fs.classList.add('invalid'); });
+      bad[0].scrollIntoView({behavior:'smooth', block:'center'});
+      return;
+    }
+
+    payload = collect();
+    var btn = document.getElementById('submit');
+    btn.disabled = true;
+    btn.textContent = '提交中…';
+
+    function finish(){
+      form.hidden = true;
+      document.getElementById('bottom').hidden = true;
+      document.getElementById('payload').textContent = JSON.stringify(payload, null, 2);
+      document.getElementById('done').hidden = false;
+      window.scrollTo(0,0);
+    }
+
+    try{ localStorage.setItem('survey_' + Date.now(), JSON.stringify(payload)); }catch(err){}
+
+    if(!ENDPOINT){ finish(); return; }
+
+    fetch(ENDPOINT, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(payload)
+    }).then(finish).catch(finish);
+  });
+
+  document.getElementById('dl').addEventListener('click', function(){
+    if(!payload) return;
+    var blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'survey-' + Date.now() + '.json';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
+
+  applySkips();
+})();
+</script>
+</body>
+</html>
