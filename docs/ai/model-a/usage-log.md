@@ -1,5 +1,13 @@
 # 模型 A 使用记录
 
+## 2026-11-16 · M2-COMP-01
+
+- 模型为 Codex（GPT-6）。用户委托完成成员 2 下一阶段的工作，并指示先完成 UML 以外的部分。
+- 依据《双组并行开发与合并方案》§5.5、SPEC-DATA-001～006、方案 A ETL 架构及成员 3 的内部异步端口。
+- 产物为[数据采集与 ETL 构件设计](../../contributions/member-02/component-design/README.md)，包含接入调度、清洗消歧、增量发布、质量规则和 ETL-01～10 验收设计。
+- 静态核对通过，覆盖 6 项 SPEC、10 个验收场景编号和既有 UML 图片及 XML。运行 `python docs/contributions/member-02/analysis/validate.py`，既有分析材料校验通过。验收场景将在实现阶段执行。
+- 2026-11-17 在华为云 CodeArts 完成 M2-COMP-01 顺序图，使用工具面板的生命线、消息及回复模板。重新打开后逐一核对 5 条生命线、14 条消息的名称、类型、起点和终点。文档收录[图形区域 PNG](../../contributions/member-02/component-design/diagrams/M2-COMP-01-codearts.png)及[导出 XML](../../contributions/member-02/component-design/diagrams/M2-COMP-01-codearts.xml)。
+
 ## 2026-11-11 · M3-ARCH-01 / M3-COMP-01
 
 - 模型：Codex（GPT-6系列；精确部署版本未提供，不编造小版本）。岗位：A组成员三。
