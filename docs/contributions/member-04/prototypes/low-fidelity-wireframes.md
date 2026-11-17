@@ -1,6 +1,6 @@
 # 方案 A 低保真线框稿
 
-版本：0.2
+版本：0.3
 
 状态：需求讨论用图片线框稿，未做真实用户任务测试，不代表最终视觉设计或已实现页面。
 
@@ -17,6 +17,18 @@
 | 学者门户 | UI4-P04、UI4-FR-09～10、14 | [打开 PNG](images/portal.png) |
 | 门户认领申请与状态 | UI4-P07、P08、UI4-FR-13～17 | [打开 PNG](images/claim.png) |
 
+补充页面状态原型由 `source/page-states.html` 生成，覆盖之前只有文字设计映射的页面：
+
+| 页面 | 对应需求 | 图片 |
+| --- | --- | --- |
+| 成果详情 | UI4-P03 | [打开 PNG](images/state-detail.png) |
+| 公开统计 | UI4-P05 | [打开 PNG](images/state-stats.png) |
+| 登录 | UI4-P06 | [打开 PNG](images/state-login.png) |
+| 门户维护 | UI4-P09 | [打开 PNG](images/state-maintenance.png) |
+| 纠错与反馈 | UI4-P10 | [打开 PNG](images/state-feedback.png) |
+| 认领审核工作台 | UI4-P11 | [打开 PNG](images/state-review.png) |
+| 采集任务概览 | UI4-P12 | [打开 PNG](images/state-tasks.png) |
+
 ![首页与检索入口](images/home.png)
 
 ![成果检索结果](images/results.png)
@@ -30,6 +42,8 @@
 ```powershell
 ./docs/contributions/member-04/prototypes/source/render-wireframes.ps1
 ```
+
+补充页面状态的可编辑源文件为 [`source/page-states.html`](source/page-states.html)，导出脚本为 [`source/render-page-states.ps1`](source/render-page-states.ps1)。两组脚本均只生成静态 PNG，不代表页面已经实现或通过真实用户测试。
 
 下面保留文本线框，作为图片不可预览时的可访问替代内容和页面结构说明。
 

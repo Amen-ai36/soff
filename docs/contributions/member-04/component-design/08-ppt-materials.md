@@ -13,7 +13,7 @@
 - `AdminShell`：认领审核和采集任务概览。
 - 页面隐藏只改善体验，授权仍由服务端校验；提交申请不等于获得维护权。
 
-**图源：** `01-information-architecture-and-navigation.md` 的导航树；已有 `prototypes/images/home.png`、`results.png`、`portal.png`、`claim.png`。
+**图源：** `01-information-architecture-and-navigation.md` 的导航树；已有 `../prototypes/images/home.png`、`../prototypes/images/results.png`、`../prototypes/images/portal.png`、`../prototypes/images/claim.png`。
 
 **讲稿（约 45 秒）：**
 
@@ -47,7 +47,7 @@
 - 门户维护区分权威保存、索引待同步和版本冲突。
 - 空结果与依赖失败分离；证明材料、私有联系方式和内部备注不出现在公开页面、URL 或客户端日志。
 
-**图源：** `04-interaction-and-state-spec.md`、第 7～8 周 `analysis/02-frontend-state-transition-analysis.md` 和 `03-exception-feedback-analysis.md`。
+**图源：** `04-interaction-and-state-spec.md`、第 7～8 周 `../analysis/02-frontend-state-transition-analysis.md` 和 `../analysis/03-exception-feedback-analysis.md`。
 
 **讲稿（约 60 秒）：**
 
