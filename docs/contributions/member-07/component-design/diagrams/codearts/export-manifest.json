@@ -1,0 +1,55 @@
+{
+  "date": "2026-11-17",
+  "scope": "CodeArts软件建模平台原生绘制后用平台“导出为”功能导出的图像；不是可编辑工程源备份",
+  "project": "小图图 / 软件建模 / 需求模型",
+  "files": [
+    {
+      "file": "M7-COMP-01-codearts.png",
+      "sha256": "6fbb1b70e563e69dd2b4887a46664d2356d38440b76510481eefbfaf35cb95ea",
+      "bytes": 421061,
+      "width": 2546,
+      "height": 2266,
+      "id": "M7-COMP-01",
+      "diagram": "M7-COMP-01 采集适配与调度 B组",
+      "type": "UML顺序图",
+      "online_graph_id": "37af2d82bef447169f7907fb64fdd1e0",
+      "content": "6条生命线、19条消息（含Reply）、1个loop、1个alt（3个分支）"
+    },
+    {
+      "file": "M7-COMP-01-codearts.svg",
+      "sha256": "748c96eda34be5600ea908b99ebd385812af6fa426b4495da45487b4ffc67229",
+      "bytes": 42179,
+      "width": 1273.0,
+      "height": 1133.0,
+      "id": "M7-COMP-01",
+      "diagram": "M7-COMP-01 采集适配与调度 B组",
+      "type": "UML顺序图",
+      "online_graph_id": "37af2d82bef447169f7907fb64fdd1e0",
+      "content": "6条生命线、19条消息（含Reply）、1个loop、1个alt（3个分支）"
+    },
+    {
+      "file": "M7-COMP-02-codearts.png",
+      "sha256": "ec9e7462c13e2ca235e96890bcff306a063e048dc0111f3ef215242b81811758",
+      "bytes": 693502,
+      "width": 1200,
+      "height": 2856,
+      "id": "M7-COMP-02",
+      "diagram": "M7-COMP-02 数据处理管道判定流程 B组",
+      "type": "UML活动图",
+      "online_graph_id": "40d4b11e77fa417da7bbd8c766a545de",
+      "content": "1个Initial、11个Action、6个Decision、4个Final、24条Control Flow（12条带分支条件）"
+    },
+    {
+      "file": "M7-COMP-02-codearts.svg",
+      "sha256": "7a6aeeb5b43516fc0de81a0781f75c3b8bc1d96a39145201784440bd2b591d63",
+      "bytes": 61063,
+      "width": 800.0,
+      "height": 1904.0,
+      "id": "M7-COMP-02",
+      "diagram": "M7-COMP-02 数据处理管道判定流程 B组",
+      "type": "UML活动图",
+      "online_graph_id": "40d4b11e77fa417da7bbd8c766a545de",
+      "content": "1个Initial、11个Action、6个Decision、4个Final、24条Control Flow（12条带分支条件）"
+    }
+  ]
+}
