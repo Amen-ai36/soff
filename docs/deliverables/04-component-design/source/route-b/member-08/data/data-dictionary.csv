@@ -1,0 +1,198 @@
+﻿table,purpose,column,type,nullable,definition,meaning
+app_account,登录主体与账号有效性,account_id,varchar(64),NO,PRIMARY KEY,服务端生成的不透明账号ID
+app_account,登录主体与账号有效性,login_name,varchar(200),NO,UNIQUE,规范化登录名
+app_account,登录主体与账号有效性,password_hash,text,NO,,经批准密码算法的验证值，不是明文
+app_account,登录主体与账号有效性,enabled,boolean,NO,DEFAULT true,账号当前是否允许认证
+app_account,登录主体与账号有效性,auth_version,bigint,NO,DEFAULT 1 CHECK (auth_version > 0),会话撤销/权限资格校验版本
+app_account,登录主体与账号有效性,created_at,timestamptz,NO,,创建时间
+app_role,平台角色字典,role_code,varchar(64),NO,PRIMARY KEY,平台角色代码，初始值待确认
+app_role,平台角色字典,description,text,NO,,角色职责说明
+account_role,账号角色授予,account_id,varchar(64),NO,REFERENCES app_account(account_id),被授予账号
+account_role,账号角色授予,role_code,varchar(64),NO,REFERENCES app_role(role_code),角色
+account_role,账号角色授予,granted_at,timestamptz,NO,,授予时间
+app_session,服务端可撤销会话,session_id,varchar(64),NO,PRIMARY KEY,会话内部ID，非浏览器凭据
+app_session,服务端可撤销会话,account_id,varchar(64),NO,REFERENCES app_account(account_id),所属账号
+app_session,服务端可撤销会话,token_digest,text,NO,UNIQUE,高熵会话令牌的摘要，不存原令牌
+app_session,服务端可撤销会话,auth_version,bigint,NO,,创建时账号校验版本
+app_session,服务端可撤销会话,expires_at,timestamptz,NO,,绝对失效时间
+app_session,服务端可撤销会话,revoked_at,timestamptz,YES,,撤销时间；空表示未显式撤销
+app_session,服务端可撤销会话,created_at,timestamptz,NO,,建立时间
+scholar,规范学者身份,scholar_id,varchar(64),NO,PRIMARY KEY,学者ID，与账号ID分离
+scholar,规范学者身份,display_name,text,NO,,公开姓名，不唯一
+scholar,规范学者身份,aliases,jsonb,NO,DEFAULT '[]'::jsonb,公开别名数组
+scholar,规范学者身份,version,bigint,NO,DEFAULT 1 CHECK (version > 0),权威行版本
+institution,规范机构,institution_id,varchar(64),NO,PRIMARY KEY,机构ID
+institution,规范机构,display_name,text,NO,,机构公开名称，不以名称判唯一
+institution,规范机构,aliases,jsonb,NO,DEFAULT '[]'::jsonb,来源支持的别名数组
+scholar_institution,带时间依据的任职关联,affiliation_id,varchar(64),NO,PRIMARY KEY,任职关系ID
+scholar_institution,带时间依据的任职关联,scholar_id,varchar(64),NO,REFERENCES scholar(scholar_id),学者
+scholar_institution,带时间依据的任职关联,institution_id,varchar(64),NO,REFERENCES institution(institution_id),机构
+scholar_institution,带时间依据的任职关联,valid_from,date,YES,,已知开始日期；未知保持NULL
+scholar_institution,带时间依据的任职关联,valid_to,date,YES,,已知结束日期
+scholar_institution,带时间依据的任职关联,evidence_ref,text,NO,,公开来源依据引用
+academic_field,规范领域分类,field_id,varchar(64),NO,PRIMARY KEY,领域ID
+academic_field,规范领域分类,scheme_code,text,NO,,分类体系标识
+academic_field,规范领域分类,display_name,text,NO,,领域名称
+academic_field,规范领域分类,parent_field_id,varchar(64),YES,REFERENCES academic_field(field_id),分类父节点；根为空
+scholar_field,有来源依据的学者规范领域分类,scholar_id,varchar(64),NO,REFERENCES scholar(scholar_id),分类主体
+scholar_field,有来源依据的学者规范领域分类,field_id,varchar(64),NO,REFERENCES academic_field(field_id),规范领域
+scholar_field,有来源依据的学者规范领域分类,evidence_ref,text,NO,,公开来源分类依据，不由个人兴趣猜测
+achievement,规范成果主记录,work_id,varchar(64),NO,PRIMARY KEY,去重规范成果ID
+achievement,规范成果主记录,work_type,text,NO,"CHECK (work_type IN ('paper','patent','project','award'))",paper/patent/project/award四种
+achievement,规范成果主记录,title,text,NO,,完整题名
+achievement,规范成果主记录,year,integer,YES,CHECK (year IS NULL OR year BETWEEN 1000 AND 9999),已知年份；未知为NULL
+achievement,规范成果主记录,keywords,jsonb,NO,DEFAULT '[]'::jsonb,公开关键词数组
+achievement,规范成果主记录,abstract,text,YES,,允许公开的摘要；未知为空
+achievement,规范成果主记录,visibility,text,NO,"CHECK (visibility IN ('PUBLIC','PRIVATE','WITHDRAWN'))",权威公开资格
+achievement,规范成果主记录,version,bigint,NO,DEFAULT 1 CHECK (version > 0),本成果单调版本
+achievement,规范成果主记录,simulated,boolean,NO,DEFAULT false,是否模拟成果
+achievement,规范成果主记录,updated_at,timestamptz,NO,,权威更新时点
+achievement,规范成果主记录,doi,text,YES,,经来源/治理核实的DOI；未知为空，不把冲突覆盖为唯一事实
+achievement_participation,成果与学者的规范参与关系,participation_id,varchar(64),NO,PRIMARY KEY,参与关联ID
+achievement_participation,成果与学者的规范参与关系,work_id,varchar(64),NO,REFERENCES achievement(work_id),成果
+achievement_participation,成果与学者的规范参与关系,scholar_id,varchar(64),NO,REFERENCES scholar(scholar_id),规范学者
+achievement_participation,成果与学者的规范参与关系,role_description,text,YES,,来源支持的参与角色集合说明；未知为NULL
+achievement_participation,成果与学者的规范参与关系,ordinal,integer,YES,CHECK (ordinal IS NULL OR ordinal > 0),来源给出的顺序
+achievement_participation,成果与学者的规范参与关系,evidence_ref,text,NO,,公开参与关系依据
+achievement_institution,成果发生时机构关系,work_id,varchar(64),NO,REFERENCES achievement(work_id),成果
+achievement_institution,成果发生时机构关系,institution_id,varchar(64),NO,REFERENCES institution(institution_id),成果发生时机构
+achievement_institution,成果发生时机构关系,evidence_ref,text,NO,,历史归属证据；不从现任机构推断
+achievement_field,成果领域关系,work_id,varchar(64),NO,REFERENCES achievement(work_id),成果
+achievement_field,成果领域关系,field_id,varchar(64),NO,REFERENCES academic_field(field_id),规范领域
+achievement_field,成果领域关系,evidence_ref,text,NO,,分类依据
+source_record,单成果粒度来源身份，数据岗衔接,source_record_id,varchar(64),NO,PRIMARY KEY,单成果来源记录ID
+source_record,单成果粒度来源身份，数据岗衔接,source_code,text,NO,,经批准来源代码
+source_record,单成果粒度来源身份，数据岗衔接,external_key,text,NO,,来源内稳定键
+source_record,单成果粒度来源身份，数据岗衔接,current_work_id,varchar(64),YES,REFERENCES achievement(work_id),当前规范映射；未映射为空
+source_record,单成果粒度来源身份，数据岗衔接,license_ref,text,NO,,许可/使用依据引用
+source_record,单成果粒度来源身份，数据岗衔接,source_url,text,NO,,公开来源地址
+source_record,单成果粒度来源身份，数据岗衔接,version,bigint,NO,DEFAULT 1 CHECK (version > 0),来源记录版本
+scholar_portal,学者公开门户,portal_id,varchar(64),NO,PRIMARY KEY,内部不透明门户ID
+scholar_portal,学者公开门户,scholar_id,varchar(64),NO,REFERENCES scholar(scholar_id),门户展示主体
+scholar_portal,学者公开门户,intro,text,YES,,授权内个人说明
+scholar_portal,学者公开门户,version,bigint,NO,DEFAULT 1 CHECK (version > 0),门户版本
+scholar_portal,学者公开门户,updated_at,timestamptz,NO,,最近更新时点
+scholar_portal,学者公开门户,interests,jsonb,NO,DEFAULT '[]'::jsonb,授权内个人兴趣字符串数组；不当作规范领域ID
+portal_display,可选个人展示配置,portal_id,varchar(64),NO,REFERENCES scholar_portal(portal_id),门户
+portal_display,可选个人展示配置,participation_id,varchar(64),NO,REFERENCES achievement_participation(participation_id),被展示参与关系
+portal_display,可选个人展示配置,scholar_id,varchar(64),NO,REFERENCES scholar(scholar_id),冗余用于复合FK验证同一学者
+portal_display,可选个人展示配置,visible,boolean,NO,DEFAULT true,个人展示选择，不影响成果公共资格
+portal_display,可选个人展示配置,version,bigint,NO,DEFAULT 1 CHECK (version > 0),展示配置版本
+evidence_reference,私有认领材料元数据,evidence_id,varchar(64),NO,PRIMARY KEY,材料引用ID，非下载凭据
+evidence_reference,私有认领材料元数据,owner_account_id,varchar(64),NO,REFERENCES app_account(account_id),材料归属
+evidence_reference,私有认领材料元数据,private_object_key,text,NO,,私有对象存储键，不向公众返回
+evidence_reference,私有认领材料元数据,media_type,text,NO,,经校验实际类型
+evidence_reference,私有认领材料元数据,size_bytes,bigint,NO,CHECK (size_bytes > 0),材料字节数
+evidence_reference,私有认领材料元数据,validation_state,text,NO,,材料校验结果；具体安全流程待设计
+evidence_reference,私有认领材料元数据,created_at,timestamptz,NO,,上传时间
+evidence_reference,私有认领材料元数据,expires_at,timestamptz,YES,,按已批准保留策略计算，未定不假填期限
+evidence_reference,私有认领材料元数据,failure_reason,text,YES,,脱敏校验失败分类；客户端映射可理解说明，不存证明正文或堆栈
+claim_request,三态认领申请,claim_id,varchar(64),NO,PRIMARY KEY,申请ID，API候选application_id映射
+claim_request,三态认领申请,applicant_id,varchar(64),NO,REFERENCES app_account(account_id),会话确定的申请人
+claim_request,三态认领申请,portal_id,varchar(64),NO,REFERENCES scholar_portal(portal_id),目标门户，通过scholar_id解析
+claim_request,三态认领申请,status,text,NO,"CHECK (status IN ('PENDING','APPROVED','REJECTED'))",申请业务状态
+claim_request,三态认领申请,version,bigint,NO,DEFAULT 1 CHECK (version > 0),乐观并发版本
+claim_request,三态认领申请,previous_claim_id,varchar(64),YES,REFERENCES claim_request(claim_id),驳回后新申请的前序引用
+claim_request,三态认领申请,created_at,timestamptz,NO,,有效创建时点
+claim_request,三态认领申请,decided_at,timestamptz,YES,,成功决定时间；待审为空
+claim_evidence,申请材料与归属约束,claim_id,varchar(64),NO,REFERENCES claim_request(claim_id),申请
+claim_evidence,申请材料与归属约束,evidence_id,varchar(64),NO,REFERENCES evidence_reference(evidence_id),材料
+claim_evidence,申请材料与归属约束,applicant_id,varchar(64),NO,REFERENCES app_account(account_id),同一申请人/材料所有人
+review_decision,每申请一次有效业务决定,claim_id,varchar(64),NO,REFERENCES claim_request(claim_id),对应申请
+review_decision,每申请一次有效业务决定,reviewer_id,varchar(64),NO,REFERENCES app_account(account_id),有当前审核资格的账号
+review_decision,每申请一次有效业务决定,applicant_id,varchar(64),NO,REFERENCES app_account(account_id),通过复合FK确定申请人
+review_decision,每申请一次有效业务决定,decision,text,NO,"CHECK (decision IN ('APPROVED','REJECTED'))",有效决定
+review_decision,每申请一次有效业务决定,reason,text,NO,CHECK (length(btrim(reason)) > 0),通过/驳回理由
+review_decision,每申请一次有效业务决定,expected_version,bigint,NO,,提交期望版本
+review_decision,每申请一次有效业务决定,result_version,bigint,NO,,决定后版本
+review_decision,每申请一次有效业务决定,decided_at,timestamptz,NO,,决定提交时点
+portal_grant,门户维护资格及历史,grant_id,varchar(64),NO,PRIMARY KEY,授权ID
+portal_grant,门户维护资格及历史,portal_id,varchar(64),NO,REFERENCES scholar_portal(portal_id),目标门户
+portal_grant,门户维护资格及历史,account_id,varchar(64),NO,REFERENCES app_account(account_id),获权账号
+portal_grant,门户维护资格及历史,source_claim_id,varchar(64),NO,REFERENCES claim_request(claim_id),通过申请
+portal_grant,门户维护资格及历史,active,boolean,NO,DEFAULT true,当前是否有效
+portal_grant,门户维护资格及历史,granted_at,timestamptz,NO,,授权时点
+portal_grant,门户维护资格及历史,revoked_at,timestamptz,YES,,依法撤销时点；策略待批准
+audit_record,最小操作轨迹，不存证明正文,audit_id,varchar(64),NO,PRIMARY KEY,审计记录ID
+audit_record,最小操作轨迹，不存证明正文,actor_id,varchar(64),NO,REFERENCES app_account(account_id),服务端确定的操作者
+audit_record,最小操作轨迹，不存证明正文,action_code,text,NO,,动作语义
+audit_record,最小操作轨迹，不存证明正文,target_type,text,NO,,对象类型
+audit_record,最小操作轨迹，不存证明正文,target_id,varchar(64),NO,,目标ID；跨类型由服务验证
+audit_record,最小操作轨迹，不存证明正文,claim_id,varchar(64),YES,REFERENCES claim_request(claim_id),认领轨迹可选申请关联
+audit_record,最小操作轨迹，不存证明正文,result_code,text,NO,,操作结果
+audit_record,最小操作轨迹，不存证明正文,before_version,bigint,YES,,操作前版本
+audit_record,最小操作轨迹，不存证明正文,after_version,bigint,YES,,操作后版本
+audit_record,最小操作轨迹，不存证明正文,occurred_at,timestamptz,NO,,发生时点
+governance_request,共享字段纠错与来源冲突,governance_id,varchar(64),NO,PRIMARY KEY,治理请求ID
+governance_request,共享字段纠错与来源冲突,requester_id,varchar(64),NO,REFERENCES app_account(account_id),请求人
+governance_request,共享字段纠错与来源冲突,work_id,varchar(64),NO,REFERENCES achievement(work_id),目标成果
+governance_request,共享字段纠错与来源冲突,expected_version,bigint,NO,,防旧版本覆盖
+governance_request,共享字段纠错与来源冲突,proposed_public_change,jsonb,NO,,经白名单过滤的公共字段建议
+governance_request,共享字段纠错与来源冲突,state_code,text,NO,,治理流程状态，待跨岗批准
+governance_request,共享字段纠错与来源冲突,created_at,timestamptz,NO,,创建时间
+governance_request,共享字段纠错与来源冲突,version,bigint,NO,DEFAULT 1 CHECK (version > 0),治理请求条件写/响应版本
+collection_task,任务存储边界，最终字段归成员2/7,task_id,varchar(64),NO,PRIMARY KEY,采集任务ID
+collection_task,任务存储边界，最终字段归成员2/7,created_by,varchar(64),NO,REFERENCES app_account(account_id),有任务管理资格的创建者
+collection_task,任务存储边界，最终字段归成员2/7,source_code,text,NO,,经批准来源
+collection_task,任务存储边界，最终字段归成员2/7,state_code,text,NO,,任务状态映射待数据岗批准
+collection_task,任务存储边界，最终字段归成员2/7,version,bigint,NO,DEFAULT 1 CHECK (version > 0),条件写版本
+collection_task,任务存储边界，最终字段归成员2/7,created_at,timestamptz,NO,,创建时间
+processing_run,每次尝试与恢复过程,run_id,varchar(64),NO,PRIMARY KEY,执行尝试ID，与任务分离
+processing_run,每次尝试与恢复过程,task_id,varchar(64),NO,REFERENCES collection_task(task_id),所属任务
+processing_run,每次尝试与恢复过程,attempt_no,integer,NO,CHECK (attempt_no > 0),正整数尝试序号
+processing_run,每次尝试与恢复过程,state_code,text,NO,,运行状态，非认领状态
+processing_run,每次尝试与恢复过程,checkpoint_ref,text,YES,,有据可复现检查点引用
+processing_run,每次尝试与恢复过程,started_at,timestamptz,NO,,开始时间
+processing_run,每次尝试与恢复过程,finished_at,timestamptz,YES,,完成时点
+source_observation,原始观测与处理版本追溯,observation_id,varchar(64),NO,PRIMARY KEY,观测ID
+source_observation,原始观测与处理版本追溯,run_id,varchar(64),NO,REFERENCES processing_run(run_id),本次运行
+source_observation,原始观测与处理版本追溯,source_record_id,varchar(64),NO,REFERENCES source_record(source_record_id),来源身份
+source_observation,原始观测与处理版本追溯,payload_hash,varchar(64),NO,,原始内容摘要
+source_observation,原始观测与处理版本追溯,raw_object_key,text,NO,,受许可控制的原始载荷引用
+source_observation,原始观测与处理版本追溯,rule_version,text,NO,,处理规则版本
+source_observation,原始观测与处理版本追溯,observed_at,timestamptz,NO,,观测时点
+update_record,规范成果变更追溯,update_id,varchar(64),NO,PRIMARY KEY,更新记录ID
+update_record,规范成果变更追溯,work_id,varchar(64),NO,REFERENCES achievement(work_id),规范成果
+update_record,规范成果变更追溯,observation_id,varchar(64),YES,REFERENCES source_observation(observation_id),数据岗输入观测，人工变更可空
+update_record,规范成果变更追溯,before_version,bigint,YES,,初次入库之前无版本
+update_record,规范成果变更追溯,after_version,bigint,NO,,本次变更后版本
+update_record,规范成果变更追溯,rule_version,text,NO,,规则/人工治理版本
+update_record,规范成果变更追溯,updated_at,timestamptz,NO,,变更时点
+outbox_event,本地事务外发事件,event_id,varchar(64),NO,PRIMARY KEY,事件ID，重复投递稳定不变
+outbox_event,本地事务外发事件,aggregate_type,text,NO,,业务聚合类型
+outbox_event,本地事务外发事件,aggregate_id,varchar(64),NO,,聚合ID
+outbox_event,本地事务外发事件,aggregate_version,bigint,NO,CHECK (aggregate_version > 0),聚合单调版本
+outbox_event,本地事务外发事件,event_type,text,NO,,事件语义
+outbox_event,本地事务外发事件,destination,text,NO,,单一消费者目的地；多目的各建事件
+outbox_event,本地事务外发事件,payload,jsonb,NO,,ID/版本或公共投影；禁止证明正文
+outbox_event,本地事务外发事件,created_at,timestamptz,NO,,与业务同事务创建
+outbox_event,本地事务外发事件,published_at,timestamptz,YES,,目标成功逐项ack后记录
+outbox_event,本地事务外发事件,attempts,integer,NO,DEFAULT 0 CHECK (attempts >= 0),投递尝试数
+outbox_event,本地事务外发事件,next_attempt_at,timestamptz,YES,,重试调度时点
+outbox_event,本地事务外发事件,last_error,text,YES,,脱敏错误分类，不存敏感正文
+outbox_event,本地事务外发事件,lease_owner,text,YES,,租约工作者标识，不作认证凭据
+outbox_event,本地事务外发事件,lease_until,timestamptz,YES,,短租约失效时点
+outbox_event,本地事务外发事件,lease_token,varchar(64),YES,,领取代次令牌；ack时条件匹配防旧工作者误确认
+idempotency_record,同主体同操作请求幂等,account_id,varchar(64),NO,REFERENCES app_account(account_id),操作主体
+idempotency_record,同主体同操作请求幂等,operation_code,text,NO,,操作语义范围
+idempotency_record,同主体同操作请求幂等,request_key,varchar(200),NO,,客户端幂等键；不得写入秘密
+idempotency_record,同主体同操作请求幂等,request_digest,varchar(64),NO,,规范化参数摘要
+idempotency_record,同主体同操作请求幂等,result_ref,jsonb,NO,,最小结果引用，不复制证明正文
+idempotency_record,同主体同操作请求幂等,created_at,timestamptz,NO,,与业务同事务保存
+idempotency_record,同主体同操作请求幂等,expires_at,timestamptz,NO,,按批准策略计算
+publication_generation,完整不可变公开检索代次,generation_id,varchar(64),NO,PRIMARY KEY,发布代次ID
+publication_generation,完整不可变公开检索代次,concrete_index,text,NO,UNIQUE,具体不可变索引名，不仅是alias
+publication_generation,完整不可变公开检索代次,data_version,text,NO,UNIQUE,公开响应数据版本
+publication_generation,完整不可变公开检索代次,policy_epoch,bigint,NO,CHECK (policy_epoch > 0),该代次覆盖的权威权限epoch
+publication_generation,完整不可变公开检索代次,status,text,NO,"CHECK (status IN ('BUILDING','VALIDATED','RETIRED'))",发布生命周期内部状态
+publication_generation,完整不可变公开检索代次,live_count,bigint,YES,CHECK (live_count IS NULL OR live_count >= 0),全量合法ID数
+publication_generation,完整不可变公开检索代次,id_set_checksum,text,YES,,规范ID集合对账摘要
+publication_generation,完整不可变公开检索代次,validated_at,timestamptz,YES,,验证完成时点
+publication_generation,完整不可变公开检索代次,created_at,timestamptz,NO,,创建时点
+publication_generation,完整不可变公开检索代次,source_snapshot_ref,text,NO,,DB一致性快照/不可变导出引用，绑定公开代次
+publication_generation,完整不可变公开检索代次,boundary_watermark,text,NO,,导出与接续事件的明确边界水位
+public_gate,全局公开安全栅栏,gate_id,varchar(64),NO,PRIMARY KEY,固定单例public，不是业务ID协议
+public_gate,全局公开安全栅栏,epoch,bigint,NO,CHECK (epoch > 0),可见性收缩时单调递增
+public_gate,全局公开安全栅栏,state,text,NO,"CHECK (state IN ('READY','BLOCKED'))",阻断或可查询
+public_gate,全局公开安全栅栏,active_generation_id,varchar(64),YES,REFERENCES publication_generation(generation_id),已核验代次；初始化可为空
+public_gate,全局公开安全栅栏,updated_at,timestamptz,NO,,最近权威变更时点

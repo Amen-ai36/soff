@@ -1,0 +1,39 @@
+{
+  "scope": "成员6构件设计供稿静态检查",
+  "files": 6,
+  "markdown_member6_mentions": true,
+  "local_links": [
+    {
+      "file": "README.md",
+      "target": "01-component-boundaries.md",
+      "exists": true
+    },
+    {
+      "file": "README.md",
+      "target": "02-design-index-and-handoff.md",
+      "exists": true
+    },
+    {
+      "file": "README.md",
+      "target": "03-review-gates.md",
+      "exists": true
+    },
+    {
+      "file": "README.md",
+      "target": "04-review-record-and-human-actions.md",
+      "exists": true
+    },
+    {
+      "file": "README.md",
+      "target": "diagrams/component-boundary.puml",
+      "exists": true
+    }
+  ],
+  "puml_source": true,
+  "not_performed": [
+    "数据库/OpenAPI真实实现",
+    "CodeArts正式建模导出",
+    "业务测试与云部署",
+    "成员1/6人工批准"
+  ]
+}

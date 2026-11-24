@@ -1,0 +1,45 @@
+{
+  "mappings": {
+    "dynamic": "strict",
+    "_meta": {
+      "status": "proposed",
+      "spec": "SPEC-M3-DESIGN-001",
+      "note": "Field types only; engine compatibility, complete substring recall and SPEC ranking require integration tests."
+    },
+    "properties": {
+      "dataset_version": {
+        "type": "keyword"
+      },
+      "policy_version": {
+        "type": "long"
+      },
+      "projection_hash": {
+        "type": "keyword"
+      },
+      "updated_at": {
+        "type": "date"
+      },
+      "scholar_id": {
+        "type": "keyword"
+      },
+      "name": {
+        "type": "text"
+      },
+      "name_compare": {
+        "type": "keyword"
+      },
+      "aliases": {
+        "type": "text"
+      },
+      "alias_compare": {
+        "type": "keyword"
+      },
+      "organization_ids": {
+        "type": "keyword"
+      },
+      "field_ids": {
+        "type": "keyword"
+      }
+    }
+  }
+}

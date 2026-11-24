@@ -1,0 +1,84 @@
+{
+  "mappings": {
+    "dynamic": "strict",
+    "_meta": {
+      "status": "proposed",
+      "spec": "SPEC-M3-DESIGN-001",
+      "note": "Field types only; engine compatibility, complete substring recall and SPEC ranking require integration tests."
+    },
+    "properties": {
+      "dataset_version": {
+        "type": "keyword"
+      },
+      "policy_version": {
+        "type": "long"
+      },
+      "projection_hash": {
+        "type": "keyword"
+      },
+      "updated_at": {
+        "type": "date"
+      },
+      "work_id": {
+        "type": "keyword"
+      },
+      "revision": {
+        "type": "long"
+      },
+      "type": {
+        "type": "keyword"
+      },
+      "title": {
+        "type": "text"
+      },
+      "title_compare": {
+        "type": "keyword"
+      },
+      "keywords": {
+        "type": "text"
+      },
+      "keyword_compare": {
+        "type": "keyword"
+      },
+      "abstract": {
+        "type": "text"
+      },
+      "abstract_compare": {
+        "type": "keyword"
+      },
+      "year": {
+        "type": "integer"
+      },
+      "year_unknown": {
+        "type": "boolean"
+      },
+      "is_simulated": {
+        "type": "boolean"
+      },
+      "organization_ids": {
+        "type": "keyword"
+      },
+      "field_ids": {
+        "type": "keyword"
+      },
+      "scholar_ids": {
+        "type": "keyword"
+      },
+      "sources": {
+        "type": "nested",
+        "dynamic": "strict",
+        "properties": {
+          "source_id": {
+            "type": "keyword"
+          },
+          "label": {
+            "type": "keyword"
+          },
+          "url": {
+            "type": "keyword"
+          }
+        }
+      }
+    }
+  }
+}

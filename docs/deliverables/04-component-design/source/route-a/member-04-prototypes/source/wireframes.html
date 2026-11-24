@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>成员4低保真页面线框图</title>
+  <style>
+    :root {
+      --ink: #202936;
+      --muted: #687385;
+      --line: #c7ced8;
+      --line-strong: #778397;
+      --paper: #ffffff;
+      --panel: #f5f7fa;
+      --panel-2: #e9edf3;
+      --accent: #394858;
+      --accent-soft: #e9edf1;
+      --danger: #945a5a;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 1440px; height: 1000px; overflow: hidden; }
+    body {
+      font-family: "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif;
+      color: var(--ink);
+      background: #dfe4ea;
+    }
+    button, input, select, textarea { font: inherit; color: inherit; }
+    .sheet {
+      position: relative;
+      width: 1366px;
+      height: 920px;
+      margin: 40px auto;
+      background: var(--paper);
+      border: 1px solid #aeb7c4;
+      box-shadow: 0 10px 30px rgba(23, 33, 48, .12);
+      overflow: hidden;
+    }
+    .wire-label {
+      position: fixed;
+      z-index: 10;
+      top: 13px;
+      right: 38px;
+      color: var(--muted);
+      font-size: 13px;
+      letter-spacing: .5px;
+    }
+    .topbar {
+      height: 72px;
+      padding: 0 46px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; min-width: 250px; font-weight: 700; }
+    .brand-mark { width: 34px; height: 34px; border: 2px solid var(--ink); border-radius: 7px; position: relative; }
+    .brand-mark::before, .brand-mark::after { content: ""; position: absolute; background: var(--ink); }
+    .brand-mark::before { width: 18px; height: 2px; left: 6px; top: 10px; }
+    .brand-mark::after { width: 12px; height: 2px; left: 6px; top: 18px; }
+    .nav { display: flex; align-items: center; gap: 36px; height: 100%; }
+    .nav span { color: #4d596a; font-size: 15px; }
+    .nav .active { color: var(--accent); font-weight: 700; border-bottom: 3px solid var(--accent); height: 72px; display: flex; align-items: center; }
+    .user-nav { margin-left: auto; display: flex; gap: 16px; align-items: center; }
+    .ghost-link { color: var(--accent); font-weight: 600; }
+    .outline-btn, .primary-btn, .soft-btn, .text-btn {
+      min-height: 38px; padding: 8px 18px; border-radius: 5px; border: 1px solid var(--line-strong); background: #fff; font-weight: 600;
+    }
+    .primary-btn { color: #fff; background: var(--accent); border-color: var(--accent); }
+    .soft-btn { color: var(--accent); background: var(--accent-soft); border-color: #b8cadf; }
+    .text-btn { border-color: transparent; background: transparent; color: var(--accent); padding-left: 4px; padding-right: 4px; }
+    .page-note {
+      position: absolute; left: 32px; bottom: 16px; color: var(--muted); font-size: 12px;
+    }
+    .tag { display: inline-flex; align-items: center; gap: 6px; background: var(--panel-2); border: 1px solid #d4dae3; padding: 6px 10px; border-radius: 4px; font-size: 13px; }
+    .tag .x { color: var(--muted); font-weight: 700; }
+    .small { font-size: 13px; color: var(--muted); }
+    .divider { height: 1px; background: var(--line); }
+    .box { border: 1px solid var(--line); border-radius: 7px; background: #fff; }
+    .placeholder-line { height: 10px; border-radius: 5px; background: #d6dce4; }
+
+    /* 首页 */
+    .hero { height: 454px; padding-top: 72px; text-align: center; background: linear-gradient(#f6f8fb, #fff); border-bottom: 1px solid var(--line); }
+    .eyebrow { color: var(--accent); font-size: 14px; font-weight: 700; letter-spacing: 1px; }
+    .hero h1 { margin: 18px 0 12px; font-size: 36px; letter-spacing: 1px; }
+    .hero-sub { color: var(--muted); margin-bottom: 38px; }
+    .search-bar { width: 850px; height: 58px; margin: 0 auto; display: grid; grid-template-columns: 132px 1fr 108px; border: 2px solid var(--accent); border-radius: 8px; overflow: hidden; background: #fff; text-align: left; }
+    .search-type { display: flex; align-items: center; justify-content: center; border-right: 1px solid var(--line); font-weight: 600; }
+    .search-input { border: 0; padding: 0 20px; outline: 0; color: var(--muted); }
+    .search-submit { border: 0; color: #fff; background: var(--accent); font-weight: 700; }
+    .search-tools { width: 850px; margin: 14px auto 0; text-align: right; }
+    .browse { margin-top: 45px; color: var(--muted); }
+    .browse span { display: inline-block; margin: 0 11px; color: #3f4c5c; border-bottom: 1px dashed #9ca6b4; }
+    .home-lower { padding: 34px 64px; display: grid; grid-template-columns: 1.1fr 1fr; gap: 46px; }
+    .section-head { display: flex; justify-content: space-between; align-items: end; margin-bottom: 18px; }
+    .section-head h2 { margin: 0; font-size: 19px; }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .stat { min-height: 115px; padding: 20px 16px; border: 1px solid var(--line); background: var(--panel); border-radius: 6px; }
+    .stat strong { display: block; margin-top: 16px; font-size: 24px; color: #38475b; }
+    .stat:last-child { padding-left: 10px; padding-right: 10px; }
+    .home-help { padding: 22px; min-height: 178px; }
+    .help-row { display: grid; grid-template-columns: 42px 1fr; gap: 14px; margin: 15px 0; }
+    .help-icon { width: 36px; height: 36px; border: 1px solid var(--line-strong); border-radius: 50%; display: grid; place-items: center; font-weight: 700; }
+
+    /* 检索结果 */
+    .result-search { padding: 24px 44px 18px; border-bottom: 1px solid var(--line); background: var(--panel); }
+    .compact-search { width: 810px; height: 46px; display: grid; grid-template-columns: 112px 1fr 92px; border: 1px solid var(--line-strong); border-radius: 6px; overflow: hidden; background: #fff; }
+    .compact-search > * { border: 0; border-right: 1px solid var(--line); padding: 0 14px; display: flex; align-items: center; }
+    .compact-search button { border: 0; color: #fff; background: var(--accent); justify-content: center; font-weight: 700; }
+    .chips { margin-top: 14px; display: flex; gap: 8px; align-items: center; }
+    .results-layout { display: grid; grid-template-columns: 268px 1fr; height: 728px; }
+    .filters { border-right: 1px solid var(--line); padding: 26px 28px; background: #fbfcfd; }
+    .filters h3 { margin: 0 0 22px; font-size: 18px; }
+    .filter-group { padding: 18px 0; border-top: 1px solid #dce1e8; }
+    .filter-title { font-weight: 700; margin-bottom: 13px; display: flex; justify-content: space-between; }
+    .check { margin: 10px 0; color: #4a5667; font-size: 14px; }
+    .check::before { content: ""; display: inline-block; width: 15px; height: 15px; margin-right: 9px; border: 1px solid #8995a5; vertical-align: -3px; background: #fff; }
+    .check.checked::before { content: "✓"; color: #fff; background: var(--accent); font-size: 12px; line-height: 14px; text-align: center; }
+    .results { padding: 25px 38px; }
+    .result-meta { display: flex; justify-content: space-between; align-items: center; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+    .result-meta strong { font-size: 18px; }
+    .sort { padding: 8px 12px; border: 1px solid var(--line); border-radius: 4px; background: #fff; }
+    .result-card { padding: 22px 4px; border-bottom: 1px solid #d9dee5; }
+    .result-card h3 { margin: 0 0 10px; color: var(--accent); font-size: 18px; }
+    .meta-row { color: #4e5b6d; font-size: 14px; margin-bottom: 9px; }
+    .summary { color: var(--muted); font-size: 13px; line-height: 1.7; }
+    .pagination { display: flex; justify-content: center; gap: 7px; margin-top: 22px; }
+    .page-num { min-width: 34px; height: 34px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 4px; }
+    .page-num.current { color: #fff; background: var(--accent); border-color: var(--accent); }
+
+    /* 学者门户 */
+    .back-row { height: 56px; padding: 0 46px; display: flex; align-items: center; justify-content: space-between; background: var(--panel); border-bottom: 1px solid var(--line); }
+    .profile-head { padding: 34px 56px; display: grid; grid-template-columns: 112px 1fr auto; gap: 25px; border-bottom: 1px solid var(--line); }
+    .avatar { width: 104px; height: 104px; border: 2px solid #8390a1; border-radius: 50%; background: #eef1f5; display: grid; place-items: center; color: #748093; font-size: 42px; }
+    .profile-main h1 { margin: 4px 0 10px; font-size: 28px; }
+    .profile-main p { margin: 7px 0; color: #536073; }
+    .claim-state { display: flex; flex-direction: column; align-items: flex-end; gap: 11px; }
+    .state-pill { padding: 6px 10px; border: 1px solid #9aa5b3; border-radius: 999px; color: #536073; font-size: 13px; }
+    .profile-tabs { height: 58px; padding: 0 56px; display: flex; gap: 34px; border-bottom: 1px solid var(--line); align-items: flex-end; }
+    .profile-tabs span { height: 58px; display: flex; align-items: center; padding: 0 5px; }
+    .profile-tabs .active { color: var(--accent); font-weight: 700; border-bottom: 3px solid var(--accent); }
+    .profile-body { padding: 28px 56px; display: grid; grid-template-columns: 1fr 310px; gap: 38px; }
+    .works-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    .works-head h2 { margin: 0; font-size: 19px; }
+    .work-item { padding: 18px 0; border-bottom: 1px solid #d9dee5; }
+    .work-item h3 { margin: 0 0 9px; font-size: 16px; color: var(--accent); }
+    .work-item p { margin: 5px 0; color: var(--muted); font-size: 13px; }
+    .side-card { padding: 19px; margin-bottom: 16px; }
+    .side-card h3 { margin: 0 0 14px; font-size: 16px; }
+    .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .metric { padding: 13px; background: var(--panel); border: 1px solid #dde2e9; }
+    .metric strong { display: block; margin-top: 8px; font-size: 19px; }
+    .network { height: 108px; position: relative; background: var(--panel); border: 1px dashed #a9b2bf; }
+    .node { position: absolute; width: 34px; height: 34px; border: 1px solid #7d8998; background: #fff; border-radius: 50%; }
+    .node.a { left: 28px; top: 37px; } .node.b { left: 126px; top: 16px; } .node.c { left: 206px; top: 57px; }
+    .network::before, .network::after { content: ""; position: absolute; height: 1px; background: #9da7b5; transform-origin: left center; }
+    .network::before { width: 108px; left: 55px; top: 51px; transform: rotate(-16deg); }
+    .network::after { width: 95px; left: 153px; top: 43px; transform: rotate(28deg); }
+
+    /* 认领 */
+    .claim-shell { background: var(--panel); height: 848px; padding: 28px 54px; }
+    .stepper { display: flex; justify-content: center; align-items: center; margin-bottom: 24px; }
+    .step { display: flex; align-items: center; color: var(--muted); font-size: 14px; }
+    .step .circle { width: 30px; height: 30px; margin-right: 8px; border: 1px solid #8f9aa9; border-radius: 50%; display: grid; place-items: center; background: #fff; }
+    .step.active { color: var(--accent); font-weight: 700; }
+    .step.active .circle { color: #fff; background: var(--accent); border-color: var(--accent); }
+    .step-line { width: 92px; height: 1px; background: #aeb7c3; margin: 0 12px; }
+    .claim-columns { display: grid; grid-template-columns: minmax(0, 820px) 1fr; gap: 24px; align-items: start; }
+    .claim-card { width: 100%; margin: 0; padding: 26px 28px; }
+    .status-example { padding: 24px; border: 1px dashed var(--line-strong); border-radius: 7px; background: white; }
+    .status-example h2 { font-size: 20px; margin: 16px 0 22px; }
+    .status-row { margin: 15px 0; line-height: 1.8; font-size: 14px; }
+    .timeline { margin: 20px 0 20px 12px; border-left: 2px solid var(--line); padding-left: 20px; }
+    .timeline-entry { position: relative; padding-bottom: 24px; font-size: 14px; }
+    .timeline-entry::before { content: ''; position: absolute; left: -27px; top: 3px; width: 12px; height: 12px; border: 2px solid var(--accent); background: white; border-radius: 50%; }
+    .claim-card h1 { margin: 0 0 8px; font-size: 24px; }
+    .target { display: grid; grid-template-columns: 52px 1fr auto; gap: 15px; align-items: center; margin: 20px 0; padding: 15px; background: var(--panel); border: 1px solid #d7dde5; }
+    .mini-avatar { width: 48px; height: 48px; border: 1px solid #8994a3; border-radius: 50%; display: grid; place-items: center; background: #fff; }
+    .form-row { margin: 20px 0; }
+    .form-row label { display: block; margin-bottom: 8px; font-weight: 700; font-size: 14px; }
+    .required { color: var(--danger); }
+    .input, .textarea { width: 100%; border: 1px solid #98a3b1; border-radius: 5px; background: #fff; padding: 11px 13px; color: #7b8593; }
+    .textarea { height: 82px; resize: none; }
+    .upload { height: 86px; padding: 14px; border: 1px dashed #8e9baa; border-radius: 5px; display: flex; align-items: center; justify-content: center; gap: 12px; background: #fafbfd; }
+    .privacy { display: flex; gap: 10px; padding: 12px 0; color: #4f5c6d; font-size: 13px; }
+    .privacy-box { width: 16px; height: 16px; border: 1px solid #8793a2; background: #fff; flex: none; }
+    .form-actions { display: flex; justify-content: flex-end; gap: 12px; padding-top: 15px; border-top: 1px solid var(--line); }
+  </style>
+</head>
+<body>
+  <main id="app"></main>
+  <script>
+    const header = (active = "", loggedIn = false) => `
+      <header class="topbar">
+        <div class="brand"><span class="brand-mark"></span><span>学术成果平台</span></div>
+        <nav class="nav">
+          <span class="${active === "works" ? "active" : ""}">成果</span>
+          <span class="${active === "scholars" ? "active" : ""}">学者</span>
+          <span class="${active === "stats" ? "active" : ""}">统计</span>
+        </nav>
+        <div class="user-nav"><span class="ghost-link">${loggedIn ? "我的认领" : "登录"}</span><button class="outline-btn">${loggedIn ? "个人中心" : "我的"}</button></div>
+      </header>`;
+    const shell = (code, title, content) => `
+      <section class="sheet">
+        <div class="wire-label">低保真线框图 · ${code} · ${title}</div>
+        ${content}
+        <div class="page-note">成员4 · 方案A · 评审稿 v0.2　｜　图中姓名、成果和数字均为模拟示例；字段与状态待团队确认；尚未进行真实用户测试。</div>
+      </section>`;
+
+    const pages = {
+      home: shell("UI4-P01", "首页与检索入口", `
+        ${header("")}
+        <section class="hero">
+          <div class="eyebrow">公开学术成果检索</div>
+          <h1>查找学术成果与学者</h1>
+          <div class="hero-sub">探索论文、专利、科研项目与获奖成果，了解学者的研究方向</div>
+          <div class="search-bar">
+            <div class="search-type">成果　⌄</div>
+            <input class="search-input" value="输入主题、题名、作者或机构" readonly>
+            <button class="search-submit">搜索</button>
+          </div>
+          <div class="search-tools"><button class="text-btn">高级搜索 →</button></div>
+          <div class="browse">按领域浏览：<span>计算机</span><span>医学</span><span>工程</span><span>材料</span><span>经济管理</span><span>更多</span></div>
+        </section>
+        <section class="home-lower">
+          <div>
+            <div class="section-head"><h2>数据概览</h2><span class="small">统计时间与口径　ⓘ</span></div>
+            <div class="stats">
+              <div class="stat"><span class="small">成果总量</span><strong>— —</strong></div>
+              <div class="stat"><span class="small">学者数量</span><strong>— —</strong></div>
+              <div class="stat"><span class="small">机构数量</span><strong>— —</strong></div>
+              <div class="stat"><span class="small">最近更新</span><strong style="font-size:13px;white-space:nowrap">YYYY-MM-DD</strong></div>
+            </div>
+          </div>
+          <div class="box home-help">
+            <div class="section-head"><h2>开始使用</h2><span class="small">任务入口</span></div>
+            <div class="help-row"><div class="help-icon">1</div><div><strong>检索成果</strong><div class="small">使用关键词和筛选条件查找论文、专利、项目与获奖。</div></div></div>
+            <div class="help-row"><div class="help-icon">2</div><div><strong>浏览学者门户</strong><div class="small">依据机构、领域和代表成果区分同名学者。</div></div></div>
+          </div>
+        </section>`),
+
+      results: shell("UI4-P02", "成果检索结果", `
+        ${header("works")}
+        <section class="result-search">
+          <div class="compact-search"><div>成果　⌄</div><div style="color:#4d596a">大语言模型</div><button>搜索</button></div>
+          <div class="chips"><span class="small">当前条件：</span><span class="tag">领域：计算机 <b class="x">×</b></span><span class="tag">类型：论文 <b class="x">×</b></span><span class="tag">年份：2024–2026 <b class="x">×</b></span><button class="text-btn">清除全部</button></div>
+        </section>
+        <section class="results-layout">
+          <aside class="filters">
+            <h3>筛选</h3>
+            <div class="filter-group" style="padding:12px 0"><div class="filter-title">成果类型 <span>⌃</span></div><div class="check checked">论文</div><div class="check">专利</div><div class="check">科研项目</div><div class="check">获奖</div></div>
+            <div class="filter-group" style="padding:12px 0"><div class="filter-title">年份 <span>⌃</span></div><div class="check checked">2026</div><div class="check checked">2025</div><div class="check checked">2024</div></div>
+            <div class="filter-group" style="padding:12px 0"><div class="filter-title">领域 <span>⌃</span></div><div class="check checked">计算机</div><div class="check">医学</div></div>
+            <div class="filter-group" style="padding:12px 0"><div class="filter-title">机构 <span>⌄</span></div><div class="small">不限机构</div></div>
+            <div style="display:flex;gap:8px;margin-top:8px"><button class="primary-btn">应用</button><button class="outline-btn">重置</button></div>
+          </aside>
+          <div class="results">
+            <div class="result-meta"><div><strong>找到 128 条结果</strong><div class="small" style="margin-top:6px">数据更新：YYYY-MM-DD HH:MM</div></div><div class="sort">相关度排序　⌄</div></div>
+            <article class="result-card"><h3>面向知识增强的大语言模型检索方法研究</h3><div class="meta-row">2026　｜　论文　｜　张某、李某　｜　示例大学 / 示例期刊</div><div class="summary">摘要：结合语义检索与知识增强方法，研究学术成果发现中的信息匹配问题……<br>数据来源：示例公开数据集　·　更新时间：YYYY-MM-DD</div></article>
+            <article class="result-card"><h3>大语言模型在学术知识服务中的应用框架</h3><div class="meta-row">2025　｜　论文　｜　王某、赵某　｜　示例研究院 / 示例会议</div><div class="summary">摘要：探讨学术知识服务中的检索流程、语义表示与结果组织方法……<br>数据来源：示例公开数据集　·　更新时间：YYYY-MM-DD</div></article>
+            <article class="result-card"><h3>基于语义检索的科研成果发现系统</h3><div class="meta-row">2024　｜　论文　｜　陈某　｜　来源未提供</div><div class="summary">摘要未提供<br>数据状态：来源待核实　·　更新时间：YYYY-MM-DD</div></article>
+            <div class="pagination"><span class="page-num">‹</span><span class="page-num current">1</span><span class="page-num">2</span><span class="page-num">3</span><span class="page-num">…</span><span class="page-num">9</span><span class="page-num">›</span></div>
+          </div>
+        </section>`),
+
+      portal: shell("UI4-P04", "学者门户", `
+        ${header("scholars")}
+        <div class="back-row"><span>← 返回学者检索结果</span><span class="small">公开门户 · 数据更新时间 YYYY-MM-DD</span></div>
+        <section class="profile-head">
+          <div class="avatar">人</div>
+          <div class="profile-main"><h1>示例学者姓名</h1><p><strong>当前机构：</strong>示例大学 · 计算机学院</p><p><strong>研究领域：</strong>自然语言处理、知识图谱、信息检索</p><p class="small"><strong>简介：</strong>未提供</p></div>
+          <div class="claim-state"><span class="state-pill">门户尚未认领</span><button class="primary-btn">申请认领</button><button class="text-btn">问题反馈</button></div>
+        </section>
+        <nav class="profile-tabs"><span class="active">论文　24</span><span>专利　6</span><span>科研项目　4</span><span>获奖　2</span></nav>
+        <section class="profile-body">
+          <div>
+            <div class="works-head"><h2>代表成果与近期成果</h2><span class="small">按时间排序　⌄</span></div>
+            <article class="work-item"><h3>面向复杂知识任务的学术检索方法研究</h3><p>2026 · 示例期刊 · 论文</p><p>作者：示例学者、合作者甲、合作者乙</p></article>
+            <article class="work-item"><h3>科研知识图谱构建与实体消歧技术</h3><p>2025 · 示例会议 · 论文</p><p>作者：合作者甲、示例学者</p></article>
+            <article class="work-item"><h3>面向成果发现的语义排序系统</h3><p>2024 · 成果来源未提供 · 论文</p><p>数据状态：待治理</p></article>
+            <button class="outline-btn" style="margin-top:18px">查看更多成果</button>
+          </div>
+          <aside>
+            <div class="box side-card"><h3>公开统计 <span class="small">口径 ⓘ</span></h3><div class="metric-grid"><div class="metric"><span class="small">成果数</span><strong>36</strong></div><div class="metric"><span class="small">近三年</span><strong>12</strong></div></div></div>
+            <div class="box side-card"><h3>合作者关系 <span class="small">候选能力</span></h3><div class="network"><span class="node a"></span><span class="node b"></span><span class="node c"></span></div></div>
+            <div class="box side-card"><h3>门户说明</h3><div class="small" style="line-height:1.7">认领状态只说明身份与维护关系，不代表平台为全部成果真实性背书。</div></div>
+          </aside>
+        </section>`),
+
+      claim: shell("UI4-P07 / P08", "门户认领申请与状态", `
+        ${header("scholars", true)}
+        <section class="claim-shell">
+          <div class="stepper"><div class="step"><span class="circle">1</span>阅读说明</div><span class="step-line"></span><div class="step active"><span class="circle">2</span>填写材料</div><span class="step-line"></span><div class="step"><span class="circle">3</span>提交确认</div><span class="step-line"></span><div class="step"><span class="circle">4</span>查询状态</div></div>
+          <div class="claim-columns"><div class="box claim-card">
+            <h1>门户认领申请</h1><div class="small">提交后进入审核，不会立即获得门户维护权。</div>
+            <div class="target"><div class="mini-avatar">人</div><div><strong>目标门户：示例学者姓名</strong><div class="small" style="margin-top:5px">示例大学 · 自然语言处理</div></div><button class="text-btn">查看门户</button></div>
+            <div class="form-row"><label>与目标门户的关系 <span class="required">*</span></label><textarea class="textarea" readonly>请说明本人身份、与目标门户的关系以及可供核验的信息……</textarea></div>
+            <div class="form-row"><label>证明材料 <span class="required">*</span></label><div class="upload"><button class="outline-btn">选择材料</button><span class="small">或引用已有材料；允许类型、大小与保留期限待公共规则确认</span></div></div>
+            <div class="form-row"><label>联系方式 <span class="required">*</span></label><div class="input">用于审核联系，不在公开门户展示</div></div>
+            <div class="privacy"><span class="privacy-box"></span><span>我已阅读材料用途、访问范围、隐私说明和审核流程。证明材料与私有联系方式不会进入公开页面。</span></div>
+            <div class="form-actions"><button class="outline-btn">返回门户</button><button class="primary-btn">下一步：提交确认</button></div>
+          </div>
+          <aside class="status-example">
+            <div class="small" style="font-weight:700">提交成功后的替代页面</div>
+            <h2>认领申请详情</h2>
+            <div class="status-row"><span class="small">申请编号</span><br><strong>DEMO-0001</strong></div>
+            <div class="status-row"><span class="small">提交时间</span><br>YYYY-MM-DD HH:MM</div>
+            <div class="divider"></div>
+            <div class="status-row">当前状态：<span class="state-pill">待审核</span></div>
+            <div class="timeline"><div class="timeline-entry">已提交<div class="small" style="margin-top:6px">申请已受理</div></div><div class="timeline-entry">待审核<div class="small" style="margin-top:6px">等待审核结果</div></div></div>
+            <p class="small" style="line-height:1.8">当前尚未获得门户维护权。<br>审核通过后才提供维护入口。</p>
+            <button class="outline-btn">返回门户</button>
+            <p class="small" style="line-height:1.8;margin-top:24px">此区域表示提交后的独立页面状态，并非表单页面的实际侧栏。</p>
+          </aside></div>
+        </section>`)
+    };
+
+    const key = new URLSearchParams(location.search).get("page") || "home";
+    document.getElementById("app").innerHTML = pages[key] || pages.home;
+  </script>
+</body>
+</html>

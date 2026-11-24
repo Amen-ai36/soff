@@ -1,0 +1,8 @@
+{
+  "status": "FAIL",
+  "sqlite_trial_methods": 25,
+  "failed_tests": [
+    "test_opaque_ids_reject_null_and_empty (__main__.DesignTrials.test_opaque_ids_reject_null_and_empty)"
+  ],
+  "reason": "SQLite non-integer PRIMARY KEY accepted NULL without explicit NOT NULL."
+}

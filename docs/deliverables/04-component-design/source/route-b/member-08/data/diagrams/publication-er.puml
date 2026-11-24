@@ -1,0 +1,75 @@
+@startuml
+!pragma layout smetana
+skinparam defaultFontName Microsoft YaHei
+skinparam defaultFontSize 15
+skinparam shadowing false
+skinparam backgroundColor white
+skinparam classBackgroundColor #EFF6FF
+skinparam classBorderColor #38689A
+skinparam ArrowColor #334155
+hide circle
+title M8-CD-ER-03 处理追溯、外发与公开发布（候选ER）
+top to bottom direction
+entity "采集任务\ncollection_task" as Task {
+ * task_id <<PK>>
+ --
+ source_code / state_code / version
+}
+entity "运行尝试\nprocessing_run" as Run {
+ * run_id <<PK>>
+ --
+ task_id <<FK>>
+ attempt_no / checkpoint_ref
+}
+entity "来源观测\nsource_observation" as Obs {
+ * observation_id <<PK>>
+ --
+ run_id / source_record_id <<FK>>
+ payload_hash / rule_version
+}
+entity "规范更新\nupdate_record" as Update {
+ * update_id <<PK>>
+ --
+ work_id <<FK>>
+ observation_id <<FK,nullable>>
+ before_version / after_version
+}
+entity "事务外发\noutbox_event" as Event {
+ * event_id <<PK>>
+ --
+ aggregate_id / aggregate_version
+ destination / payload
+ published_at / attempts
+ lease_owner / lease_until / lease_token
+}
+entity "公开代次\npublication_generation" as Gen {
+ * generation_id <<PK>>
+ --
+ concrete_index / data_version <<UK>>
+ policy_epoch / status
+ source_snapshot_ref / boundary_watermark
+ live_count / id_set_checksum
+}
+entity "公开栅栏\npublic_gate" as Gate {
+ * gate_id <<PK,singleton>>
+ --
+ epoch / READY-or-BLOCKED
+ active_generation_id <<FK,nullable>>
+}
+Task ||--o{ Run
+Run ||--o{ Obs
+Obs |o--o{ Update
+Update ..> Event : 同事务业务语义（非FK）
+Event ..> Gen : 构建/修复待发布代次
+Gate "0..1" --> "0..1" Gen : 当前已验证代次
+note bottom of Event
+ 短事务领取租约；至少一次投递；
+ 条件lease_token确认，旧版本不覆盖新版本。
+ published_at不是公开发布证明。
+end note
+note bottom of Gate
+ 收缩权限同事务epoch++并BLOCKED；
+ 完整集合验证后同epoch激活READY。
+ 不可直接更新已发布不可变索引。
+end note
+@enduml

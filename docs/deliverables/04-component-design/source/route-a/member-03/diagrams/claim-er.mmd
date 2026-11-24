@@ -1,0 +1,17 @@
+erDiagram
+  ACCOUNT ||--o{ SESSION_RECORD : authenticates
+  SCHOLAR ||--o| PORTAL : displays
+  ACCOUNT ||--o{ CLAIM_REQUEST : submits
+  PORTAL ||--o{ CLAIM_REQUEST : target
+  ACCOUNT ||--o{ EVIDENCE_REF : owns
+  CLAIM_REQUEST ||--|{ CLAIM_EVIDENCE : requires
+  EVIDENCE_REF ||--o{ CLAIM_EVIDENCE : references
+  CLAIM_REQUEST ||--o| REVIEW_DECISION : final_decision
+  ACCOUNT ||--o{ REVIEW_DECISION : reviews
+  CLAIM_REQUEST ||--o| PORTAL_GRANT : approved_only
+  PORTAL ||--o| PORTAL_GRANT : current_grant
+  ACCOUNT ||--o{ PORTAL_GRANT : maintains
+  PORTAL ||--o{ DISPLAY_CHOICE : selects
+  PARTICIPATION ||--o{ DISPLAY_CHOICE : same_scholar
+  ACCOUNT ||--o{ AUDIT_RECORD : acts
+  ACCOUNT ||--o{ IDEMPOTENCY_RESULT : scopes_key

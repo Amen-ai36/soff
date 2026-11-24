@@ -1,0 +1,32 @@
+{
+  "status": "PASS",
+  "date": "2026-11-11",
+  "python": "3.13.2",
+  "sqlite": "3.45.3",
+  "static": {
+    "local_links": 34,
+    "requirements": 16,
+    "mapped_acceptance_definitions": 24,
+    "diagram_sources": 4,
+    "api_operations": 18,
+    "internal_api_refs": 175,
+    "projection_fields": {
+      "work": 20,
+      "scholar": 11
+    },
+    "pinned_sources": 12,
+    "openapi_validation": "Custom structural checks only; no official validator or HTTP service"
+  },
+  "sqlite_trial_methods": 25,
+  "failures": [],
+  "scope": "Static asset checks and single-connection SQLite design trials only",
+  "not_run": [
+    "HTTP/official OpenAPI validator",
+    "Production database concurrency",
+    "Elasticsearch integration and ranking",
+    "Million-record capacity",
+    "Real authentication and evidence checks",
+    "Human joint approval",
+    "CodeArts native export"
+  ]
+}

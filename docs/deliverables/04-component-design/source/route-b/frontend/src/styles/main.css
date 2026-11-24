@@ -1,0 +1,309 @@
+:root {
+  --color-text: #1f2933;
+  --color-muted: #52606d;
+  --color-background: #ffffff;
+  --color-surface: #f5f7fa;
+  --color-border: #7b8794;
+  --color-primary: #1d4ed8;
+  --color-on-primary: #ffffff;
+  --color-danger: #b42318;
+  --color-warning-text: #8a4b00;
+  --color-warning-bg: #fff7e6;
+  --color-simulated-text: #5b21b6;
+  --color-simulated-bg: #ede9fe;
+  --color-success-text: #166534;
+  --color-success-bg: #dcfce7;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 32px;
+  --radius: 6px;
+  --content-width: 1080px;
+
+  font-family: 'Microsoft YaHei', 'PingFang SC', 'Noto Sans CJK SC', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--color-text);
+  background: var(--color-background);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+a {
+  color: var(--color-primary);
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+h1 {
+  font-size: 1.6rem;
+  margin: var(--space-3) 0;
+}
+
+h2 {
+  font-size: 1.25rem;
+  margin: var(--space-4) 0 var(--space-2);
+}
+
+h3 {
+  font-size: 1.05rem;
+  margin: 0 0 var(--space-1);
+}
+
+p {
+  margin: var(--space-1) 0;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+input,
+select,
+textarea {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--space-1) var(--space-2);
+  background: var(--color-background);
+  min-height: 40px;
+}
+
+textarea {
+  width: 100%;
+  min-height: 96px;
+}
+
+button {
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius);
+  padding: var(--space-1) var(--space-3);
+  background: var(--color-background);
+  color: var(--color-primary);
+  cursor: pointer;
+  min-height: 40px;
+}
+
+button.primary {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+button.danger {
+  border-color: var(--color-danger);
+  color: var(--color-danger);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+label {
+  font-weight: 600;
+}
+
+/* 复选框、单选框与文字同行 */
+label:has(> input[type='checkbox']),
+label:has(> input[type='radio']) {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-weight: normal;
+}
+
+input[type='checkbox'],
+input[type='radio'] {
+  min-height: auto;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+}
+
+fieldset {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--space-2) var(--space-3);
+  margin: 0 0 var(--space-3);
+}
+
+legend {
+  font-weight: 600;
+  padding: 0 var(--space-1);
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,
+td {
+  text-align: left;
+  padding: var(--space-1) var(--space-2);
+  border-bottom: 1px solid var(--color-surface);
+  vertical-align: top;
+}
+
+.page {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 0 var(--space-3) var(--space-5);
+}
+
+.muted {
+  color: var(--color-muted);
+}
+
+.small {
+  font-size: 0.875rem;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.stack > * + * {
+  margin-top: var(--space-2);
+}
+
+.card {
+  border: 1px solid var(--color-surface);
+  border-left: 4px solid var(--color-surface);
+  border-radius: var(--radius);
+  padding: var(--space-2) var(--space-3);
+  margin-bottom: var(--space-2);
+  background: var(--color-background);
+}
+
+.card:hover {
+  border-left-color: var(--color-primary);
+}
+
+.notice {
+  border-radius: var(--radius);
+  padding: var(--space-2) var(--space-3);
+  margin: var(--space-2) 0;
+  background: var(--color-surface);
+}
+
+.notice-error {
+  border-left: 4px solid var(--color-danger);
+}
+
+.notice-error > p:first-child {
+  color: var(--color-danger);
+  font-weight: 600;
+}
+
+.notice-warning {
+  background: var(--color-warning-bg);
+  color: var(--color-warning-text);
+}
+
+.notice-success {
+  background: var(--color-success-bg);
+  color: var(--color-success-text);
+}
+
+.badge {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0 var(--space-2);
+  border-radius: 999px;
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.badge-simulated {
+  background: var(--color-simulated-bg);
+  color: var(--color-simulated-text);
+}
+
+.badge-success {
+  background: var(--color-success-bg);
+  color: var(--color-success-text);
+}
+
+.badge-warning {
+  background: var(--color-warning-bg);
+  color: var(--color-warning-text);
+}
+
+.field-error {
+  color: var(--color-danger);
+  font-size: 0.9rem;
+}
+
+.chip {
+  border-radius: 999px;
+  padding: 0 var(--space-2);
+  min-height: 32px;
+  font-size: 0.9rem;
+}
+
+.layout-search {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: var(--space-4);
+}
+
+.bar-cell {
+  width: 30%;
+  min-width: 80px;
+}
+
+.bar {
+  height: 10px;
+  background: var(--color-primary);
+  border-radius: 4px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (max-width: 767px) {
+  .layout-search {
+    grid-template-columns: 1fr;
+  }
+
+  /* 窄屏时筛选项横向排列，缩短筛选面板。不用 CSS order 调换位置，保持视觉顺序与键盘顺序一致（UI9-NFR-09）。 */
+  .layout-search fieldset > div {
+    display: inline-block;
+    margin-right: var(--space-3);
+  }
+
+  table {
+    font-size: 0.9rem;
+  }
+
+  button,
+  input,
+  select {
+    min-height: 44px;
+  }
+}
