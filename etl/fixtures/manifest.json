@@ -1,0 +1,151 @@
+{
+  "scope": "demo",
+  "version": 1,
+  "sources": [
+    {
+      "id": "paper-a",
+      "type": "paper",
+      "path": "paper-a.jsonl",
+      "format": "jsonl",
+      "sha256": "c4f8b0aee0dc01c809722f69b920f5c6b71a2d9b068296da47135e67ea351156",
+      "url": "https://simulated-data.example/paper-a",
+      "license_ref": "course-synthetic-fixture-v1",
+      "approved": true,
+      "is_simulated": true,
+      "policy": {
+        "access": true,
+        "collect": true,
+        "store": true,
+        "store_fields": [
+          "title",
+          "publication_date",
+          "doi",
+          "authors"
+        ],
+        "display_fields": [
+          "title",
+          "publication_date",
+          "doi",
+          "authors"
+        ]
+      }
+    },
+    {
+      "id": "paper-b",
+      "type": "paper",
+      "path": "paper-b.jsonl",
+      "format": "jsonl",
+      "sha256": "636437b4e9b77d2721a0454d396d8ec541ad11fa92f0ed5925969a8997679427",
+      "url": "https://simulated-data.example/paper-b",
+      "license_ref": "course-synthetic-fixture-v1",
+      "approved": true,
+      "is_simulated": true,
+      "policy": {
+        "access": true,
+        "collect": true,
+        "store": true,
+        "store_fields": [
+          "title",
+          "publication_date",
+          "doi",
+          "authors"
+        ],
+        "display_fields": [
+          "title",
+          "publication_date",
+          "doi",
+          "authors"
+        ]
+      }
+    },
+    {
+      "id": "patent",
+      "type": "patent",
+      "path": "patent.jsonl",
+      "format": "jsonl",
+      "sha256": "c6d04b1f5f0d0f14eb4cb4368e6feaf8a2c02d84ed2d084332c058a5f5e34a9f",
+      "url": "https://simulated-data.example/patent",
+      "license_ref": "course-synthetic-fixture-v1",
+      "approved": true,
+      "is_simulated": true,
+      "policy": {
+        "access": true,
+        "collect": true,
+        "store": true,
+        "store_fields": [
+          "title",
+          "publication_date",
+          "patent_office",
+          "publication_number"
+        ],
+        "display_fields": [
+          "title",
+          "publication_date",
+          "patent_office",
+          "publication_number"
+        ]
+      }
+    },
+    {
+      "id": "project",
+      "type": "project",
+      "path": "project.jsonl",
+      "format": "jsonl",
+      "sha256": "355ff9f34e9269e9c1bee72105a0f7569e729b1231ecd24b11e06a456b00a4ca",
+      "url": "https://simulated-data.example/project",
+      "license_ref": "course-synthetic-fixture-v1",
+      "approved": true,
+      "is_simulated": true,
+      "policy": {
+        "access": true,
+        "collect": true,
+        "store": true,
+        "store_fields": [
+          "title",
+          "publication_date",
+          "funder",
+          "funder_award_id"
+        ],
+        "display_fields": [
+          "title",
+          "publication_date",
+          "funder",
+          "funder_award_id"
+        ]
+      }
+    },
+    {
+      "id": "awards",
+      "type": "award",
+      "path": "awards.csv",
+      "format": "csv",
+      "sha256": "79b5f51dceadfe59864eb08f6a26507074c3eee239e2f1d6b086d66811f9364a",
+      "url": "https://simulated-data.example/awards",
+      "license_ref": "course-synthetic-fixture-v1",
+      "approved": true,
+      "is_simulated": true,
+      "policy": {
+        "access": true,
+        "collect": true,
+        "store": true,
+        "store_fields": [
+          "title",
+          "publication_date",
+          "notice_id",
+          "award_no",
+          "category"
+        ],
+        "display_fields": [
+          "title",
+          "publication_date",
+          "notice_id",
+          "award_no",
+          "category"
+        ]
+      }
+    }
+  ],
+  "organization_aliases": {
+    "示例研究院": "https://ror.org/01abcde12"
+  }
+}
