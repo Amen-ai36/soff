@@ -1,0 +1,37 @@
+{
+  "scope": "demo",
+  "version": 2,
+  "sources": [
+    {
+      "id": "paper-a",
+      "type": "paper",
+      "path": "paper-update.jsonl",
+      "format": "jsonl",
+      "sha256": "0a7c34f38a21ba09bf510ae5ef266444eed09b22205e47c3afab0b2ce2702df2",
+      "url": "https://simulated-data.example/paper-a",
+      "license_ref": "course-synthetic-fixture-v1",
+      "approved": true,
+      "is_simulated": true,
+      "policy": {
+        "access": true,
+        "collect": true,
+        "store": true,
+        "store_fields": [
+          "title",
+          "publication_date",
+          "doi",
+          "authors"
+        ],
+        "display_fields": [
+          "title",
+          "publication_date",
+          "doi",
+          "authors"
+        ]
+      }
+    }
+  ],
+  "organization_aliases": {
+    "示例研究院": "https://ror.org/01abcde12"
+  }
+}
